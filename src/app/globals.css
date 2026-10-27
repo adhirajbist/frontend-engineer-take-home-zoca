@@ -18,6 +18,25 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Screen height for layout. svh never changes while the mobile address bar
+   animates, so cards and snap points stay put. vh is the fallback. */
+:root {
+  --screen: 100vh;
+}
+@supports (height: 100svh) {
+  :root {
+    --screen: 100svh;
+  }
+}
+
+/* The card stack scrolls inside <main>, never the page. Keeping the document
+   still stops the address bar from collapsing and resizing the viewport. */
+html,
+body {
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 body {
   background: var(--color-cream);
   color: var(--color-ink);
