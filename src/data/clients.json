@@ -1,0 +1,3746 @@
+[
+  {
+    "id": "c001",
+    "first_name": "Priya",
+    "last_name": "Shah",
+    "phone": "+15125550101",
+    "email": "priya@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-02-14",
+    "last_visit": "2026-10-02",
+    "total_visits": 18,
+    "total_spend_usd": 2140,
+    "services": [
+      "Balayage",
+      "Haircut",
+      "Gloss"
+    ],
+    "next_appointment": "2026-11-06",
+    "birthday": "1991-03-22"
+  },
+  {
+    "id": "c002",
+    "first_name": "Maria",
+    "last_name": "Lopez",
+    "phone": "+15125550102",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2025-06-01",
+    "last_visit": "2026-05-19",
+    "total_visits": 4,
+    "total_spend_usd": 380,
+    "services": [
+      "Haircut",
+      "Blowout"
+    ],
+    "birthday": "1988-11-04"
+  },
+  {
+    "id": "c003",
+    "first_name": "Jordan",
+    "last_name": "Lee",
+    "email": "jordan@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2026-09-20",
+    "last_visit": "2026-09-20",
+    "total_visits": 1,
+    "total_spend_usd": 95,
+    "services": [
+      "Facial"
+    ],
+    "birthday": "1997-07-30"
+  },
+  {
+    "id": "c004",
+    "first_name": "Aisha",
+    "last_name": "Khan",
+    "phone": "+15125550104",
+    "email": "aisha@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-08-11",
+    "last_visit": "2026-10-18",
+    "total_visits": 31,
+    "total_spend_usd": 4620,
+    "services": [
+      "Keratin",
+      "Haircut",
+      "Manicure"
+    ],
+    "next_appointment": "2026-10-30",
+    "birthday": "1985-12-09"
+  },
+  {
+    "id": "c005",
+    "first_name": "Emily",
+    "last_name": "Chen",
+    "phone": "+15125550105",
+    "email": "emily@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": false,
+    "first_visit": "2024-01-05",
+    "last_visit": "2025-12-12",
+    "total_visits": 6,
+    "total_spend_usd": 510,
+    "services": [
+      "Massage",
+      "Facial"
+    ],
+    "birthday": "1993-10-28"
+  },
+  {
+    "id": "c006",
+    "first_name": "Rahul",
+    "last_name": "Kim",
+    "phone": "+15125550106",
+    "email": "rahul.kim@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-03-03",
+    "last_visit": "2026-09-16",
+    "total_visits": 16,
+    "total_spend_usd": 739,
+    "services": [
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "1999-12-24"
+  },
+  {
+    "id": "c007",
+    "first_name": "Daniel",
+    "last_name": "Gupta",
+    "phone": "+15125550107",
+    "email": "daniel.gupta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-05-27",
+    "last_visit": "2025-06-21",
+    "total_visits": 5,
+    "total_spend_usd": 385,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1996-08-18"
+  },
+  {
+    "id": "c008",
+    "first_name": "Arjun",
+    "last_name": "Fischer",
+    "phone": "+15125550108",
+    "email": "arjun.fischer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-10-07",
+    "last_visit": "2026-10-08",
+    "total_visits": 2,
+    "total_spend_usd": 268,
+    "services": [
+      "Haircut",
+      "Blowout",
+      "Keratin"
+    ],
+    "birthday": "1972-05-16"
+  },
+  {
+    "id": "c009",
+    "first_name": "Valentina",
+    "last_name": "Kim",
+    "phone": "+15125550109",
+    "email": "valentina.kim@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-01-10",
+    "last_visit": "2026-10-05",
+    "total_visits": 21,
+    "total_spend_usd": 855,
+    "services": [
+      "Pedicure",
+      "Blowout",
+      "Massage",
+      "Color"
+    ],
+    "birthday": "2001-06-21"
+  },
+  {
+    "id": "c010",
+    "first_name": "Hye-jin",
+    "last_name": "Adeyemi",
+    "phone": "+15125550110",
+    "email": "hyejin.adeyemi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-05-17",
+    "last_visit": "2026-08-05",
+    "total_visits": 2,
+    "total_spend_usd": 280,
+    "services": [
+      "Massage"
+    ],
+    "birthday": "1993-09-25"
+  },
+  {
+    "id": "c011",
+    "first_name": "Kwame",
+    "last_name": "Murphy",
+    "phone": "+15125550111",
+    "email": "kwame.murphy@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-03-13",
+    "last_visit": "2026-08-29",
+    "total_visits": 16,
+    "total_spend_usd": 829,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1979-10-21"
+  },
+  {
+    "id": "c012",
+    "first_name": "Fatima",
+    "last_name": "Nguyen",
+    "phone": "+15125550112",
+    "email": "fatima.nguyen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-17",
+    "last_visit": "2026-10-22",
+    "total_visits": 2,
+    "total_spend_usd": 204,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Color"
+    ],
+    "birthday": "2001-05-28"
+  },
+  {
+    "id": "c013",
+    "first_name": "Olivia",
+    "last_name": "Hassan",
+    "phone": "+15125550113",
+    "email": "olivia.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-11-04",
+    "last_visit": "2026-10-23",
+    "total_visits": 9,
+    "total_spend_usd": 702,
+    "services": [
+      "Color",
+      "Haircut",
+      "Manicure"
+    ],
+    "birthday": "1991-11-05"
+  },
+  {
+    "id": "c014",
+    "first_name": "Omar",
+    "last_name": "Martinez",
+    "phone": "+15125550114",
+    "email": "omar.martinez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-11-28",
+    "last_visit": "2026-10-03",
+    "total_visits": 3,
+    "total_spend_usd": 324,
+    "services": [
+      "Balayage"
+    ],
+    "birthday": "1968-07-15"
+  },
+  {
+    "id": "c015",
+    "first_name": "Samuel",
+    "last_name": "Williams",
+    "phone": "+15125550115",
+    "email": "samuel.williams@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-01-28",
+    "last_visit": "2026-08-24",
+    "total_visits": 11,
+    "total_spend_usd": 912,
+    "services": [
+      "Blowout",
+      "Balayage"
+    ],
+    "birthday": "1994-10-19"
+  },
+  {
+    "id": "c016",
+    "first_name": "Olivia",
+    "last_name": "Moreau",
+    "phone": "+15125550116",
+    "email": "olivia.moreau@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-03-01",
+    "last_visit": "2026-09-30",
+    "total_visits": 24,
+    "total_spend_usd": 1967,
+    "services": [
+      "Balayage",
+      "Haircut",
+      "Manicure",
+      "Waxing"
+    ],
+    "next_appointment": "2026-12-11",
+    "birthday": "1982-07-21"
+  },
+  {
+    "id": "c017",
+    "first_name": "Ethan",
+    "last_name": "Clarke",
+    "phone": "+15125550117",
+    "email": "ethan.clarke@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2024-09-09",
+    "last_visit": "2026-09-28",
+    "total_visits": 8,
+    "total_spend_usd": 802,
+    "services": [
+      "Massage",
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "1962-10-25"
+  },
+  {
+    "id": "c018",
+    "first_name": "Zara",
+    "last_name": "Patel",
+    "phone": "+15125550118",
+    "email": "zara.patel@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-26",
+    "last_visit": "2026-10-27",
+    "total_visits": 2,
+    "total_spend_usd": 116,
+    "services": [
+      "Color",
+      "Manicure",
+      "Facial"
+    ],
+    "next_appointment": "2026-12-11",
+    "birthday": "1964-12-22"
+  },
+  {
+    "id": "c019",
+    "first_name": "Hye-jin",
+    "last_name": "Haddad",
+    "phone": "+15125550119",
+    "email": "hyejin.haddad@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-07-19",
+    "last_visit": "2026-08-14",
+    "total_visits": 17,
+    "total_spend_usd": 4920,
+    "services": [
+      "Balayage"
+    ],
+    "birthday": "1974-10-26"
+  },
+  {
+    "id": "c020",
+    "first_name": "Ava",
+    "last_name": "Haddad",
+    "phone": "+15125550120",
+    "email": "ava.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-03-08",
+    "last_visit": "2026-08-15",
+    "total_visits": 3,
+    "total_spend_usd": 270,
+    "services": [
+      "Balayage",
+      "Pedicure",
+      "Keratin"
+    ],
+    "next_appointment": "2026-11-14",
+    "birthday": "1978-08-09"
+  },
+  {
+    "id": "c021",
+    "first_name": "Lin",
+    "last_name": "Hassan",
+    "phone": "+15125550121",
+    "email": "lin.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-11-24",
+    "last_visit": "2026-09-04",
+    "total_visits": 6,
+    "total_spend_usd": 504,
+    "services": [
+      "Blowout"
+    ],
+    "birthday": "1977-12-27"
+  },
+  {
+    "id": "c022",
+    "first_name": "Ximena",
+    "last_name": "Chowdhury",
+    "phone": "+15125550122",
+    "email": "ximena.chowdhury@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-01-02",
+    "last_visit": "2026-03-24",
+    "total_visits": 8,
+    "total_spend_usd": 792,
+    "services": [
+      "Balayage",
+      "Waxing",
+      "Pedicure",
+      "Facial"
+    ],
+    "birthday": "1971-04-21"
+  },
+  {
+    "id": "c023",
+    "first_name": "Olivia",
+    "last_name": "Nakamura",
+    "phone": "+15125550123",
+    "email": "olivia.nakamura@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-10-23",
+    "last_visit": "2026-10-23",
+    "total_visits": 1,
+    "total_spend_usd": 101,
+    "services": [
+      "Balayage",
+      "Blowout",
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "1973-09-19"
+  },
+  {
+    "id": "c024",
+    "first_name": "Malik",
+    "last_name": "Cohen",
+    "phone": "+15125550124",
+    "email": "malik.cohen@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": false,
+    "first_visit": "2025-12-08",
+    "last_visit": "2026-08-31",
+    "total_visits": 1,
+    "total_spend_usd": 120,
+    "services": [
+      "Massage",
+      "Haircut",
+      "Manicure",
+      "Blowout"
+    ],
+    "next_appointment": "2026-11-29",
+    "birthday": "1962-09-02"
+  },
+  {
+    "id": "c025",
+    "first_name": "Amara",
+    "last_name": "Garcia",
+    "phone": "+15125550125",
+    "email": "amara.garcia@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-12-29",
+    "last_visit": "2026-09-01",
+    "total_visits": 8,
+    "total_spend_usd": 424,
+    "services": [
+      "Color",
+      "Pedicure",
+      "Gloss"
+    ],
+    "next_appointment": "2026-12-02",
+    "birthday": "1979-07-03"
+  },
+  {
+    "id": "c026",
+    "first_name": "Chloe",
+    "last_name": "Lopez",
+    "phone": "+15125550126",
+    "email": "chloe.lopez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-25",
+    "last_visit": "2026-10-25",
+    "total_visits": 1,
+    "total_spend_usd": 157,
+    "services": [
+      "Pedicure",
+      "Massage"
+    ],
+    "next_appointment": "2026-12-17",
+    "birthday": "1977-01-03"
+  },
+  {
+    "id": "c027",
+    "first_name": "Ama",
+    "last_name": "Okafor",
+    "phone": "+15125550127",
+    "email": "ama.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-10-22",
+    "last_visit": "2026-10-01",
+    "total_visits": 2,
+    "total_spend_usd": 90,
+    "services": [
+      "Haircut",
+      "Massage"
+    ],
+    "birthday": "1992-09-26"
+  },
+  {
+    "id": "c028",
+    "first_name": "Amara",
+    "last_name": "Silva",
+    "phone": "+15125550128",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-02-16",
+    "last_visit": "2026-10-27",
+    "total_visits": 6,
+    "total_spend_usd": 384,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1978-03-06"
+  },
+  {
+    "id": "c029",
+    "first_name": "Nadia",
+    "last_name": "Patel",
+    "phone": "+15125550129",
+    "email": "nadia.patel@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-02-11",
+    "last_visit": "2025-11-09",
+    "total_visits": 16,
+    "total_spend_usd": 2429,
+    "services": [
+      "Facial",
+      "Color",
+      "Haircut",
+      "Blowout"
+    ],
+    "birthday": "1977-03-15"
+  },
+  {
+    "id": "c030",
+    "first_name": "Jasmine",
+    "last_name": "Tanaka",
+    "phone": "+15125550130",
+    "email": "jasmine.tanaka@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-07-27",
+    "last_visit": "2024-12-27",
+    "total_visits": 4,
+    "total_spend_usd": 284,
+    "services": [
+      "Haircut",
+      "Massage",
+      "Blowout"
+    ],
+    "birthday": "1984-05-10"
+  },
+  {
+    "id": "c031",
+    "first_name": "Ruth",
+    "last_name": "Wang",
+    "phone": "+15125550131",
+    "email": "ruth.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-12-30",
+    "last_visit": "2026-10-19",
+    "total_visits": 10,
+    "total_spend_usd": 620,
+    "services": [
+      "Haircut",
+      "Keratin"
+    ],
+    "birthday": "1999-12-21"
+  },
+  {
+    "id": "c032",
+    "first_name": "Hye-jin",
+    "last_name": "Brown",
+    "phone": "+15125550132",
+    "email": "hyejin.brown@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-01-06",
+    "last_visit": "2026-09-16",
+    "total_visits": 13,
+    "total_spend_usd": 702,
+    "services": [
+      "Balayage",
+      "Color"
+    ],
+    "birthday": "2001-02-06"
+  },
+  {
+    "id": "c033",
+    "first_name": "Imani",
+    "last_name": "Osei",
+    "phone": "+15125550133",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-11-14",
+    "last_visit": "2025-04-25",
+    "total_visits": 5,
+    "total_spend_usd": 500,
+    "services": [
+      "Balayage",
+      "Haircut",
+      "Pedicure",
+      "Waxing"
+    ],
+    "birthday": "1981-07-26"
+  },
+  {
+    "id": "c034",
+    "first_name": "Ruth",
+    "last_name": "Kowalski",
+    "phone": "+15125550134",
+    "email": "ruth.kowalski@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-10",
+    "last_visit": "2026-10-10",
+    "total_visits": 1,
+    "total_spend_usd": 165,
+    "services": [
+      "Massage",
+      "Manicure",
+      "Pedicure",
+      "Haircut"
+    ],
+    "birthday": "2005-12-05"
+  },
+  {
+    "id": "c035",
+    "first_name": "Rahul",
+    "last_name": "Hernandez",
+    "phone": "+15125550135",
+    "email": "rahul.hernandez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-09-25",
+    "last_visit": "2026-09-17",
+    "total_visits": 7,
+    "total_spend_usd": 336,
+    "services": [
+      "Pedicure",
+      "Balayage",
+      "Color"
+    ],
+    "birthday": "1992-07-23"
+  },
+  {
+    "id": "c036",
+    "first_name": "Kwame",
+    "last_name": "Nielsen",
+    "phone": "+15125550136",
+    "email": "kwame.nielsen@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-05-05",
+    "last_visit": "2026-08-19",
+    "total_visits": 6,
+    "total_spend_usd": 762,
+    "services": [
+      "Haircut",
+      "Color"
+    ],
+    "next_appointment": "2026-11-29",
+    "birthday": "1961-09-21"
+  },
+  {
+    "id": "c037",
+    "first_name": "Isabella",
+    "last_name": "Mehta",
+    "phone": "+15125550137",
+    "email": "isabella.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-04-06",
+    "last_visit": "2026-10-21",
+    "total_visits": 19,
+    "total_spend_usd": 942,
+    "services": [
+      "Pedicure",
+      "Haircut"
+    ],
+    "birthday": "1978-02-12"
+  },
+  {
+    "id": "c038",
+    "first_name": "Yuki",
+    "last_name": "Tanaka",
+    "phone": "+15125550138",
+    "email": "yuki.tanaka@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-09-08",
+    "last_visit": "2026-09-14",
+    "total_visits": 2,
+    "total_spend_usd": 98,
+    "services": [
+      "Balayage"
+    ],
+    "birthday": "1981-06-13"
+  },
+  {
+    "id": "c039",
+    "first_name": "Ravi",
+    "last_name": "Singh",
+    "phone": "+15125550139",
+    "email": "ravi.singh@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-12-25",
+    "last_visit": "2026-10-11",
+    "total_visits": 13,
+    "total_spend_usd": 872,
+    "services": [
+      "Haircut",
+      "Massage"
+    ],
+    "next_appointment": "2026-11-14",
+    "birthday": "1998-10-11"
+  },
+  {
+    "id": "c040",
+    "first_name": "Samuel",
+    "last_name": "Ahmed",
+    "phone": "+15125550140",
+    "email": "samuel.ahmed@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-03-11",
+    "last_visit": "2026-08-28",
+    "total_visits": 3,
+    "total_spend_usd": 201,
+    "services": [
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "1987-10-28"
+  },
+  {
+    "id": "c041",
+    "first_name": "Lin",
+    "last_name": "Okafor",
+    "phone": "+15125550141",
+    "email": "lin.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-08-27",
+    "last_visit": "2026-08-30",
+    "total_visits": 1,
+    "total_spend_usd": 91,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1969-02-13"
+  },
+  {
+    "id": "c042",
+    "first_name": "Fatima",
+    "last_name": "Garcia",
+    "email": "fatima.garcia@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-09-15",
+    "last_visit": "2026-10-24",
+    "total_visits": 7,
+    "total_spend_usd": 693,
+    "services": [
+      "Blowout",
+      "Pedicure",
+      "Keratin",
+      "Waxing"
+    ],
+    "next_appointment": "2026-12-09",
+    "birthday": "1990-01-25"
+  },
+  {
+    "id": "c043",
+    "first_name": "Kwame",
+    "last_name": "Brown",
+    "phone": "+15125550143",
+    "email": "kwame.brown@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-09-23",
+    "last_visit": "2026-08-17",
+    "total_visits": 2,
+    "total_spend_usd": 178,
+    "services": [
+      "Balayage"
+    ],
+    "next_appointment": "2026-12-07",
+    "birthday": "1996-07-14"
+  },
+  {
+    "id": "c044",
+    "first_name": "Ananya",
+    "last_name": "Wang",
+    "phone": "+15125550144",
+    "email": "ananya.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-05-19",
+    "last_visit": "2026-10-22",
+    "total_visits": 11,
+    "total_spend_usd": 806,
+    "services": [
+      "Haircut",
+      "Blowout"
+    ],
+    "birthday": "1973-04-04"
+  },
+  {
+    "id": "c045",
+    "first_name": "Naomi",
+    "last_name": "Wang",
+    "phone": "+15125550145",
+    "email": "naomi.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-02-06",
+    "last_visit": "2026-09-03",
+    "total_visits": 5,
+    "total_spend_usd": 475,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1961-01-01"
+  },
+  {
+    "id": "c046",
+    "first_name": "Ruth",
+    "last_name": "Kim",
+    "phone": "+15125550146",
+    "email": "ruth.kim@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-10-25",
+    "last_visit": "2026-09-17",
+    "total_visits": 1,
+    "total_spend_usd": 54,
+    "services": [
+      "Facial",
+      "Color",
+      "Haircut",
+      "Massage"
+    ],
+    "birthday": "2004-03-06"
+  },
+  {
+    "id": "c047",
+    "first_name": "Kwame",
+    "last_name": "Iyer",
+    "phone": "+15125550147",
+    "email": "kwame.iyer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-01-20",
+    "last_visit": "2026-08-28",
+    "total_visits": 11,
+    "total_spend_usd": 561,
+    "services": [
+      "Haircut",
+      "Facial",
+      "Manicure",
+      "Waxing"
+    ],
+    "birthday": "1999-09-17"
+  },
+  {
+    "id": "c048",
+    "first_name": "Ethan",
+    "last_name": "Hassan",
+    "phone": "+15125550148",
+    "email": "ethan.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-05-01",
+    "last_visit": "2026-10-12",
+    "total_visits": 4,
+    "total_spend_usd": 496,
+    "services": [
+      "Haircut",
+      "Waxing",
+      "Facial",
+      "Gloss"
+    ],
+    "birthday": "1975-03-23"
+  },
+  {
+    "id": "c049",
+    "first_name": "Ravi",
+    "last_name": "Gupta",
+    "phone": "+15125550149",
+    "email": "ravi.gupta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-01-04",
+    "last_visit": "2026-10-02",
+    "total_visits": 19,
+    "total_spend_usd": 776,
+    "services": [
+      "Balayage",
+      "Haircut",
+      "Blowout"
+    ],
+    "birthday": "1963-07-15"
+  },
+  {
+    "id": "c050",
+    "first_name": "Divya",
+    "last_name": "Reyes",
+    "phone": "+15125550150",
+    "email": "divya.reyes@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-11-09",
+    "last_visit": "2026-08-08",
+    "total_visits": 1,
+    "total_spend_usd": 64,
+    "services": [
+      "Keratin"
+    ],
+    "birthday": "1967-08-05"
+  },
+  {
+    "id": "c051",
+    "first_name": "Isabella",
+    "last_name": "Lopez",
+    "phone": "+15125550151",
+    "email": "isabella.lopez@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2026-06-01",
+    "last_visit": "2026-09-23",
+    "total_visits": 1,
+    "total_spend_usd": 71,
+    "services": [
+      "Color",
+      "Balayage",
+      "Manicure"
+    ],
+    "next_appointment": "2026-11-09",
+    "birthday": "1972-12-28"
+  },
+  {
+    "id": "c052",
+    "first_name": "Ananya",
+    "last_name": "Nielsen",
+    "phone": "+15125550152",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-10-10",
+    "last_visit": "2026-10-10",
+    "total_visits": 1,
+    "total_spend_usd": 88,
+    "services": [
+      "Haircut",
+      "Pedicure"
+    ],
+    "next_appointment": "2026-11-03",
+    "birthday": "1982-12-20"
+  },
+  {
+    "id": "c053",
+    "first_name": "Sophie",
+    "last_name": "Chowdhury",
+    "phone": "+15125550153",
+    "email": "sophie.chowdhury@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2021-08-04",
+    "last_visit": "2026-09-01",
+    "total_visits": 17,
+    "total_spend_usd": 1066,
+    "services": [
+      "Blowout",
+      "Haircut",
+      "Color",
+      "Facial"
+    ],
+    "birthday": "1975-09-04"
+  },
+  {
+    "id": "c054",
+    "first_name": "Ravi",
+    "last_name": "Mensah",
+    "phone": "+15125550154",
+    "email": "ravi.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-08-30",
+    "last_visit": "2026-08-05",
+    "total_visits": 2,
+    "total_spend_usd": 230,
+    "services": [
+      "Haircut",
+      "Facial",
+      "Manicure"
+    ],
+    "birthday": "1964-12-10"
+  },
+  {
+    "id": "c055",
+    "first_name": "Ethan",
+    "last_name": "Hassan",
+    "phone": "+15125550155",
+    "email": "ethan.hassan2@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2023-08-30",
+    "last_visit": "2025-10-03",
+    "total_visits": 17,
+    "total_spend_usd": 739,
+    "services": [
+      "Color",
+      "Balayage",
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "2003-11-17"
+  },
+  {
+    "id": "c056",
+    "first_name": "Kavya",
+    "last_name": "Kim",
+    "phone": "+15125550156",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-08-04",
+    "last_visit": "2026-09-20",
+    "total_visits": 9,
+    "total_spend_usd": 828,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Color",
+      "Blowout"
+    ],
+    "next_appointment": "2026-12-22",
+    "birthday": "1987-03-11"
+  },
+  {
+    "id": "c057",
+    "first_name": "Sophie",
+    "last_name": "Choi",
+    "phone": "+15125550157",
+    "email": "sophie.choi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-07-17",
+    "last_visit": "2025-09-28",
+    "total_visits": 2,
+    "total_spend_usd": 204,
+    "services": [
+      "Haircut",
+      "Facial",
+      "Color"
+    ],
+    "birthday": "1965-02-06"
+  },
+  {
+    "id": "c058",
+    "first_name": "Sophie",
+    "last_name": "Nielsen",
+    "phone": "+15125550158",
+    "email": "sophie.nielsen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-06-14",
+    "last_visit": "2026-09-06",
+    "total_visits": 14,
+    "total_spend_usd": 954,
+    "services": [
+      "Massage",
+      "Balayage"
+    ],
+    "birthday": "1973-01-19"
+  },
+  {
+    "id": "c059",
+    "first_name": "Ruth",
+    "last_name": "Lopez",
+    "phone": "+15125550159",
+    "email": "ruth.lopez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2025-04-12",
+    "last_visit": "2026-09-13",
+    "total_visits": 10,
+    "total_spend_usd": 913,
+    "services": [
+      "Facial"
+    ],
+    "next_appointment": "2026-12-08",
+    "birthday": "1979-07-28"
+  },
+  {
+    "id": "c060",
+    "first_name": "Arjun",
+    "last_name": "Murphy",
+    "phone": "+15125550160",
+    "email": "arjun.murphy@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-09-11",
+    "last_visit": "2026-09-11",
+    "total_visits": 15,
+    "total_spend_usd": 715,
+    "services": [
+      "Waxing",
+      "Facial"
+    ],
+    "next_appointment": "2026-12-24",
+    "birthday": "1998-04-23"
+  },
+  {
+    "id": "c061",
+    "first_name": "Noor",
+    "last_name": "Mensah",
+    "phone": "+15125550161",
+    "email": "noor.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-17",
+    "last_visit": "2026-10-17",
+    "total_visits": 1,
+    "total_spend_usd": 164,
+    "services": [
+      "Pedicure",
+      "Blowout"
+    ],
+    "birthday": "1963-05-14"
+  },
+  {
+    "id": "c062",
+    "first_name": "Mei",
+    "last_name": "Iyer",
+    "phone": "+15125550162",
+    "email": "mei.iyer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-08-01",
+    "last_visit": "2025-06-18",
+    "total_visits": 3,
+    "total_spend_usd": 360,
+    "services": [
+      "Balayage",
+      "Color"
+    ],
+    "birthday": "1994-09-18"
+  },
+  {
+    "id": "c063",
+    "first_name": "Nadia",
+    "last_name": "Mehta",
+    "phone": "+15125550163",
+    "email": "nadia.mehta@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2022-04-24",
+    "last_visit": "2025-11-27",
+    "total_visits": 3,
+    "total_spend_usd": 267,
+    "services": [
+      "Waxing"
+    ],
+    "birthday": "1974-07-21"
+  },
+  {
+    "id": "c064",
+    "first_name": "Gabriela",
+    "last_name": "Okafor",
+    "phone": "+15125550164",
+    "email": "gabriela.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-10-01",
+    "last_visit": "2026-08-19",
+    "total_visits": 23,
+    "total_spend_usd": 752,
+    "services": [
+      "Facial",
+      "Massage"
+    ],
+    "next_appointment": "2026-12-09",
+    "birthday": "2000-11-24"
+  },
+  {
+    "id": "c065",
+    "first_name": "Kwame",
+    "last_name": "Brown",
+    "phone": "+15125550165",
+    "email": "kwame.brown2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-02-10",
+    "last_visit": "2026-09-08",
+    "total_visits": 1,
+    "total_spend_usd": 96,
+    "services": [
+      "Balayage",
+      "Manicure",
+      "Gloss",
+      "Blowout"
+    ],
+    "next_appointment": "2026-11-11",
+    "birthday": "1977-12-05"
+  },
+  {
+    "id": "c066",
+    "first_name": "Ava",
+    "last_name": "Hernandez",
+    "phone": "+15125550166",
+    "email": "ava.hernandez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-02-23",
+    "last_visit": "2025-01-15",
+    "total_visits": 13,
+    "total_spend_usd": 777,
+    "services": [
+      "Gloss"
+    ],
+    "birthday": "1992-11-13"
+  },
+  {
+    "id": "c067",
+    "first_name": "Imani",
+    "last_name": "Kim",
+    "phone": "+15125550167",
+    "email": "imani.kim@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-01-11",
+    "last_visit": "2026-10-08",
+    "total_visits": 14,
+    "total_spend_usd": 815,
+    "services": [
+      "Gloss",
+      "Pedicure",
+      "Facial",
+      "Haircut"
+    ],
+    "next_appointment": "2026-12-15",
+    "birthday": "1969-12-22"
+  },
+  {
+    "id": "c068",
+    "first_name": "Thandiwe",
+    "last_name": "Mehta",
+    "email": "thandiwe.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-08-12",
+    "last_visit": "2025-10-16",
+    "total_visits": 2,
+    "total_spend_usd": 164,
+    "services": [
+      "Color",
+      "Massage",
+      "Blowout",
+      "Haircut"
+    ],
+    "birthday": "1999-10-16"
+  },
+  {
+    "id": "c069",
+    "first_name": "Riley",
+    "last_name": "Kim",
+    "phone": "+15125550169",
+    "email": "riley.kim@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-03-17",
+    "last_visit": "2026-10-05",
+    "total_visits": 4,
+    "total_spend_usd": 524,
+    "services": [
+      "Color",
+      "Massage",
+      "Blowout",
+      "Haircut"
+    ],
+    "next_appointment": "2026-12-13",
+    "birthday": "1968-03-06"
+  },
+  {
+    "id": "c070",
+    "first_name": "Sophie",
+    "last_name": "Murphy",
+    "phone": "+15125550170",
+    "email": "sophie.murphy@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-05-05",
+    "last_visit": "2026-09-20",
+    "total_visits": 3,
+    "total_spend_usd": 147,
+    "services": [
+      "Haircut",
+      "Manicure"
+    ],
+    "birthday": "1990-05-19"
+  },
+  {
+    "id": "c071",
+    "first_name": "Amara",
+    "last_name": "Wang",
+    "phone": "+15125550171",
+    "email": "amara.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2022-07-06",
+    "last_visit": "2026-08-15",
+    "total_visits": 15,
+    "total_spend_usd": 768,
+    "services": [
+      "Gloss",
+      "Haircut",
+      "Pedicure"
+    ],
+    "next_appointment": "2026-12-14",
+    "birthday": "1968-10-14"
+  },
+  {
+    "id": "c072",
+    "first_name": "Imani",
+    "last_name": "Rossi",
+    "email": "imani.rossi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-07-13",
+    "last_visit": "2026-08-08",
+    "total_visits": 8,
+    "total_spend_usd": 584,
+    "services": [
+      "Blowout"
+    ],
+    "birthday": "1973-10-09"
+  },
+  {
+    "id": "c073",
+    "first_name": "Ama",
+    "last_name": "Chowdhury",
+    "phone": "+15125550173",
+    "email": "ama.chowdhury@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-04-26",
+    "last_visit": "2026-09-28",
+    "total_visits": 19,
+    "total_spend_usd": 763,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Massage"
+    ],
+    "birthday": "2001-09-09"
+  },
+  {
+    "id": "c074",
+    "first_name": "Zara",
+    "last_name": "Lopez",
+    "phone": "+15125550174",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-04-14",
+    "last_visit": "2026-09-30",
+    "total_visits": 14,
+    "total_spend_usd": 794,
+    "services": [
+      "Waxing"
+    ],
+    "next_appointment": "2026-12-15",
+    "birthday": "1963-04-04"
+  },
+  {
+    "id": "c075",
+    "first_name": "Sophie",
+    "last_name": "Kowalski",
+    "phone": "+15125550175",
+    "email": "sophie.kowalski@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2023-03-24",
+    "last_visit": "2026-08-21",
+    "total_visits": 6,
+    "total_spend_usd": 690,
+    "services": [
+      "Haircut",
+      "Keratin",
+      "Facial",
+      "Color"
+    ],
+    "birthday": "1984-05-08"
+  },
+  {
+    "id": "c076",
+    "first_name": "Ximena",
+    "last_name": "Kim",
+    "phone": "+15125550176",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-07-13",
+    "last_visit": "2026-08-31",
+    "total_visits": 12,
+    "total_spend_usd": 709,
+    "services": [
+      "Facial",
+      "Haircut",
+      "Manicure"
+    ],
+    "next_appointment": "2026-12-21",
+    "birthday": "1962-09-19"
+  },
+  {
+    "id": "c077",
+    "first_name": "Arjun",
+    "last_name": "Park",
+    "phone": "+15125550177",
+    "email": "arjun.park@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2024-09-29",
+    "last_visit": "2025-01-30",
+    "total_visits": 2,
+    "total_spend_usd": 218,
+    "services": [
+      "Haircut",
+      "Manicure"
+    ],
+    "birthday": "1967-11-03"
+  },
+  {
+    "id": "c078",
+    "first_name": "Ethan",
+    "last_name": "Haddad",
+    "phone": "+15125550178",
+    "email": "ethan.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-02-11",
+    "last_visit": "2025-07-01",
+    "total_visits": 1,
+    "total_spend_usd": 82,
+    "services": [
+      "Keratin",
+      "Gloss",
+      "Manicure"
+    ],
+    "birthday": "1974-09-10"
+  },
+  {
+    "id": "c079",
+    "first_name": "Rina",
+    "last_name": "Murphy",
+    "phone": "+15125550179",
+    "email": "rina.murphy@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-02-11",
+    "last_visit": "2026-10-06",
+    "total_visits": 4,
+    "total_spend_usd": 412,
+    "services": [
+      "Blowout",
+      "Color",
+      "Haircut",
+      "Waxing"
+    ],
+    "birthday": "1998-03-14"
+  },
+  {
+    "id": "c080",
+    "first_name": "Sam",
+    "last_name": "Mehta",
+    "phone": "+15125550180",
+    "email": "sam.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-05-28",
+    "last_visit": "2026-08-23",
+    "total_visits": 9,
+    "total_spend_usd": 513,
+    "services": [
+      "Blowout",
+      "Facial",
+      "Color"
+    ],
+    "next_appointment": "2026-12-16",
+    "birthday": "1997-03-14"
+  },
+  {
+    "id": "c081",
+    "first_name": "Gabriela",
+    "last_name": "Silva",
+    "phone": "+15125550181",
+    "email": "gabriela.silva@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2023-04-15",
+    "last_visit": "2026-09-16",
+    "total_visits": 23,
+    "total_spend_usd": 948,
+    "services": [
+      "Color",
+      "Manicure"
+    ],
+    "birthday": "1971-06-21"
+  },
+  {
+    "id": "c082",
+    "first_name": "Jasmine",
+    "last_name": "Choi",
+    "phone": "+15125550182",
+    "email": "jasmine.choi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-04-07",
+    "last_visit": "2026-09-29",
+    "total_visits": 7,
+    "total_spend_usd": 721,
+    "services": [
+      "Facial",
+      "Haircut",
+      "Massage",
+      "Blowout"
+    ],
+    "birthday": "1964-03-06"
+  },
+  {
+    "id": "c083",
+    "first_name": "Kwame",
+    "last_name": "Adeyemi",
+    "phone": "+15125550183",
+    "email": "kwame.adeyemi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-09-16",
+    "last_visit": "2026-10-21",
+    "total_visits": 17,
+    "total_spend_usd": 910,
+    "services": [
+      "Massage",
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "1989-05-21"
+  },
+  {
+    "id": "c084",
+    "first_name": "Hye-jin",
+    "last_name": "Okafor",
+    "phone": "+15125550184",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-16",
+    "last_visit": "2026-10-16",
+    "total_visits": 1,
+    "total_spend_usd": 117,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Massage",
+      "Keratin"
+    ],
+    "birthday": "1998-01-26"
+  },
+  {
+    "id": "c085",
+    "first_name": "Marcus",
+    "last_name": "Gupta",
+    "phone": "+15125550185",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-05-02",
+    "last_visit": "2026-03-17",
+    "total_visits": 7,
+    "total_spend_usd": 693,
+    "services": [
+      "Haircut",
+      "Color",
+      "Blowout",
+      "Massage"
+    ],
+    "birthday": "1977-10-03"
+  },
+  {
+    "id": "c086",
+    "first_name": "Lin",
+    "last_name": "Mensah",
+    "phone": "+15125550186",
+    "email": "lin.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-10-17",
+    "last_visit": "2026-08-24",
+    "total_visits": 9,
+    "total_spend_usd": 869,
+    "services": [
+      "Manicure",
+      "Color",
+      "Massage"
+    ],
+    "birthday": "1982-03-10"
+  },
+  {
+    "id": "c087",
+    "first_name": "Maya",
+    "last_name": "Iyer",
+    "phone": "+15125550187",
+    "email": "maya.iyer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-12-10",
+    "last_visit": "2026-10-06",
+    "total_visits": 17,
+    "total_spend_usd": 825,
+    "services": [
+      "Waxing",
+      "Pedicure",
+      "Massage",
+      "Manicure"
+    ],
+    "next_appointment": "2026-11-17",
+    "birthday": "1962-08-10"
+  },
+  {
+    "id": "c088",
+    "first_name": "Rahul",
+    "last_name": "Hernandez",
+    "phone": "+15125550188",
+    "email": "rahul.hernandez2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-04-27",
+    "last_visit": "2026-09-19",
+    "total_visits": 19,
+    "total_spend_usd": 896,
+    "services": [
+      "Facial"
+    ],
+    "next_appointment": "2026-12-22",
+    "birthday": "1989-04-09"
+  },
+  {
+    "id": "c089",
+    "first_name": "Ravi",
+    "last_name": "Martinez",
+    "phone": "+15125550189",
+    "email": "ravi.martinez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-09-01",
+    "last_visit": "2026-08-06",
+    "total_visits": 3,
+    "total_spend_usd": 228,
+    "services": [
+      "Blowout",
+      "Massage",
+      "Waxing",
+      "Gloss"
+    ],
+    "next_appointment": "2026-11-18",
+    "birthday": "1991-06-12"
+  },
+  {
+    "id": "c090",
+    "first_name": "Ingrid",
+    "last_name": "Cohen",
+    "phone": "+15125550190",
+    "email": "ingrid.cohen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-07-04",
+    "last_visit": "2026-08-31",
+    "total_visits": 1,
+    "total_spend_usd": 108,
+    "services": [
+      "Keratin"
+    ],
+    "birthday": "2001-10-15"
+  },
+  {
+    "id": "c091",
+    "first_name": "Riley",
+    "last_name": "Silva",
+    "phone": "+15125550191",
+    "email": "riley.silva@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-02-27",
+    "last_visit": "2026-03-15",
+    "total_visits": 20,
+    "total_spend_usd": 924,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1967-05-07"
+  },
+  {
+    "id": "c092",
+    "first_name": "Mateo",
+    "last_name": "Okafor",
+    "email": "mateo.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-12-18",
+    "last_visit": "2026-06-02",
+    "total_visits": 10,
+    "total_spend_usd": 890,
+    "services": [
+      "Waxing",
+      "Haircut"
+    ],
+    "birthday": "2000-06-25"
+  },
+  {
+    "id": "c093",
+    "first_name": "Sofia",
+    "last_name": "Johnson",
+    "phone": "+15125550193",
+    "email": "sofia.johnson@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-09-03",
+    "last_visit": "2026-09-20",
+    "total_visits": 26,
+    "total_spend_usd": 1394,
+    "services": [
+      "Haircut",
+      "Facial"
+    ],
+    "birthday": "1975-10-26"
+  },
+  {
+    "id": "c094",
+    "first_name": "Noor",
+    "last_name": "Haddad",
+    "phone": "+15125550194",
+    "email": "noor.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2023-04-20",
+    "last_visit": "2025-01-21",
+    "total_visits": 13,
+    "total_spend_usd": 624,
+    "services": [
+      "Facial",
+      "Blowout",
+      "Color"
+    ],
+    "birthday": "2002-02-14"
+  },
+  {
+    "id": "c095",
+    "first_name": "Alex",
+    "last_name": "Nguyen",
+    "phone": "+15125550195",
+    "email": "alex.nguyen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-10-06",
+    "last_visit": "2026-10-27",
+    "total_visits": 1,
+    "total_spend_usd": 139,
+    "services": [
+      "Massage",
+      "Color",
+      "Waxing",
+      "Blowout"
+    ],
+    "next_appointment": "2026-11-03",
+    "birthday": "1974-11-04"
+  },
+  {
+    "id": "c096",
+    "first_name": "Daniel",
+    "last_name": "Hassan",
+    "phone": "+15125550196",
+    "email": "daniel.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-09-30",
+    "last_visit": "2026-09-30",
+    "total_visits": 1,
+    "total_spend_usd": 131,
+    "services": [
+      "Gloss",
+      "Haircut",
+      "Waxing"
+    ],
+    "birthday": "1988-08-01"
+  },
+  {
+    "id": "c097",
+    "first_name": "Lin",
+    "last_name": "Okafor",
+    "phone": "+15125550197",
+    "email": "lin.okafor2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-08-13",
+    "last_visit": "2026-10-02",
+    "total_visits": 6,
+    "total_spend_usd": 540,
+    "services": [
+      "Balayage"
+    ],
+    "next_appointment": "2026-12-23",
+    "birthday": "1974-11-20"
+  },
+  {
+    "id": "c098",
+    "first_name": "Fatima",
+    "last_name": "Hassan",
+    "phone": "+15125550198",
+    "email": "fatima.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-12-16",
+    "last_visit": "2026-10-12",
+    "total_visits": 21,
+    "total_spend_usd": 4544,
+    "services": [
+      "Color",
+      "Keratin"
+    ],
+    "next_appointment": "2026-11-16",
+    "birthday": "1970-12-02"
+  },
+  {
+    "id": "c099",
+    "first_name": "Amara",
+    "last_name": "Kowalski",
+    "phone": "+15125550199",
+    "email": "amara.kowalski@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-04-22",
+    "last_visit": "2026-08-27",
+    "total_visits": 8,
+    "total_spend_usd": 790,
+    "services": [
+      "Haircut",
+      "Waxing",
+      "Blowout",
+      "Manicure"
+    ],
+    "birthday": "2005-06-25"
+  },
+  {
+    "id": "c100",
+    "first_name": "Diego",
+    "last_name": "Johnson",
+    "email": "diego.johnson@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-07-08",
+    "last_visit": "2026-09-21",
+    "total_visits": 2,
+    "total_spend_usd": 224,
+    "services": [
+      "Blowout",
+      "Color",
+      "Haircut"
+    ],
+    "next_appointment": "2026-10-29",
+    "birthday": "1995-04-06"
+  },
+  {
+    "id": "c101",
+    "first_name": "Valentina",
+    "last_name": "Silva",
+    "phone": "+15125550201",
+    "email": "valentina.silva@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-27",
+    "last_visit": "2026-10-27",
+    "total_visits": 1,
+    "total_spend_usd": 132,
+    "services": [
+      "Haircut",
+      "Massage",
+      "Balayage",
+      "Color"
+    ],
+    "birthday": "1999-09-06"
+  },
+  {
+    "id": "c102",
+    "first_name": "Ravi",
+    "last_name": "Haddad",
+    "phone": "+15125550202",
+    "email": "ravi.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-09-08",
+    "last_visit": "2026-08-12",
+    "total_visits": 23,
+    "total_spend_usd": 915,
+    "services": [
+      "Blowout",
+      "Balayage",
+      "Massage"
+    ],
+    "next_appointment": "2026-12-18",
+    "birthday": "2002-04-15"
+  },
+  {
+    "id": "c103",
+    "first_name": "Noor",
+    "last_name": "Mehta",
+    "phone": "+15125550203",
+    "email": "noor.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-04-27",
+    "last_visit": "2026-09-04",
+    "total_visits": 24,
+    "total_spend_usd": 747,
+    "services": [
+      "Color",
+      "Waxing"
+    ],
+    "birthday": "1964-12-01"
+  },
+  {
+    "id": "c104",
+    "first_name": "Diego",
+    "last_name": "Mensah",
+    "phone": "+15125550204",
+    "email": "diego.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-11-30",
+    "last_visit": "2026-07-22",
+    "total_visits": 23,
+    "total_spend_usd": 734,
+    "services": [
+      "Haircut",
+      "Balayage"
+    ],
+    "birthday": "1962-02-24"
+  },
+  {
+    "id": "c105",
+    "first_name": "Thandiwe",
+    "last_name": "Singh",
+    "phone": "+15125550205",
+    "email": "thandiwe.singh@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-10-16",
+    "last_visit": "2026-09-09",
+    "total_visits": 10,
+    "total_spend_usd": 782,
+    "services": [
+      "Manicure",
+      "Color"
+    ],
+    "birthday": "1976-03-17"
+  },
+  {
+    "id": "c106",
+    "first_name": "Lucia",
+    "last_name": "Kowalski",
+    "phone": "+15125550206",
+    "email": "lucia.kowalski@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2023-08-13",
+    "last_visit": "2025-07-11",
+    "total_visits": 14,
+    "total_spend_usd": 717,
+    "services": [
+      "Blowout"
+    ],
+    "birthday": "1980-05-28"
+  },
+  {
+    "id": "c107",
+    "first_name": "Ravi",
+    "last_name": "Mehta",
+    "phone": "+15125550207",
+    "email": "ravi.mehta@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2022-04-20",
+    "last_visit": "2026-08-23",
+    "total_visits": 3,
+    "total_spend_usd": 321,
+    "services": [
+      "Gloss",
+      "Balayage",
+      "Blowout"
+    ],
+    "next_appointment": "2026-12-22",
+    "birthday": "1988-04-18"
+  },
+  {
+    "id": "c108",
+    "first_name": "Valentina",
+    "last_name": "Moreau",
+    "phone": "+15125550208",
+    "email": "valentina.moreau@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-06-15",
+    "last_visit": "2026-09-24",
+    "total_visits": 16,
+    "total_spend_usd": 896,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1973-11-28"
+  },
+  {
+    "id": "c109",
+    "first_name": "Divya",
+    "last_name": "Ahmed",
+    "phone": "+15125550209",
+    "email": "divya.ahmed@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-02-07",
+    "last_visit": "2026-08-14",
+    "total_visits": 2,
+    "total_spend_usd": 156,
+    "services": [
+      "Color",
+      "Haircut",
+      "Balayage",
+      "Gloss"
+    ],
+    "next_appointment": "2026-12-13",
+    "birthday": "1988-07-10"
+  },
+  {
+    "id": "c110",
+    "first_name": "Ingrid",
+    "last_name": "Park",
+    "phone": "+15125550210",
+    "email": "ingrid.park@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2025-08-12",
+    "last_visit": "2026-10-22",
+    "total_visits": 10,
+    "total_spend_usd": 918,
+    "services": [
+      "Haircut",
+      "Blowout",
+      "Color"
+    ],
+    "birthday": "1976-01-18"
+  },
+  {
+    "id": "c111",
+    "first_name": "Imani",
+    "last_name": "Hassan",
+    "phone": "+15125550211",
+    "email": "imani.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-04-10",
+    "last_visit": "2026-09-11",
+    "total_visits": 23,
+    "total_spend_usd": 4161,
+    "services": [
+      "Facial"
+    ],
+    "next_appointment": "2026-11-28",
+    "birthday": "2001-01-27"
+  },
+  {
+    "id": "c112",
+    "first_name": "Chloe",
+    "last_name": "Moreau",
+    "phone": "+15125550212",
+    "email": "chloe.moreau@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2024-04-06",
+    "last_visit": "2026-07-09",
+    "total_visits": 2,
+    "total_spend_usd": 270,
+    "services": [
+      "Manicure"
+    ],
+    "birthday": "1981-05-04"
+  },
+  {
+    "id": "c113",
+    "first_name": "Ravi",
+    "last_name": "Tanaka",
+    "phone": "+15125550213",
+    "email": "ravi.tanaka@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-06-24",
+    "last_visit": "2026-09-01",
+    "total_visits": 7,
+    "total_spend_usd": 910,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1995-12-04"
+  },
+  {
+    "id": "c114",
+    "first_name": "Kenji",
+    "last_name": "Park",
+    "phone": "+15125550214",
+    "email": "kenji.park@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-24",
+    "last_visit": "2026-10-24",
+    "total_visits": 1,
+    "total_spend_usd": 146,
+    "services": [
+      "Balayage",
+      "Gloss",
+      "Haircut"
+    ],
+    "birthday": "1973-10-16"
+  },
+  {
+    "id": "c115",
+    "first_name": "Rina",
+    "last_name": "Mensah",
+    "phone": "+15125550215",
+    "email": "rina.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-06-20",
+    "last_visit": "2026-09-23",
+    "total_visits": 22,
+    "total_spend_usd": 813,
+    "services": [
+      "Balayage",
+      "Haircut"
+    ],
+    "birthday": "1978-09-05"
+  },
+  {
+    "id": "c116",
+    "first_name": "Ravi",
+    "last_name": "Singh",
+    "phone": "+15125550216",
+    "email": "ravi.singh2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-10-19",
+    "last_visit": "2026-10-19",
+    "total_visits": 1,
+    "total_spend_usd": 86,
+    "services": [
+      "Haircut",
+      "Manicure",
+      "Waxing"
+    ],
+    "birthday": "1989-11-09"
+  },
+  {
+    "id": "c117",
+    "first_name": "Kenji",
+    "last_name": "Hassan",
+    "phone": "+15125550217",
+    "email": "kenji.hassan@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-08-27",
+    "last_visit": "2026-08-28",
+    "total_visits": 2,
+    "total_spend_usd": 156,
+    "services": [
+      "Haircut"
+    ],
+    "next_appointment": "2026-11-14",
+    "birthday": "1983-03-26"
+  },
+  {
+    "id": "c118",
+    "first_name": "Kwame",
+    "last_name": "Okafor",
+    "phone": "+15125550218",
+    "email": "kwame.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-11-25",
+    "last_visit": "2026-09-02",
+    "total_visits": 23,
+    "total_spend_usd": 2191,
+    "services": [
+      "Blowout",
+      "Facial",
+      "Haircut",
+      "Keratin"
+    ],
+    "birthday": "1994-11-09"
+  },
+  {
+    "id": "c119",
+    "first_name": "Samuel",
+    "last_name": "Iyer",
+    "phone": "+15125550219",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2023-12-16",
+    "last_visit": "2026-09-06",
+    "total_visits": 8,
+    "total_spend_usd": 408,
+    "services": [
+      "Pedicure",
+      "Color"
+    ],
+    "next_appointment": "2026-12-04",
+    "birthday": "2002-11-16"
+  },
+  {
+    "id": "c120",
+    "first_name": "Elena",
+    "last_name": "Fischer",
+    "phone": "+15125550220",
+    "email": "elena.fischer@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2025-12-17",
+    "last_visit": "2026-09-25",
+    "total_visits": 19,
+    "total_spend_usd": 2184,
+    "services": [
+      "Gloss",
+      "Manicure"
+    ],
+    "birthday": "1976-04-10"
+  },
+  {
+    "id": "c121",
+    "first_name": "Yuki",
+    "last_name": "Murphy",
+    "phone": "+15125550221",
+    "email": "yuki.murphy@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-11",
+    "last_visit": "2026-10-11",
+    "total_visits": 1,
+    "total_spend_usd": 135,
+    "services": [
+      "Color",
+      "Balayage"
+    ],
+    "birthday": "1976-09-02"
+  },
+  {
+    "id": "c122",
+    "first_name": "Maya",
+    "last_name": "Reyes",
+    "phone": "+15125550222",
+    "email": "maya.reyes@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-09-13",
+    "last_visit": "2026-10-07",
+    "total_visits": 8,
+    "total_spend_usd": 723,
+    "services": [
+      "Massage",
+      "Haircut",
+      "Color",
+      "Pedicure"
+    ],
+    "birthday": "1964-06-16"
+  },
+  {
+    "id": "c123",
+    "first_name": "Olivia",
+    "last_name": "Rossi",
+    "phone": "+15125550223",
+    "email": "olivia.rossi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-11-13",
+    "last_visit": "2026-09-30",
+    "total_visits": 32,
+    "total_spend_usd": 2738,
+    "services": [
+      "Haircut",
+      "Color"
+    ],
+    "next_appointment": "2026-11-27",
+    "birthday": "1978-10-25"
+  },
+  {
+    "id": "c124",
+    "first_name": "Diego",
+    "last_name": "Ali",
+    "phone": "+15125550224",
+    "email": "diego.ali@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-09-30",
+    "last_visit": "2026-10-06",
+    "total_visits": 13,
+    "total_spend_usd": 4026,
+    "services": [
+      "Haircut",
+      "Keratin",
+      "Facial"
+    ],
+    "next_appointment": "2026-11-17",
+    "birthday": "1999-12-01"
+  },
+  {
+    "id": "c125",
+    "first_name": "Ethan",
+    "last_name": "Mehta",
+    "phone": "+15125550225",
+    "email": "ethan.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-05-18",
+    "last_visit": "2026-09-13",
+    "total_visits": 3,
+    "total_spend_usd": 333,
+    "services": [
+      "Balayage"
+    ],
+    "birthday": "2003-06-06"
+  },
+  {
+    "id": "c126",
+    "first_name": "Wei",
+    "last_name": "Wang",
+    "phone": "+15125550226",
+    "email": "wei.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-10-16",
+    "last_visit": "2026-10-04",
+    "total_visits": 33,
+    "total_spend_usd": 4691,
+    "services": [
+      "Pedicure",
+      "Facial",
+      "Keratin"
+    ],
+    "birthday": "1971-04-17"
+  },
+  {
+    "id": "c127",
+    "first_name": "Sofia",
+    "last_name": "Park",
+    "phone": "+15125550227",
+    "email": "sofia.park@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-09-22",
+    "last_visit": "2026-04-16",
+    "total_visits": 34,
+    "total_spend_usd": 1114,
+    "services": [
+      "Gloss",
+      "Blowout",
+      "Pedicure",
+      "Massage"
+    ],
+    "birthday": "1993-09-13"
+  },
+  {
+    "id": "c128",
+    "first_name": "Noor",
+    "last_name": "Clarke",
+    "phone": "+15125550228",
+    "email": "noor.clarke@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-02-06",
+    "last_visit": "2026-09-23",
+    "total_visits": 10,
+    "total_spend_usd": 805,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1979-01-08"
+  },
+  {
+    "id": "c129",
+    "first_name": "Valentina",
+    "last_name": "Ali",
+    "phone": "+15125550229",
+    "email": "valentina.ali@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-12-24",
+    "last_visit": "2026-08-19",
+    "total_visits": 12,
+    "total_spend_usd": 798,
+    "services": [
+      "Manicure",
+      "Pedicure",
+      "Balayage"
+    ],
+    "birthday": "1980-03-22"
+  },
+  {
+    "id": "c130",
+    "first_name": "Arjun",
+    "last_name": "Choi",
+    "phone": "+15125550230",
+    "email": "arjun.choi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-04-04",
+    "last_visit": "2026-09-10",
+    "total_visits": 4,
+    "total_spend_usd": 560,
+    "services": [
+      "Gloss"
+    ],
+    "birthday": "1960-06-07"
+  },
+  {
+    "id": "c131",
+    "first_name": "Mei",
+    "last_name": "Patel",
+    "phone": "+15125550231",
+    "email": "mei.patel@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-07-25",
+    "last_visit": "2026-08-08",
+    "total_visits": 5,
+    "total_spend_usd": 260,
+    "services": [
+      "Facial",
+      "Waxing",
+      "Haircut"
+    ],
+    "next_appointment": "2026-12-11",
+    "birthday": "1985-02-01"
+  },
+  {
+    "id": "c132",
+    "first_name": "Samuel",
+    "last_name": "Brown",
+    "phone": "+15125550232",
+    "email": "samuel.brown@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-01-11",
+    "last_visit": "2026-09-30",
+    "total_visits": 3,
+    "total_spend_usd": 228,
+    "services": [
+      "Keratin",
+      "Manicure",
+      "Massage"
+    ],
+    "next_appointment": "2026-11-05",
+    "birthday": "1983-07-24"
+  },
+  {
+    "id": "c133",
+    "first_name": "Amara",
+    "last_name": "Reyes",
+    "phone": "+15125550233",
+    "email": "amara.reyes@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-01",
+    "last_visit": "2026-10-01",
+    "total_visits": 1,
+    "total_spend_usd": 168,
+    "services": [
+      "Facial",
+      "Pedicure"
+    ],
+    "birthday": "1998-08-22"
+  },
+  {
+    "id": "c134",
+    "first_name": "Taylor",
+    "last_name": "Nguyen",
+    "phone": "+15125550234",
+    "email": "taylor.nguyen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-11-02",
+    "last_visit": "2026-08-08",
+    "total_visits": 23,
+    "total_spend_usd": 951,
+    "services": [
+      "Keratin"
+    ],
+    "birthday": "1971-08-21"
+  },
+  {
+    "id": "c135",
+    "first_name": "Noah",
+    "last_name": "Kowalski",
+    "phone": "+15125550235",
+    "email": "noah.kowalski@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-11-11",
+    "last_visit": "2026-10-15",
+    "total_visits": 2,
+    "total_spend_usd": 154,
+    "services": [
+      "Haircut",
+      "Pedicure"
+    ],
+    "birthday": "1979-03-16"
+  },
+  {
+    "id": "c136",
+    "first_name": "Gabriela",
+    "last_name": "Wang",
+    "email": "gabriela.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-05-12",
+    "last_visit": "2026-08-27",
+    "total_visits": 7,
+    "total_spend_usd": 413,
+    "services": [
+      "Haircut",
+      "Facial"
+    ],
+    "next_appointment": "2026-11-27",
+    "birthday": "1968-07-24"
+  },
+  {
+    "id": "c137",
+    "first_name": "Hannah",
+    "last_name": "Haddad",
+    "phone": "+15125550237",
+    "email": "hannah.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-03-09",
+    "last_visit": "2026-09-18",
+    "total_visits": 16,
+    "total_spend_usd": 2922,
+    "services": [
+      "Facial",
+      "Haircut"
+    ],
+    "next_appointment": "2026-12-16",
+    "birthday": "1998-09-20"
+  },
+  {
+    "id": "c138",
+    "first_name": "Gabriela",
+    "last_name": "Johnson",
+    "phone": "+15125550238",
+    "email": "gabriela.johnson@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2025-10-10",
+    "last_visit": "2026-05-03",
+    "total_visits": 2,
+    "total_spend_usd": 90,
+    "services": [
+      "Manicure",
+      "Haircut",
+      "Balayage",
+      "Blowout"
+    ],
+    "birthday": "1965-08-04"
+  },
+  {
+    "id": "c139",
+    "first_name": "Tanvi",
+    "last_name": "Wang",
+    "phone": "+15125550239",
+    "email": "tanvi.wang@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-09-18",
+    "last_visit": "2026-10-07",
+    "total_visits": 21,
+    "total_spend_usd": 789,
+    "services": [
+      "Color",
+      "Manicure",
+      "Facial"
+    ],
+    "birthday": "1986-11-17"
+  },
+  {
+    "id": "c140",
+    "first_name": "Kwame",
+    "last_name": "Ahmed",
+    "phone": "+15125550240",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-08-06",
+    "last_visit": "2026-09-08",
+    "total_visits": 1,
+    "total_spend_usd": 85,
+    "services": [
+      "Color",
+      "Haircut",
+      "Massage"
+    ],
+    "birthday": "1997-10-10"
+  },
+  {
+    "id": "c141",
+    "first_name": "Sofia",
+    "last_name": "Mehta",
+    "phone": "+15125550241",
+    "email": "sofia.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-10-02",
+    "last_visit": "2026-10-19",
+    "total_visits": 2,
+    "total_spend_usd": 336,
+    "services": [
+      "Waxing",
+      "Blowout",
+      "Pedicure",
+      "Haircut"
+    ],
+    "next_appointment": "2026-11-03",
+    "birthday": "1993-09-10"
+  },
+  {
+    "id": "c142",
+    "first_name": "Mei",
+    "last_name": "Martinez",
+    "phone": "+15125550242",
+    "email": "mei.martinez@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2021-08-24",
+    "last_visit": "2026-10-05",
+    "total_visits": 16,
+    "total_spend_usd": 729,
+    "services": [
+      "Pedicure",
+      "Waxing",
+      "Color"
+    ],
+    "birthday": "1965-08-28"
+  },
+  {
+    "id": "c143",
+    "first_name": "Kwame",
+    "last_name": "Hernandez",
+    "phone": "+15125550243",
+    "email": "kwame.hernandez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-11-28",
+    "last_visit": "2026-10-26",
+    "total_visits": 21,
+    "total_spend_usd": 893,
+    "services": [
+      "Gloss"
+    ],
+    "birthday": "1971-06-28"
+  },
+  {
+    "id": "c144",
+    "first_name": "Leah",
+    "last_name": "Patel",
+    "phone": "+15125550244",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-10-17",
+    "last_visit": "2026-09-25",
+    "total_visits": 24,
+    "total_spend_usd": 922,
+    "services": [
+      "Color",
+      "Haircut"
+    ],
+    "birthday": "1986-04-12"
+  },
+  {
+    "id": "c145",
+    "first_name": "Zara",
+    "last_name": "Choi",
+    "phone": "+15125550245",
+    "email": "zara.choi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-07-11",
+    "last_visit": "2026-03-29",
+    "total_visits": 23,
+    "total_spend_usd": 839,
+    "services": [
+      "Haircut",
+      "Manicure",
+      "Facial"
+    ],
+    "birthday": "1982-11-21"
+  },
+  {
+    "id": "c146",
+    "first_name": "Noah",
+    "last_name": "Garcia",
+    "phone": "+15125550246",
+    "email": "noah.garcia@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-11-29",
+    "last_visit": "2026-08-14",
+    "total_visits": 7,
+    "total_spend_usd": 469,
+    "services": [
+      "Blowout",
+      "Manicure",
+      "Color"
+    ],
+    "birthday": "1971-05-16"
+  },
+  {
+    "id": "c147",
+    "first_name": "Camila",
+    "last_name": "Haddad",
+    "phone": "+15125550247",
+    "email": "camila.haddad@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-03-27",
+    "last_visit": "2026-08-25",
+    "total_visits": 9,
+    "total_spend_usd": 405,
+    "services": [
+      "Blowout",
+      "Color",
+      "Balayage"
+    ],
+    "birthday": "1978-09-28"
+  },
+  {
+    "id": "c148",
+    "first_name": "Sofia",
+    "last_name": "Osei",
+    "phone": "+15125550248",
+    "email": "sofia.osei@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-05-25",
+    "last_visit": "2026-10-23",
+    "total_visits": 6,
+    "total_spend_usd": 738,
+    "services": [
+      "Haircut",
+      "Color",
+      "Waxing"
+    ],
+    "birthday": "1995-03-21"
+  },
+  {
+    "id": "c149",
+    "first_name": "Rahul",
+    "last_name": "Singh",
+    "phone": "+15125550249",
+    "email": "rahul.singh@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-04-20",
+    "last_visit": "2026-09-13",
+    "total_visits": 24,
+    "total_spend_usd": 834,
+    "services": [
+      "Manicure",
+      "Blowout",
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "1981-05-17"
+  },
+  {
+    "id": "c150",
+    "first_name": "Rahul",
+    "last_name": "Mensah",
+    "phone": "+15125550250",
+    "email": "rahul.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2024-01-28",
+    "last_visit": "2026-10-22",
+    "total_visits": 3,
+    "total_spend_usd": 276,
+    "services": [
+      "Pedicure"
+    ],
+    "next_appointment": "2026-12-12",
+    "birthday": "2005-03-05"
+  },
+  {
+    "id": "c151",
+    "first_name": "Lin",
+    "last_name": "Silva",
+    "phone": "+15125550251",
+    "email": "lin.silva@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-04-18",
+    "last_visit": "2026-09-24",
+    "total_visits": 3,
+    "total_spend_usd": 258,
+    "services": [
+      "Haircut",
+      "Manicure",
+      "Massage",
+      "Gloss"
+    ],
+    "birthday": "1969-08-13"
+  },
+  {
+    "id": "c152",
+    "first_name": "Camila",
+    "last_name": "Cohen",
+    "phone": "+15125550252",
+    "email": "camila.cohen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-07-17",
+    "last_visit": "2026-10-05",
+    "total_visits": 2,
+    "total_spend_usd": 110,
+    "services": [
+      "Blowout",
+      "Gloss",
+      "Facial",
+      "Waxing"
+    ],
+    "birthday": "1980-05-15"
+  },
+  {
+    "id": "c153",
+    "first_name": "Lin",
+    "last_name": "Martinez",
+    "phone": "+15125550253",
+    "email": "lin.martinez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2023-12-09",
+    "last_visit": "2026-09-19",
+    "total_visits": 1,
+    "total_spend_usd": 124,
+    "services": [
+      "Massage",
+      "Keratin",
+      "Pedicure"
+    ],
+    "next_appointment": "2026-11-14",
+    "birthday": "1975-10-21"
+  },
+  {
+    "id": "c154",
+    "first_name": "Ingrid",
+    "last_name": "Okafor",
+    "phone": "+15125550254",
+    "email": "ingrid.okafor@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-07-05",
+    "last_visit": "2025-01-29",
+    "total_visits": 11,
+    "total_spend_usd": 877,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1988-06-05"
+  },
+  {
+    "id": "c155",
+    "first_name": "Kenji",
+    "last_name": "Williams",
+    "phone": "+15125550255",
+    "email": "kenji.williams@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-06-07",
+    "last_visit": "2026-09-13",
+    "total_visits": 2,
+    "total_spend_usd": 270,
+    "services": [
+      "Haircut",
+      "Color",
+      "Waxing"
+    ],
+    "next_appointment": "2026-11-04",
+    "birthday": "2000-04-23"
+  },
+  {
+    "id": "c156",
+    "first_name": "Naomi",
+    "last_name": "Nguyen",
+    "phone": "+15125550256",
+    "email": "naomi.nguyen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-12-30",
+    "last_visit": "2026-08-17",
+    "total_visits": 4,
+    "total_spend_usd": 312,
+    "services": [
+      "Balayage",
+      "Haircut",
+      "Massage"
+    ],
+    "birthday": "1986-03-11"
+  },
+  {
+    "id": "c157",
+    "first_name": "Sana",
+    "last_name": "Brown",
+    "phone": "+15125550257",
+    "email": "sana.brown@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-06-10",
+    "last_visit": "2026-09-08",
+    "total_visits": 5,
+    "total_spend_usd": 570,
+    "services": [
+      "Gloss",
+      "Waxing"
+    ],
+    "birthday": "1981-08-02"
+  },
+  {
+    "id": "c158",
+    "first_name": "Rina",
+    "last_name": "Adeyemi",
+    "phone": "+15125550258",
+    "email": "rina.adeyemi@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2023-09-14",
+    "last_visit": "2025-09-21",
+    "total_visits": 8,
+    "total_spend_usd": 904,
+    "services": [
+      "Waxing",
+      "Haircut"
+    ],
+    "birthday": "2003-02-16"
+  },
+  {
+    "id": "c159",
+    "first_name": "Imani",
+    "last_name": "Clarke",
+    "phone": "+15125550259",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-05-26",
+    "last_visit": "2026-06-16",
+    "total_visits": 7,
+    "total_spend_usd": 630,
+    "services": [
+      "Pedicure",
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "2000-11-03"
+  },
+  {
+    "id": "c160",
+    "first_name": "Hannah",
+    "last_name": "Rossi",
+    "phone": "+15125550260",
+    "email": "hannah.rossi@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": false,
+    "first_visit": "2026-02-24",
+    "last_visit": "2026-09-17",
+    "total_visits": 2,
+    "total_spend_usd": 230,
+    "services": [
+      "Color",
+      "Haircut",
+      "Manicure",
+      "Waxing"
+    ],
+    "birthday": "1960-09-01"
+  },
+  {
+    "id": "c161",
+    "first_name": "Imani",
+    "last_name": "Kim",
+    "email": "imani.kim2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-04-29",
+    "last_visit": "2026-08-09",
+    "total_visits": 2,
+    "total_spend_usd": 146,
+    "services": [
+      "Manicure",
+      "Facial",
+      "Blowout",
+      "Keratin"
+    ],
+    "next_appointment": "2026-11-30",
+    "birthday": "1961-05-19"
+  },
+  {
+    "id": "c162",
+    "first_name": "Sofia",
+    "last_name": "Williams",
+    "phone": "+15125550262",
+    "email": "sofia.williams@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-04-24",
+    "last_visit": "2026-09-13",
+    "total_visits": 9,
+    "total_spend_usd": 875,
+    "services": [
+      "Massage",
+      "Keratin",
+      "Blowout"
+    ],
+    "next_appointment": "2026-11-20",
+    "birthday": "1986-03-22"
+  },
+  {
+    "id": "c163",
+    "first_name": "Sana",
+    "last_name": "Rossi",
+    "phone": "+15125550263",
+    "email": "sana.rossi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-11-01",
+    "last_visit": "2025-12-06",
+    "total_visits": 36,
+    "total_spend_usd": 2052,
+    "services": [
+      "Haircut",
+      "Balayage"
+    ],
+    "birthday": "1962-04-09"
+  },
+  {
+    "id": "c164",
+    "first_name": "Ingrid",
+    "last_name": "Nakamura",
+    "phone": "+15125550264",
+    "email": "ingrid.nakamura@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-06-17",
+    "last_visit": "2026-06-10",
+    "total_visits": 33,
+    "total_spend_usd": 2300,
+    "services": [
+      "Gloss",
+      "Facial",
+      "Color"
+    ],
+    "birthday": "1998-05-09"
+  },
+  {
+    "id": "c165",
+    "first_name": "Olivia",
+    "last_name": "Nakamura",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2021-07-25",
+    "last_visit": "2026-10-05",
+    "total_visits": 16,
+    "total_spend_usd": 780,
+    "services": [
+      "Waxing",
+      "Pedicure",
+      "Facial"
+    ],
+    "birthday": "1972-03-13"
+  },
+  {
+    "id": "c166",
+    "first_name": "Hannah",
+    "last_name": "Chowdhury",
+    "phone": "+15125550266",
+    "email": "hannah.chowdhury@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-09-29",
+    "last_visit": "2025-01-17",
+    "total_visits": 15,
+    "total_spend_usd": 919,
+    "services": [
+      "Color",
+      "Blowout",
+      "Massage",
+      "Haircut"
+    ],
+    "next_appointment": "2026-12-13",
+    "birthday": "1968-12-16"
+  },
+  {
+    "id": "c167",
+    "first_name": "Riley",
+    "last_name": "Lopez",
+    "phone": "+15125550267",
+    "email": "riley.lopez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-07-16",
+    "last_visit": "2026-10-06",
+    "total_visits": 23,
+    "total_spend_usd": 826,
+    "services": [
+      "Haircut"
+    ],
+    "birthday": "1981-01-11"
+  },
+  {
+    "id": "c168",
+    "first_name": "Diego",
+    "last_name": "Garcia",
+    "phone": "+15125550268",
+    "email": "diego.garcia@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-09-28",
+    "last_visit": "2026-08-31",
+    "total_visits": 2,
+    "total_spend_usd": 278,
+    "services": [
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "2005-06-21"
+  },
+  {
+    "id": "c169",
+    "first_name": "Sana",
+    "last_name": "Gupta",
+    "phone": "+15125550269",
+    "email": "sana.gupta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2022-02-24",
+    "last_visit": "2026-08-11",
+    "total_visits": 4,
+    "total_spend_usd": 556,
+    "services": [
+      "Balayage"
+    ],
+    "next_appointment": "2026-11-14",
+    "birthday": "1985-07-03"
+  },
+  {
+    "id": "c170",
+    "first_name": "Malik",
+    "last_name": "Torres",
+    "phone": "+15125550270",
+    "email": "malik.torres@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-05-18",
+    "last_visit": "2026-10-26",
+    "total_visits": 20,
+    "total_spend_usd": 783,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Waxing",
+      "Manicure"
+    ],
+    "birthday": "1986-10-22"
+  },
+  {
+    "id": "c171",
+    "first_name": "Samuel",
+    "last_name": "Garcia",
+    "email": "samuel.garcia@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-03-03",
+    "last_visit": "2026-09-23",
+    "total_visits": 18,
+    "total_spend_usd": 813,
+    "services": [
+      "Haircut",
+      "Blowout",
+      "Pedicure",
+      "Massage"
+    ],
+    "birthday": "1994-02-18"
+  },
+  {
+    "id": "c172",
+    "first_name": "Zara",
+    "last_name": "Iyer",
+    "phone": "+15125550272",
+    "email": "zara.iyer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-12-29",
+    "last_visit": "2026-09-23",
+    "total_visits": 18,
+    "total_spend_usd": 926,
+    "services": [
+      "Haircut",
+      "Color",
+      "Gloss"
+    ],
+    "birthday": "2000-06-15"
+  },
+  {
+    "id": "c173",
+    "first_name": "Lin",
+    "last_name": "Lopez",
+    "phone": "+15125550273",
+    "email": "lin.lopez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-12-23",
+    "last_visit": "2026-09-18",
+    "total_visits": 38,
+    "total_spend_usd": 4033,
+    "services": [
+      "Haircut",
+      "Balayage",
+      "Waxing",
+      "Gloss"
+    ],
+    "birthday": "1983-09-16"
+  },
+  {
+    "id": "c174",
+    "first_name": "Maya",
+    "last_name": "Lopez",
+    "phone": "+15125550274",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-11-30",
+    "last_visit": "2026-10-02",
+    "total_visits": 10,
+    "total_spend_usd": 720,
+    "services": [
+      "Massage",
+      "Color"
+    ],
+    "next_appointment": "2026-11-02",
+    "birthday": "1989-01-05"
+  },
+  {
+    "id": "c175",
+    "first_name": "Chloe",
+    "last_name": "Clarke",
+    "phone": "+15125550275",
+    "email": "chloe.clarke@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-05-27",
+    "last_visit": "2026-09-21",
+    "total_visits": 6,
+    "total_spend_usd": 324,
+    "services": [
+      "Waxing",
+      "Haircut"
+    ],
+    "birthday": "2003-07-28"
+  },
+  {
+    "id": "c176",
+    "first_name": "Gabriela",
+    "last_name": "Hernandez",
+    "phone": "+15125550276",
+    "email": "gabriela.hernandez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2026-05-28",
+    "last_visit": "2026-09-10",
+    "total_visits": 2,
+    "total_spend_usd": 142,
+    "services": [
+      "Color",
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "1983-07-09"
+  },
+  {
+    "id": "c177",
+    "first_name": "Isabella",
+    "last_name": "Mehta",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-11-20",
+    "last_visit": "2026-08-16",
+    "total_visits": 3,
+    "total_spend_usd": 171,
+    "services": [
+      "Manicure",
+      "Balayage"
+    ],
+    "next_appointment": "2026-12-27",
+    "birthday": "1983-04-16"
+  },
+  {
+    "id": "c178",
+    "first_name": "Wei",
+    "last_name": "Reyes",
+    "phone": "+15125550278",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2021-07-16",
+    "last_visit": "2026-08-05",
+    "total_visits": 8,
+    "total_spend_usd": 720,
+    "services": [
+      "Waxing",
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "1973-11-07"
+  },
+  {
+    "id": "c179",
+    "first_name": "Diego",
+    "last_name": "Moreau",
+    "phone": "+15125550279",
+    "email": "diego.moreau@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2023-02-19",
+    "last_visit": "2026-02-12",
+    "total_visits": 1,
+    "total_spend_usd": 131,
+    "services": [
+      "Blowout",
+      "Waxing",
+      "Facial",
+      "Color"
+    ],
+    "birthday": "1979-05-03"
+  },
+  {
+    "id": "c180",
+    "first_name": "Ximena",
+    "last_name": "Clarke",
+    "phone": "+15125550280",
+    "email": "ximena.clarke@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-12-11",
+    "last_visit": "2026-09-01",
+    "total_visits": 36,
+    "total_spend_usd": 3340,
+    "services": [
+      "Facial"
+    ],
+    "next_appointment": "2026-10-30",
+    "birthday": "1971-08-09"
+  },
+  {
+    "id": "c181",
+    "first_name": "Ximena",
+    "last_name": "Mehta",
+    "phone": "+15125550281",
+    "email": "ximena.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": false,
+    "first_visit": "2024-05-27",
+    "last_visit": "2025-09-25",
+    "total_visits": 11,
+    "total_spend_usd": 820,
+    "services": [
+      "Pedicure",
+      "Blowout"
+    ],
+    "birthday": "1970-07-05"
+  },
+  {
+    "id": "c182",
+    "first_name": "Ravi",
+    "last_name": "Fischer",
+    "phone": "+15125550282",
+    "email": "ravi.fischer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2022-06-18",
+    "last_visit": "2026-09-20",
+    "total_visits": 4,
+    "total_spend_usd": 332,
+    "services": [
+      "Massage",
+      "Haircut",
+      "Color"
+    ],
+    "next_appointment": "2026-11-03",
+    "birthday": "1974-03-07"
+  },
+  {
+    "id": "c183",
+    "first_name": "Gabriela",
+    "last_name": "Mehta",
+    "phone": "+15125550283",
+    "email": "gabriela.mehta@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-06-28",
+    "last_visit": "2026-09-19",
+    "total_visits": 15,
+    "total_spend_usd": 760,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1965-05-20"
+  },
+  {
+    "id": "c184",
+    "first_name": "Divya",
+    "last_name": "Lopez",
+    "phone": "+15125550284",
+    "email": "divya.lopez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-08-21",
+    "last_visit": "2026-09-23",
+    "total_visits": 19,
+    "total_spend_usd": 881,
+    "services": [
+      "Massage",
+      "Color"
+    ],
+    "birthday": "1987-01-16"
+  },
+  {
+    "id": "c185",
+    "first_name": "Gabriela",
+    "last_name": "Singh",
+    "phone": "+15125550285",
+    "email": "gabriela.singh@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-08-19",
+    "last_visit": "2025-08-25",
+    "total_visits": 13,
+    "total_spend_usd": 2501,
+    "services": [
+      "Facial",
+      "Gloss",
+      "Blowout",
+      "Massage"
+    ],
+    "birthday": "1980-01-01"
+  },
+  {
+    "id": "c186",
+    "first_name": "Malik",
+    "last_name": "Reyes",
+    "email": "malik.reyes@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-09-27",
+    "last_visit": "2026-08-09",
+    "total_visits": 5,
+    "total_spend_usd": 560,
+    "services": [
+      "Facial",
+      "Manicure",
+      "Haircut",
+      "Color"
+    ],
+    "birthday": "2002-10-12"
+  },
+  {
+    "id": "c187",
+    "first_name": "Olivia",
+    "last_name": "Mensah",
+    "phone": "+15125550287",
+    "email": "olivia.mensah@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-12-04",
+    "last_visit": "2026-05-06",
+    "total_visits": 3,
+    "total_spend_usd": 291,
+    "services": [
+      "Gloss",
+      "Haircut",
+      "Balayage"
+    ],
+    "birthday": "1986-03-03"
+  },
+  {
+    "id": "c188",
+    "first_name": "Chloe",
+    "last_name": "Choi",
+    "email": "chloe.choi@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2024-08-28",
+    "last_visit": "2026-05-11",
+    "total_visits": 12,
+    "total_spend_usd": 732,
+    "services": [
+      "Blowout",
+      "Balayage",
+      "Haircut"
+    ],
+    "birthday": "1964-12-19"
+  },
+  {
+    "id": "c189",
+    "first_name": "Divya",
+    "last_name": "Hernandez",
+    "phone": "+15125550289",
+    "email": "divya.hernandez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-10-18",
+    "last_visit": "2026-08-15",
+    "total_visits": 5,
+    "total_spend_usd": 575,
+    "services": [
+      "Massage"
+    ],
+    "birthday": "1965-11-18"
+  },
+  {
+    "id": "c190",
+    "first_name": "Marcus",
+    "last_name": "Kowalski",
+    "phone": "+15125550290",
+    "email": "marcus.kowalski@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2024-03-19",
+    "last_visit": "2026-09-12",
+    "total_visits": 36,
+    "total_spend_usd": 1211,
+    "services": [
+      "Haircut",
+      "Manicure",
+      "Pedicure"
+    ],
+    "next_appointment": "2026-11-10",
+    "birthday": "1970-11-28"
+  },
+  {
+    "id": "c191",
+    "first_name": "Diego",
+    "last_name": "Fischer",
+    "phone": "+15125550291",
+    "email": "diego.fischer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-03-27",
+    "last_visit": "2026-10-16",
+    "total_visits": 21,
+    "total_spend_usd": 4593,
+    "services": [
+      "Blowout",
+      "Color",
+      "Haircut"
+    ],
+    "next_appointment": "2026-11-07",
+    "birthday": "1963-08-27"
+  },
+  {
+    "id": "c192",
+    "first_name": "Ananya",
+    "last_name": "Hernandez",
+    "phone": "+15125550292",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-10-27",
+    "last_visit": "2026-10-02",
+    "total_visits": 23,
+    "total_spend_usd": 932,
+    "services": [
+      "Massage",
+      "Haircut",
+      "Balayage"
+    ],
+    "birthday": "1986-01-17"
+  },
+  {
+    "id": "c193",
+    "first_name": "Noor",
+    "last_name": "Clarke",
+    "phone": "+15125550293",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2025-08-24",
+    "last_visit": "2026-09-29",
+    "total_visits": 5,
+    "total_spend_usd": 315,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1966-02-25"
+  },
+  {
+    "id": "c194",
+    "first_name": "Ingrid",
+    "last_name": "Rossi",
+    "phone": "+15125550294",
+    "email": "ingrid.rossi@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2022-07-28",
+    "last_visit": "2026-09-10",
+    "total_visits": 11,
+    "total_spend_usd": 704,
+    "services": [
+      "Color",
+      "Haircut",
+      "Pedicure",
+      "Facial"
+    ],
+    "next_appointment": "2026-12-10",
+    "birthday": "1987-09-06"
+  },
+  {
+    "id": "c195",
+    "first_name": "Maya",
+    "last_name": "Martinez",
+    "phone": "+15125550295",
+    "email": "maya.martinez@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-09-30",
+    "last_visit": "2026-10-01",
+    "total_visits": 2,
+    "total_spend_usd": 336,
+    "services": [
+      "Waxing",
+      "Blowout"
+    ],
+    "birthday": "1984-10-24"
+  },
+  {
+    "id": "c196",
+    "first_name": "Marcus",
+    "last_name": "Fischer",
+    "phone": "+15125550296",
+    "email": "marcus.fischer@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2021-10-04",
+    "last_visit": "2026-09-26",
+    "total_visits": 14,
+    "total_spend_usd": 866,
+    "services": [
+      "Haircut",
+      "Facial",
+      "Blowout",
+      "Balayage"
+    ],
+    "next_appointment": "2026-10-30",
+    "birthday": "1967-04-26"
+  },
+  {
+    "id": "c197",
+    "first_name": "Noor",
+    "last_name": "Clarke",
+    "phone": "+15125550297",
+    "email": "noor.clarke2@example.com",
+    "sms_opt_in": false,
+    "email_opt_in": true,
+    "first_visit": "2025-09-03",
+    "last_visit": "2026-09-20",
+    "total_visits": 7,
+    "total_spend_usd": 737,
+    "services": [
+      "Haircut",
+      "Pedicure",
+      "Color"
+    ],
+    "birthday": "1964-11-24"
+  },
+  {
+    "id": "c198",
+    "first_name": "Kwame",
+    "last_name": "Okafor",
+    "phone": "+15125550298",
+    "email": "kwame.okafor2@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-11-26",
+    "last_visit": "2026-06-15",
+    "total_visits": 17,
+    "total_spend_usd": 955,
+    "services": [
+      "Color"
+    ],
+    "birthday": "1975-09-02"
+  },
+  {
+    "id": "c199",
+    "first_name": "Kwame",
+    "last_name": "Silva",
+    "phone": "+15125550299",
+    "email": "kwame.silva@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2023-10-14",
+    "last_visit": "2025-11-27",
+    "total_visits": 9,
+    "total_spend_usd": 817,
+    "services": [
+      "Blowout"
+    ],
+    "birthday": "1968-05-20"
+  },
+  {
+    "id": "c200",
+    "first_name": "Sam",
+    "last_name": "Nguyen",
+    "phone": "+15125550300",
+    "email": "sam.nguyen@example.com",
+    "sms_opt_in": true,
+    "email_opt_in": true,
+    "first_visit": "2026-05-30",
+    "last_visit": "2026-09-17",
+    "total_visits": 3,
+    "total_spend_usd": 351,
+    "services": [
+      "Color",
+      "Keratin",
+      "Facial",
+      "Haircut"
+    ],
+    "birthday": "2002-08-16"
+  }
+]

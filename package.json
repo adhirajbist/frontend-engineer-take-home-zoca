@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "generate:clients": "node scripts/generate-clients.mts"
   },
   "dependencies": {
     "next": "16.4.3",
