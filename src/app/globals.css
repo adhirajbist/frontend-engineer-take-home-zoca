@@ -1,26 +1,31 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Zoca brand palette. Each token becomes a utility (bg-cream, text-ink, ...)
+   and a CSS variable (--color-cream, ...). Use tokens, never raw hex. */
+@theme {
+  --color-aubergine: #36031b;
+  --color-burgundy: #5a0e2e;
+  --color-plum: #8b1a4a;
+  --color-pink: #ef6fae;
+  --color-yellow: #fbf46b;
+  --color-cream: #fdf3ea;
+  --color-ink: #2a0016;
+  --color-purple: #7b5cf5;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Visible keyboard focus everywhere. Purple is 4.1:1 on cream, 4.0:1 on aubergine. */
+:focus-visible {
+  outline: 3px solid var(--color-purple);
+  outline-offset: 3px;
 }
