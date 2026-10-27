@@ -30,20 +30,20 @@ export function StackCard({ step, title, children }: StackCardProps) {
         className="sticky mb-(--strip) flex h-(--card-h) flex-col overflow-hidden rounded-3xl border border-ink/15 bg-white shadow-lg shadow-ink/10 last:mb-0"
         style={{ top: offset }}
       >
-        <header className="shrink-0 px-5 pt-5 pb-3 sm:px-8 sm:pt-7">
-          <p className="text-sm font-bold uppercase tracking-wide text-plum">
+        <header className="shrink-0 px-5 pt-5 pb-3 sm:px-8 sm:pt-7 short:pt-3 short:pb-2">
+          <p className="text-sm font-bold uppercase tracking-wide text-plum short:text-xs">
             Step {step}
           </p>
           <h2
             id={headingId}
-            className="mt-1 text-2xl font-extrabold leading-tight sm:text-3xl"
+            className="mt-1 text-2xl font-extrabold leading-tight sm:text-3xl short:mt-0 short:text-lg"
           >
             {title}
           </h2>
         </header>
         {/* Scrolls on its own if content is taller than the card. Overscroll
             is left to chain to the page, so it never traps the swipe. */}
-        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 sm:px-8 sm:pb-7">
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 sm:px-8 sm:pb-7 short:pb-3">
           {children}
         </div>
       </section>

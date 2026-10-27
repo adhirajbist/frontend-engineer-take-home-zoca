@@ -13,6 +13,9 @@
   --color-purple: #7b5cf5;
 }
 
+/* Short screens, like phones in landscape. Cards compact instead of scrolling. */
+@custom-variant short (@media (max-height: 30rem));
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);

@@ -1,5 +1,5 @@
 import { CardStack } from "@/components/CardStack";
-import { AudienceCard } from "@/components/cards/AudienceCard";
+import { AudienceCard, DUMMY_AUDIENCE } from "@/components/cards/AudienceCard";
 import { CampaignNameCard } from "@/components/cards/CampaignNameCard";
 import { ChannelCard } from "@/components/cards/ChannelCard";
 import { ContentCard } from "@/components/cards/ContentCard";
@@ -13,7 +13,7 @@ export default function Home() {
       <CampaignNameCard />
       <ChannelCard />
       <ContentCard />
-      <AudienceCard />
+      <AudienceCard {...DUMMY_AUDIENCE} />
       <SendTimeCard />
       <LaunchCard />
     </CardStack>
