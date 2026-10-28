@@ -4,13 +4,14 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useReducer, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useReducer, useRef, useState, type ReactNode } from "react";
 import { flushSync } from "react-dom";
 import { SegmentedTabs } from "@/components/SegmentedTabs";
 import { CAMPAIGN_CHANNELS } from "@/components/cards/content/dummyContent";
 import { PRIMARY_BUTTON } from "@/components/custom-group/buttonStyles";
 import { DUMMY_MESSAGES } from "@/data/dummyMessages";
 import { CONTENT_CARD } from "@/lib/editorRoutes";
+import { canRedo, canUndo, createTypingTimer } from "@/lib/history";
 import {
   initMessageEditor,
   messageEditorReducer,
@@ -19,9 +20,12 @@ import {
 } from "@/lib/messageEditorReducer";
 import { isWithinLimit, OPT_OUT_LINE, type MessageField } from "@/lib/messageLimits";
 import type { Channel, EmailMessage, SmsMessage } from "@/types";
-import { EditorField, type EditorFieldHandle } from "./EditorField";
+import { EditorField, type EditKind, type EditorFieldHandle } from "./EditorField";
 import { EditorFooter } from "./EditorFooter";
 import { PreviewPanel } from "./PreviewPanel";
+import { TokenRow } from "./TokenRow";
+import { UndoRedoButtons } from "./UndoRedoButtons";
+import { usePlacingMode } from "./usePlacingMode";
 
 type FieldSetup = {
   field: MessageField;
@@ -142,12 +146,54 @@ function MessageEditor({ channel }: { channel: Channel }) {
   // Phones and tablets only; from lg up both sections show side by side.
   const [tab, setTab] = useState<Tab>("edit");
   const fieldRefs = useRef<Partial<Record<MessageField, EditorFieldHandle | null>>>({});
+  const [lastFocused, setLastFocused] = useState<MessageField | null>(null);
+  const { announcement, announce } = useAnnouncer();
+  const { placing, togglePlacing, cancelPlacing, placed } = usePlacingMode(announce);
+
+  // Typing becomes an undo step once the owner pauses. Other edits, undo,
+  // redo and Save flush it in the reducer, so the timer is just dropped.
+  const [typingTimer] = useState(() => createTypingTimer(() => dispatch({ type: "typingPaused" })));
+  useEffect(() => () => typingTimer.cancel(), [typingTimer]);
+
+  function handleChange(field: MessageField, next: string, kind: EditKind) {
+    if (kind === "typing") {
+      dispatch({ type: "fieldChanged", field, value: next });
+      typingTimer.restart();
+    } else {
+      typingTimer.cancel();
+      dispatch({ type: kind, field, value: next });
+    }
+  }
+
+  function handleHistory(direction: "undo" | "redo") {
+    const possible = direction === "undo" ? canUndo(state.history) : canRedo(state.history);
+    if (!possible) return;
+    typingTimer.cancel();
+    dispatch({ type: direction });
+    announce(direction === "undo" ? "Undone" : "Redone");
+  }
+
+  // After undo or redo: the editors reload in microtasks queued by their own
+  // effects, which run before this one, so this microtask runs after. Put the caret at the end of the field that changed; move focus there only
+  // if an editor had it, so Undo pressed from the keyboard keeps its focus.
+  const handledRevision = useRef(state.syncRevision);
+  useEffect(() => {
+    if (handledRevision.current === state.syncRevision) return;
+    handledRevision.current = state.syncRevision;
+    const { restored } = state;
+    const target =
+      restored.length !== 1 && lastFocused && restored.includes(lastFocused) ? lastFocused : restored[0];
+    const editorHadFocus = state.fields.some((field) => fieldRefs.current[field]?.hasFocus());
+    queueMicrotask(() => fieldRefs.current[target]?.placeCaretAtEnd(editorHadFocus));
+  }, [state, lastFocused]);
+
 
   const value = (field: MessageField) => state.values[field] ?? "";
   const paused = state.fields.some((field) => !isWithinLimit(field, value(field)));
   const errorId = (field: MessageField) => `${field}-error`;
 
   function handleSave() {
+    typingTimer.cancel();
     const failing = state.fields.filter((field) => validateField(field, value(field)));
     dispatch({ type: "saveAttempted" });
     if (failing.length > 0) {
@@ -168,13 +214,34 @@ function MessageEditor({ channel }: { channel: Channel }) {
   return (
     <>
       <h1 className="mt-3 text-2xl font-bold sm:text-3xl">{setup.title}</h1>
-      <Tabs.Root value={tab} onValueChange={(next) => setTab(next as Tab)}>
+      <p aria-live="polite" className="sr-only">
+        {announcement}
+      </p>
+      <Tabs.Root
+        value={tab}
+        onValueChange={(next) => {
+          cancelPlacing();
+          setTab(next as Tab);
+        }}
+      >
         <SegmentedTabs label="Edit or preview" options={TAB_OPTIONS} className="mt-4 w-fit lg:hidden" />
         <div className="mt-4 grid gap-6 lg:mt-6 lg:grid-cols-2 lg:gap-8">
           {/* Both sections stay mounted, so the editor keeps its text and
               cursor while the Preview tab is open. */}
           <Panel value="edit" tabIndex={-1} className="flex flex-col">
-            <div className="flex flex-1 flex-col gap-4">
+            <TokenRow
+              placing={placing}
+              onToggle={togglePlacing}
+              actions={
+                <UndoRedoButtons
+                  canUndo={canUndo(state.history)}
+                  canRedo={canRedo(state.history)}
+                  onUndo={() => handleHistory("undo")}
+                  onRedo={() => handleHistory("redo")}
+                />
+              }
+            />
+            <div className="mt-3 flex flex-1 flex-col gap-4">
               {setup.fields.map((f) => (
                 <EditorField
                   key={f.field}
@@ -183,7 +250,13 @@ function MessageEditor({ channel }: { channel: Channel }) {
                   }}
                   {...f}
                   value={value(f.field)}
-                  onChange={(next) => dispatch({ type: "fieldChanged", field: f.field, value: next })}
+                  onChange={(next, kind) => handleChange(f.field, next, kind)}
+                  syncRevision={state.syncRevision}
+                  placingToken={placing}
+                  onTokenPlaced={() => placing && placed(placing)}
+                  onFocus={() => setLastFocused(f.field)}
+                  onUndo={() => handleHistory("undo")}
+                  onRedo={() => handleHistory("redo")}
                   error={state.errors[f.field]}
                   errorId={errorId(f.field)}
                   boxClassName="flex-1 min-h-39"
@@ -199,6 +272,19 @@ function MessageEditor({ channel }: { channel: Channel }) {
       </Tabs.Root>
     </>
   );
+}
+
+/**
+ * Text for an aria-live region. Saying the same thing twice (Undone, Undone)
+ * alternates a trailing space so it is read again.
+ */
+function useAnnouncer() {
+  const [message, setMessage] = useState({ text: "", count: 0 });
+  const announce = useCallback(
+    (text: string) => setMessage((last) => ({ text, count: last.count + 1 })),
+    [],
+  );
+  return { announcement: message.text + (message.count % 2 ? "\u00a0" : ""), announce };
 }
 
 type PanelProps = {
