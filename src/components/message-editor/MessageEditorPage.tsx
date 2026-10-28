@@ -4,9 +4,19 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useReducer, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+  type MouseEvent,
+  type ReactNode,
+  type RefObject,
+} from "react";
 import { flushSync } from "react-dom";
 import { SegmentedTabs } from "@/components/SegmentedTabs";
+import { AiQuickActions, type QuickAction } from "@/components/cards/content/AiQuickActions";
 import { CAMPAIGN_CHANNELS } from "@/components/cards/content/dummyContent";
 import { PRIMARY_BUTTON } from "@/components/custom-group/buttonStyles";
 import { DUMMY_MESSAGES } from "@/data/dummyMessages";
@@ -14,17 +24,21 @@ import { CONTENT_CARD } from "@/lib/editorRoutes";
 import { canRedo, canUndo, createTypingTimer } from "@/lib/history";
 import {
   initMessageEditor,
+  isDirty,
   messageEditorReducer,
   validateField,
   type FieldValues,
 } from "@/lib/messageEditorReducer";
 import { isWithinLimit, OPT_OUT_LINE, type MessageField } from "@/lib/messageLimits";
 import type { Channel, EmailMessage, SmsMessage } from "@/types";
+import { CustomPromptDialog } from "./CustomPromptDialog";
+import { DiscardDialog } from "./DiscardDialog";
 import { EditorField, type EditKind, type EditorFieldHandle } from "./EditorField";
 import { EditorFooter } from "./EditorFooter";
 import { PreviewPanel } from "./PreviewPanel";
 import { TokenRow } from "./TokenRow";
 import { UndoRedoButtons } from "./UndoRedoButtons";
+import { useLeaveGuard } from "./useLeaveGuard";
 import { usePlacingMode } from "./usePlacingMode";
 
 type FieldSetup = {
@@ -90,6 +104,18 @@ function saveMessage(channel: Channel, message: SmsMessage | EmailMessage) {
   void message;
 }
 
+function onAiAction(action: QuickAction) {
+  // TODO: rewrite the message with AI. For emails this needs to know which
+  // field to rewrite. Record the result as one undo step, the same way a
+  // token is added ("tokenInserted": typingTimer.cancel(), then dispatch).
+  void action;
+}
+
+function onCustomPrompt(prompt: string) {
+  // TODO: write a new message from the owner's description.
+  void prompt;
+}
+
 /** Edits one channel's message. Shows a way back if the campaign doesn't use it. */
 export function MessageEditorPage({ channel }: { channel: Channel }) {
   // Changes on every new visit (e.g. "Edit message"), but not on browser
@@ -100,21 +126,36 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
     // The document never scrolls (see globals.css), so this page scrolls itself.
     <main className="focus-burgundy h-(--screen) overflow-y-auto">
       <div className="mx-auto max-w-300 px-4 py-4 sm:px-6 sm:py-6 lg:px-10">
-        <Link
-          href={CONTENT_CARD}
-          scroll={false}
-          className="inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-burgundy hover:underline"
-        >
-          <ArrowLeft aria-hidden="true" className="size-5" />
-          Back to campaign
-        </Link>
         {CAMPAIGN_CHANNELS.includes(channel) ? (
           <MessageEditor key={bfcacheId} channel={channel} />
         ) : (
-          <NotInCampaign noun={EDITORS[channel].noun} />
+          <>
+            <BackLink />
+            <NotInCampaign noun={EDITORS[channel].noun} />
+          </>
         )}
       </div>
     </main>
+  );
+}
+
+type BackLinkProps = {
+  ref?: RefObject<HTMLAnchorElement | null>;
+  onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+};
+
+function BackLink({ ref, onClick }: BackLinkProps) {
+  return (
+    <Link
+      ref={ref}
+      href={CONTENT_CARD}
+      scroll={false}
+      onClick={onClick}
+      className="inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-burgundy hover:underline"
+    >
+      <ArrowLeft aria-hidden="true" className="size-5" />
+      Back to campaign
+    </Link>
   );
 }
 
@@ -149,6 +190,34 @@ function MessageEditor({ channel }: { channel: Channel }) {
   const [lastFocused, setLastFocused] = useState<MessageField | null>(null);
   const { announcement, announce } = useAnnouncer();
   const { placing, togglePlacing, cancelPlacing, placed } = usePlacingMode(announce);
+
+  // Set once the owner saves or chooses to go back, so nothing asks again.
+  const [leaving, setLeaving] = useState(false);
+  const dirty = isDirty(state) && !leaving;
+  const backRef = useRef<HTMLAnchorElement>(null);
+  const [discardOpen, setDiscardOpen] = useState(false);
+  const writeOwnRef = useRef<HTMLButtonElement>(null);
+  const [promptOpen, setPromptOpen] = useState(false);
+  // Kept here, so Cancel and reopen keeps what was typed.
+  const [prompt, setPrompt] = useState("");
+
+  function askToDiscard() {
+    cancelPlacing();
+    setDiscardOpen(true);
+  }
+
+  useLeaveGuard(dirty, askToDiscard);
+
+  function handleBack(event: MouseEvent<HTMLAnchorElement>) {
+    if (!dirty) return;
+    event.preventDefault();
+    askToDiscard();
+  }
+
+  function leave() {
+    setLeaving(true);
+    router.push(CONTENT_CARD, { scroll: false });
+  }
 
   // Typing becomes an undo step once the owner pauses. Other edits, undo,
   // redo and Save flush it in the reducer, so the timer is just dropped.
@@ -203,7 +272,7 @@ function MessageEditor({ channel }: { channel: Channel }) {
       return;
     }
     saveMessage(channel, toMessage(channel, state.values));
-    router.push(CONTENT_CARD, { scroll: false });
+    leave();
   }
 
   const errors = state.fields.flatMap((field) => {
@@ -213,6 +282,7 @@ function MessageEditor({ channel }: { channel: Channel }) {
 
   return (
     <>
+      <BackLink ref={backRef} onClick={handleBack} />
       <h1 className="mt-3 text-2xl font-bold sm:text-3xl">{setup.title}</h1>
       <p aria-live="polite" className="sr-only">
         {announcement}
@@ -263,6 +333,16 @@ function MessageEditor({ channel }: { channel: Channel }) {
                 />
               ))}
             </div>
+            <div className="mt-4">
+              <AiQuickActions
+                onAction={onAiAction}
+                onWriteOwn={() => {
+                  cancelPlacing();
+                  setPromptOpen(true);
+                }}
+                writeOwnRef={writeOwnRef}
+              />
+            </div>
             <EditorFooter errors={errors} onSave={handleSave} />
           </Panel>
           <Panel value="preview" aria-label={setup.previewLabel}>
@@ -270,6 +350,24 @@ function MessageEditor({ channel }: { channel: Channel }) {
           </Panel>
         </div>
       </Tabs.Root>
+      <DiscardDialog
+        open={discardOpen}
+        onClose={() => setDiscardOpen(false)}
+        onDiscard={leave}
+        returnFocusRef={backRef}
+      />
+      <CustomPromptDialog
+        open={promptOpen}
+        onClose={() => setPromptOpen(false)}
+        prompt={prompt}
+        onPromptChange={setPrompt}
+        onSend={(text) => {
+          onCustomPrompt(text);
+          setPrompt("");
+          setPromptOpen(false);
+        }}
+        returnFocusRef={writeOwnRef}
+      />
     </>
   );
 }

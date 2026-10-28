@@ -1,6 +1,5 @@
-import * as Dialog from "@radix-ui/react-dialog";
 import { useRef, useState, type FormEvent, type RefObject } from "react";
-import { AgentBubble } from "@/components/AgentBubble";
+import { AgentDialog } from "@/components/AgentDialog";
 import { StatusMessage } from "@/components/StatusMessage";
 import { GROUP_NAME_MAX_LENGTH, validateGroupName } from "@/lib/saveFlow";
 import { PRIMARY_BUTTON, SECONDARY_BUTTON } from "./buttonStyles";
@@ -27,34 +26,21 @@ export function SaveGroupDialog({
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
-    <Dialog.Root open={open} onOpenChange={(next) => !next && onClose()}>
-      <Dialog.Portal>
-        {/* Phones and short screens: near the top, so the on-screen keyboard
-            never covers it. Roomy screens: centred. */}
-        <Dialog.Overlay className="fixed inset-0 z-20 flex items-start justify-center bg-ink/50 px-4 pt-[max(1rem,6svh)] motion-safe:data-[state=closed]:animate-overlay-out motion-safe:data-[state=open]:animate-overlay-in [@media(min-width:40rem)_and_(min-height:30rem)]:items-center [@media(min-width:40rem)_and_(min-height:30rem)]:pt-0">
-          <Dialog.Content
-            aria-describedby={undefined}
-            onOpenAutoFocus={(event) => {
-              event.preventDefault();
-              inputRef.current?.focus();
-            }}
-            onCloseAutoFocus={(event) => {
-              event.preventDefault();
-              returnFocusRef.current?.focus();
-            }}
-            className="focus-burgundy max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-cream p-4 text-ink shadow-xl shadow-ink/20 motion-safe:data-[state=closed]:animate-dialog-out motion-safe:data-[state=open]:animate-dialog-in sm:p-5"
-          >
-            <NameForm
-              name={name}
-              onNameChange={onNameChange}
-              onDone={onDone}
-              onCancel={onClose}
-              inputRef={inputRef}
-            />
-          </Dialog.Content>
-        </Dialog.Overlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+    <AgentDialog
+      open={open}
+      onClose={onClose}
+      message="What would you like to call this group?"
+      initialFocusRef={inputRef}
+      returnFocusRef={returnFocusRef}
+    >
+      <NameForm
+        name={name}
+        onNameChange={onNameChange}
+        onDone={onDone}
+        onCancel={onClose}
+        inputRef={inputRef}
+      />
+    </AgentDialog>
   );
 }
 
@@ -83,11 +69,6 @@ function NameForm({ name, onNameChange, onDone, onCancel, inputRef }: NameFormPr
 
   return (
     <form onSubmit={submit} noValidate>
-      <AgentBubble>
-        <Dialog.Title asChild>
-          <p>What would you like to call this group?</p>
-        </Dialog.Title>
-      </AgentBubble>
       <label htmlFor="group-name" className="sr-only">
         Group name
       </label>

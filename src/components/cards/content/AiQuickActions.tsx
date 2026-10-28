@@ -1,5 +1,5 @@
-import { Scissors, Smile, Zap, type LucideIcon } from "lucide-react";
-import { useId, useState } from "react";
+import { Scissors, Smile, Sparkles, Zap, type LucideIcon } from "lucide-react";
+import { useId, useState, type RefObject } from "react";
 import { RainbowIcon } from "./RainbowIcon";
 
 export type QuickAction = "shorter" | "friendlier" | "moreUrgent";
@@ -17,7 +17,17 @@ const CHIP =
  * "Quick edits" button that reveals one-tap rewrites of the message. Opened,
  * it shrinks to its icon and the chips sit beside it. Actions are not wired up yet.
  */
-export function AiQuickActions({ onAction }: { onAction?: (action: QuickAction) => void }) {
+type AiQuickActionsProps = {
+  onAction?: (action: QuickAction) => void;
+  /** When given, a "Write your own" chip follows the quick edits. */
+  onWriteOwn?: () => void;
+  writeOwnRef?: RefObject<HTMLButtonElement | null>;
+};
+
+const ICON =
+  "hidden size-3.5 shrink-0 text-plum @[22rem]:block sm:size-4 short:size-3.5 landscape:short:block";
+
+export function AiQuickActions({ onAction, onWriteOwn, writeOwnRef }: AiQuickActionsProps) {
   const [open, setOpen] = useState(false);
   const chipsId = useId();
 
@@ -38,13 +48,16 @@ export function AiQuickActions({ onAction }: { onAction?: (action: QuickAction) 
         {ACTIONS.map(({ action, label, icon: Icon }) => (
           <button key={action} type="button" onClick={() => onAction?.(action)} className={CHIP}>
             {/* Dropped when the row is too narrow for icons and labels on one line. */}
-            <Icon
-              aria-hidden="true"
-              className="hidden size-3.5 shrink-0 text-plum @[22rem]:block sm:size-4 short:size-3.5 landscape:short:block"
-            />
+            <Icon aria-hidden="true" className={ICON} />
             {label}
           </button>
         ))}
+        {onWriteOwn && (
+          <button ref={writeOwnRef} type="button" onClick={onWriteOwn} className={CHIP}>
+            <Sparkles aria-hidden="true" className={ICON} />
+            Write your own
+          </button>
+        )}
       </div>
     </div>
   );

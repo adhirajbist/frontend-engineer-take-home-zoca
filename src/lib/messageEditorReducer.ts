@@ -64,6 +64,17 @@ export function validateField(field: MessageField, value: string): string | null
   return null;
 }
 
+/**
+ * True when the message differs from what the page opened with. Spaces and
+ * line breaks at the ends don't count, because Save trims them anyway.
+ */
+export function isDirty(state: MessageEditorState): boolean {
+  const initial = state.history.entries[0];
+  return state.fields.some(
+    (field) => (state.values[field] ?? "").trim() !== (initial[field] ?? "").trim(),
+  );
+}
+
 export function initMessageEditor(
   fields: readonly MessageField[],
   values: Record<MessageField, string>,

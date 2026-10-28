@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { canRedo, canUndo } from "./history";
 import {
   initMessageEditor,
+  isDirty,
   messageEditorReducer,
   validateField,
   type MessageEditorAction,
@@ -193,5 +194,33 @@ describe("validateField", () => {
 
   it("allows exactly the limit", () => {
     expect(validateField("emailSubject", "x".repeat(50))).toBeNull();
+  });
+});
+
+describe("isDirty", () => {
+  it("is clean when the page opens", () => {
+    expect(isDirty(smsEditor())).toBe(false);
+  });
+
+  it("is dirty after a change", () => {
+    expect(isDirty(run(smsEditor(), type("Hi there")))).toBe(true);
+  });
+
+  it("is clean again after undoing back to the start", () => {
+    const state = run(smsEditor(), type("Hi there"), { type: "typingPaused" }, { type: "undo" });
+    expect(isDirty(state)).toBe(false);
+  });
+
+  it("ignores spaces and line breaks added at the ends", () => {
+    expect(isDirty(run(smsEditor(), type("  Hi {{first_name}} \n")))).toBe(false);
+  });
+
+  it("counts a change in any email field", () => {
+    const state = messageEditorReducer(emailEditor(), {
+      type: "fieldChanged",
+      field: "emailBody",
+      value: "New body",
+    });
+    expect(isDirty(state)).toBe(true);
   });
 });
