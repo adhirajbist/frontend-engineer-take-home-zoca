@@ -125,3 +125,13 @@ body {
 .focus-burgundy:focus-visible {
   outline-color: var(--color-burgundy);
 }
+
+/* Message editor placeholder (Tiptap's Placeholder extension). Muted text,
+   4.5:1 or more on white. */
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+  color: var(--color-muted);
+}

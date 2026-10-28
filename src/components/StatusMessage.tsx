@@ -1,4 +1,5 @@
 import { CircleAlert, TriangleAlert } from "lucide-react";
+import type { ReactNode } from "react";
 import type { SaveMessage } from "@/lib/saveFlow";
 
 const STYLES = {
@@ -6,7 +7,12 @@ const STYLES = {
   warning: { icon: TriangleAlert, label: "Heads up:", className: "bg-warning-bg text-warning" },
 };
 
-type StatusMessageProps = SaveMessage & { id?: string };
+type StatusMessageProps = {
+  kind: SaveMessage["kind"];
+  /** Usually a string; can hold several lines, each with its own id. */
+  text: ReactNode;
+  id?: string;
+};
 
 /** Soft error or warning box. The icon and hidden label mean it never relies on colour. */
 export function StatusMessage({ kind, text, id }: StatusMessageProps) {
