@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 
 type CardStackProps = {
   count: number;
@@ -66,6 +72,15 @@ function currentIndex(stack: HTMLElement, markers: HTMLElement[]) {
  */
 export function CardStack({ count, children }: CardStackProps) {
   const stackRef = useRef<HTMLElement>(null);
+
+  // A hash like "/#step-4" (from "Back to campaign") jumps to that card before
+  // the first paint: no smooth scroll, no flash of card 1. Next.js keeps this
+  // page alive with Activity and re-runs layout effects when it shows it again.
+  useLayoutEffect(() => {
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    document.getElementById(id)?.scrollIntoView({ block: "start", behavior: "instant" });
+  }, []);
 
   useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {

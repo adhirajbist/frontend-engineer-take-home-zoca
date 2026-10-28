@@ -13,6 +13,13 @@
   --color-purple: #7b5cf5;
 }
 
+/* Status colours for opted in / opted out icons. Not brand colours, so they
+   come from Tailwind's palette. Both pass 3:1 on white for icons. */
+@theme inline {
+  --color-success: var(--color-green-700);
+  --color-danger: var(--color-red-700);
+}
+
 /* Short screens, like phones in landscape. Cards compact instead of scrolling. */
 @custom-variant short (@media (max-height: 30rem));
 
@@ -50,4 +57,11 @@ body {
 :focus-visible {
   outline: 3px solid var(--color-purple);
   outline-offset: 3px;
+}
+
+/* Neutral white screens (custom group builder) use burgundy for focus:
+   13.7:1 on white, 12.5:1 on cream. */
+.focus-burgundy :focus-visible,
+.focus-burgundy:focus-visible {
+  outline-color: var(--color-burgundy);
 }

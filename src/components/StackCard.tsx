@@ -20,6 +20,7 @@ export function StackCard({ step, title, children }: StackCardProps) {
       {/* Snap point. Sticky elements make unreliable snap targets, so this
           plain marker sits where the card starts, offset by its sticky top. */}
       <div
+        id={`step-${step}`}
         data-stack-snap
         aria-hidden="true"
         className="h-0 snap-start snap-always"
