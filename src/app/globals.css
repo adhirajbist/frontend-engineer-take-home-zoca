@@ -20,6 +20,26 @@
   --color-danger: var(--color-red-700);
 }
 
+/* Tints derived from the brand palette. lilac: the message preview backdrop.
+   track: the tab switch background. muted: secondary text, 4.5:1 or more on
+   white, lilac and track (checked in the browser). */
+@theme inline {
+  --color-lilac: color-mix(in oklab, var(--color-purple) 10%, white);
+  --color-track: color-mix(in oklab, var(--color-ink) 7%, white);
+  --color-muted: color-mix(in oklab, var(--color-ink) 72%, white);
+}
+
+/* Rainbow for the AI "Quick edits" icon only. Not brand colours, so they
+   come from Tailwind's palette. Used as SVG gradient stops. */
+@theme inline {
+  --color-rainbow-1: var(--color-red-500);
+  --color-rainbow-2: var(--color-orange-500);
+  --color-rainbow-3: var(--color-amber-400);
+  --color-rainbow-4: var(--color-green-500);
+  --color-rainbow-5: var(--color-blue-500);
+  --color-rainbow-6: var(--color-violet-500);
+}
+
 /* Error and warning messages: dark text on a soft background, both above
    7:1 (red-800 on red-50, orange-900 on orange-50). Always paired with an icon. */
 @theme inline {
