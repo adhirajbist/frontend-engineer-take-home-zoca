@@ -1,35 +1,13 @@
 import { describe, expect, it } from "vitest";
 import type { Filter } from "@/types";
-import {
-  DEFAULT_APPOINTMENT_DAYS,
-  createFilter,
-  filterReducer,
-  type FilterField,
-} from "./filterReducer";
-
-/** Filter without its id, kept per field. */
-type FilterInput = Filter extends infer F ? (F extends Filter ? Omit<F, "id"> : never) : never;
+import { filterReducer } from "./filterReducer";
+import { DEFAULT_APPOINTMENT_DAYS, type FilterField } from "./filters";
 
 const TODAY = new Date(2026, 9, 28); // October
 
 function add(filters: Filter[], field: FilterField, id = "f1"): Filter[] {
   return filterReducer(filters, { type: "add", field, id, today: TODAY });
 }
-
-describe("createFilter defaults", () => {
-  it.each<[FilterField, FilterInput]>([
-    ["lastVisit", { field: "lastVisit", op: "moreThan", days: 90 }],
-    ["firstVisit", { field: "firstVisit", op: "lessThan", days: 30 }],
-    ["nextAppointment", { field: "nextAppointment", op: "none" }],
-    ["totalVisits", { field: "totalVisits", op: "moreThan", count: 5 }],
-    ["totalSpend", { field: "totalSpend", op: "moreThan", amount: 1000 }],
-    ["services", { field: "services", op: "includes", services: ["Balayage"] }],
-    ["birthday", { field: "birthday", op: "in", months: [10] }],
-    ["channel", { field: "channel", op: "includes", channels: ["sms"] }],
-  ])("%s", (field, expected) => {
-    expect(createFilter(field, "x", TODAY)).toEqual({ id: "x", ...expected });
-  });
-});
 
 describe("filterReducer", () => {
   it("adds filters in order, including the same field twice", () => {

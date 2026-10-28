@@ -3,8 +3,8 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useEffect, useMemo, useReducer, useRef, useState, type RefObject } from "react";
 import clientsData from "@/data/clients.json";
-import { filterReducer, type FilterAction, type FilterField } from "@/lib/filterReducer";
-import { canEmail, canText, filterClients } from "@/lib/matchFilters";
+import { filterReducer, type FilterAction } from "@/lib/filterReducer";
+import { canEmail, canText, filterClients, newFilterId, type FilterField } from "@/lib/filters";
 import { INITIAL_SAVE_FLOW, saveFlowReducer } from "@/lib/saveFlow";
 import type { Channel, Client, Filter } from "@/types";
 import { PRIMARY_BUTTON } from "./buttonStyles";
@@ -71,7 +71,6 @@ function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
   const [saveFlow, dispatchSave] = useReducer(saveFlowReducer, INITIAL_SAVE_FLOW);
   const [groupName, setGroupName] = useState("");
   const [page, setPage] = useState(1);
-  const nextId = useRef(1);
   const focusTarget = useRef<string | null>(null);
   const panelRef = useRef<HTMLElement>(null);
   const addButtonRef = useRef<HTMLButtonElement>(null);
@@ -104,7 +103,7 @@ function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
   }
 
   function addFilter(field: FilterField) {
-    const id = `filter-${nextId.current++}`;
+    const id = newFilterId();
     focusTarget.current = id;
     update({ type: "add", field, id, today });
   }

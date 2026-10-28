@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Client, Filter } from "@/types";
-import { canEmail, canText, filterClients, matchesFilter } from "./matchFilters";
+import { canEmail, canText, filterClients, matchesFilter } from "./filters";
 
 /** Filter without its id, kept per field. */
 type FilterInput = Filter extends infer F ? (F extends Filter ? Omit<F, "id"> : never) : never;

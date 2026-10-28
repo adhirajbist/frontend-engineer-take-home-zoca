@@ -1,5 +1,6 @@
 import type { Dispatch, RefObject } from "react";
-import type { FilterAction, FilterField } from "@/lib/filterReducer";
+import type { FilterAction } from "@/lib/filterReducer";
+import type { FilterField } from "@/lib/filters";
 import type { Filter } from "@/types";
 import { AddFilterMenu } from "./AddFilterMenu";
 import { FilterRow } from "./FilterRow";

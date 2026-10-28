@@ -1,7 +1,7 @@
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Plus } from "lucide-react";
 import { useRef, type RefObject } from "react";
-import type { FilterField } from "@/lib/filterReducer";
+import type { FilterField } from "@/lib/filters";
 import { FIELD_LABELS, FIELD_ORDER } from "./filterOptions";
 
 type AddFilterMenuProps = {

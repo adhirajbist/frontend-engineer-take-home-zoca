@@ -1,5 +1,5 @@
 import clients from "@/data/clients.json";
-import type { FilterField, FilterOp } from "@/lib/filterReducer";
+import { CHANNEL_NAMES, MONTH_NAMES, type FilterField, type FilterOp } from "@/lib/filters";
 import type { Channel } from "@/types";
 
 /** Order shown in the "+ Filter" menu. */
@@ -39,22 +39,9 @@ export const SERVICE_OPTIONS = [...new Set(clients.flatMap((client) => client.se
   .sort()
   .map((service) => ({ value: service, label: service }));
 
-export const MONTH_OPTIONS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-].map((label, index) => ({ value: index + 1, label }));
+export const MONTH_OPTIONS = MONTH_NAMES.map((label, index) => ({ value: index + 1, label }));
 
 export const CHANNEL_OPTIONS: { value: Channel; label: string }[] = [
-  { value: "sms", label: "Text" },
-  { value: "email", label: "Email" },
+  { value: "sms", label: CHANNEL_NAMES.sms },
+  { value: "email", label: CHANNEL_NAMES.email },
 ];

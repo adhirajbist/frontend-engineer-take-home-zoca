@@ -1,6 +1,7 @@
 import { ChevronDown, Trash2 } from "lucide-react";
 import type { Dispatch } from "react";
-import { FIELD_OPERATORS, type FilterAction, type FilterValue } from "@/lib/filterReducer";
+import type { FilterAction } from "@/lib/filterReducer";
+import { FIELD_OPERATORS, type FilterValue } from "@/lib/filters";
 import type { Filter } from "@/types";
 import {
   CHANNEL_OPTIONS,
