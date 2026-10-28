@@ -20,6 +20,46 @@
   --color-danger: var(--color-red-700);
 }
 
+/* Error and warning messages: dark text on a soft background, both above
+   7:1 (red-800 on red-50, orange-900 on orange-50). Always paired with an icon. */
+@theme inline {
+  --color-error: var(--color-red-800);
+  --color-error-bg: var(--color-red-50);
+  --color-warning: var(--color-orange-900);
+  --color-warning-bg: var(--color-orange-50);
+}
+
+/* Dialog: fade and a slight slide. Used under motion-safe only. */
+@theme {
+  --animate-dialog-in: dialog-in 150ms ease-out;
+  --animate-dialog-out: dialog-out 100ms ease-in;
+  --animate-overlay-in: overlay-in 150ms ease-out;
+  --animate-overlay-out: overlay-out 100ms ease-in;
+
+  @keyframes dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @keyframes dialog-out {
+    to {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  @keyframes overlay-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes overlay-out {
+    to {
+      opacity: 0;
+    }
+  }
+}
+
 /* Short screens, like phones in landscape. Cards compact instead of scrolling. */
 @custom-variant short (@media (max-height: 30rem));
 

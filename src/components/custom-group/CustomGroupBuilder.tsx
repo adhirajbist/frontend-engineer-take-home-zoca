@@ -5,11 +5,15 @@ import { useEffect, useMemo, useReducer, useRef, useState, type RefObject } from
 import clientsData from "@/data/clients.json";
 import { filterReducer, type FilterAction, type FilterField } from "@/lib/filterReducer";
 import { canEmail, canText, filterClients } from "@/lib/matchFilters";
-import type { Client } from "@/types";
+import { INITIAL_SAVE_FLOW, saveFlowReducer } from "@/lib/saveFlow";
+import type { Channel, Client, Filter } from "@/types";
+import { PRIMARY_BUTTON } from "./buttonStyles";
 import { ClientCounts } from "./ClientCounts";
 import { ClientsTable } from "./ClientsTable";
 import { FilterPanel } from "./FilterPanel";
 import { Pagination } from "./Pagination";
+import { SaveGroupDialog } from "./SaveGroupDialog";
+import { SaveMessages } from "./SaveMessages";
 import { useToday } from "./useToday";
 
 const PAGE_SIZE = 10;
@@ -43,24 +47,35 @@ function focusPending(
   if (element && document.activeElement === element) pending.current = null;
 }
 
-export function CustomGroupBuilder() {
+export type SavedGroup = { name: string; filters: Filter[] };
+
+type BuilderProps = {
+  /** Channels the campaign sends on, used to warn about unreachable clients. */
+  channels: readonly Channel[];
+  onDone: (group: SavedGroup) => void;
+};
+
+export function CustomGroupBuilder(props: BuilderProps) {
   const today = useToday();
   return (
     <>
       <h1 className="mt-3 text-2xl font-bold sm:text-3xl">Clients</h1>
       {/* The server render has no date, so filters appear once in the browser. */}
-      {today && <Builder today={today} />}
+      {today && <Builder today={today} {...props} />}
     </>
   );
 }
 
-function Builder({ today }: { today: Date }) {
+function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
   const [filters, dispatch] = useReducer(filterReducer, []);
+  const [saveFlow, dispatchSave] = useReducer(saveFlowReducer, INITIAL_SAVE_FLOW);
+  const [groupName, setGroupName] = useState("");
   const [page, setPage] = useState(1);
   const nextId = useRef(1);
   const focusTarget = useRef<string | null>(null);
   const panelRef = useRef<HTMLElement>(null);
   const addButtonRef = useRef<HTMLButtonElement>(null);
+  const saveButtonRef = useRef<HTMLButtonElement>(null);
 
   const matching = useMemo(() => filterClients(CLIENTS, filters, today), [filters, today]);
   const textedCount = useMemo(() => matching.filter(canText).length, [matching]);
@@ -80,10 +95,12 @@ function Builder({ today }: { today: Date }) {
     focusPending(focusTarget, panelRef.current, addButtonRef.current);
   }, [filters]);
 
-  /** Every filter change goes back to page 1. */
+  /** Every filter change goes back to page 1 and starts saving over. */
   function update(action: FilterAction) {
     dispatch(action);
     setPage(1);
+    dispatchSave({ type: "reset" });
+    setGroupName("");
   }
 
   function addFilter(field: FilterField) {
@@ -116,7 +133,6 @@ function Builder({ today }: { today: Date }) {
         panelRef={panelRef}
         addButtonRef={addButtonRef}
       />
-      {/* Room on the right for the Save as button (next step). */}
       <div className="mt-3 flex justify-end gap-3">
         <button
           type="button"
@@ -126,7 +142,29 @@ function Builder({ today }: { today: Date }) {
         >
           Clear all
         </button>
+        <button
+          ref={saveButtonRef}
+          type="button"
+          onClick={() =>
+            dispatchSave({ type: "save", texted: textedCount, mailed: mailedCount, channels })
+          }
+          className={PRIMARY_BUTTON}
+        >
+          Save as
+        </button>
       </div>
+      <SaveMessages message={saveFlow.message} />
+      <SaveGroupDialog
+        open={saveFlow.naming}
+        onClose={() => dispatchSave({ type: "closeNaming" })}
+        name={groupName}
+        onNameChange={setGroupName}
+        onDone={(name) => {
+          dispatchSave({ type: "closeNaming" });
+          onDone({ name, filters });
+        }}
+        returnFocusRef={saveButtonRef}
+      />
       <ClientsTable clients={pageClients} />
       <Pagination
         page={currentPage}
