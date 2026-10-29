@@ -29,7 +29,7 @@ export function isNameTaken(name: string, savedSegments: readonly Segment[]): bo
 
 export type SegmentSections = { saved: Segment[]; birthdays: Segment[]; others: Segment[] };
 
-/** The "Choose a group" menu: saved groups, then birthday groups, then the other presets. */
+/** The "Choose a group" menu: saved groups, then the other presets, then birthday groups. */
 export function segmentSections(savedSegments: readonly Segment[]): SegmentSections {
   const isBirthday = (segment: Segment) => segment.id.startsWith("birthday-month-");
   return {

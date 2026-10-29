@@ -15,9 +15,12 @@ const birthdaySegments: Segment[] = MONTH_NAMES.map((monthName, index) => {
   };
 });
 
+/** No filters, so it's also where "Clear all" lands. */
+export const ALL_CLIENTS: Segment = { id: "all-clients", name: "All clients", filters: [] };
+
 /** Ready-made groups every salon gets. Fixed ids, so campaigns can point at them. */
 export const PRESET_SEGMENTS: readonly Segment[] = [
-  { id: "all-clients", name: "All clients", filters: [] },
+  ALL_CLIENTS,
   {
     id: "new-clients-30d",
     name: "New clients (last 30 days)",

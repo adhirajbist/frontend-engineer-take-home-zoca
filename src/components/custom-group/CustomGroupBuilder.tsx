@@ -3,6 +3,7 @@
 import * as Tooltip from "@radix-ui/react-tooltip";
 import { useEffect, useMemo, useReducer, useRef, useState, type RefObject } from "react";
 import clientsData from "@/data/clients.json";
+import { ALL_CLIENTS } from "@/data/presetSegments";
 import { filterReducer, type FilterAction } from "@/lib/filterReducer";
 import { canEmail, canText, cloneFilters, filterClients, newFilterId, type FilterField } from "@/lib/filters";
 import {
@@ -113,8 +114,12 @@ function Builder({
     focusPending(focusTarget, panelRef.current, addButtonRef.current);
   }, [filters]);
 
-  /** Every filter change goes back to page 1 and starts saving over. */
+  /**
+   * Every filter change goes back to page 1 and starts saving over. No filters
+   * is the "All clients" group, so the menu shows that instead of "Edited".
+   */
   function update(action: FilterAction) {
+    if (filterReducer(filters, action).length === 0) setGroup(ALL_CLIENTS);
     dispatch(action);
     setPage(1);
     dispatchSave({ type: "reset" });

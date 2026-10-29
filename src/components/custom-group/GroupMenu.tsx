@@ -42,9 +42,14 @@ export function GroupMenu({ selected, savedSegments, onSelect }: GroupMenuProps)
           className="focus-burgundy z-10 max-h-(--radix-dropdown-menu-content-available-height) min-w-56 overflow-y-auto rounded-xl border border-ink/10 bg-white p-1.5 text-sm text-ink shadow-lg shadow-ink/10"
         >
           <DropdownMenu.RadioGroup value={selected.id} onValueChange={select}>
-            {saved.length > 0 && <Section id="your-groups" heading="Your groups" segments={saved} />}
-            <Section id="birthdays" heading="Birthdays" segments={birthdays} />
+            {saved.length > 0 && (
+              <>
+                <Section id="your-groups" heading="Your groups" segments={saved} />
+                <DropdownMenu.Separator className="mx-3 my-1.5 h-px bg-ink/10" />
+              </>
+            )}
             <Section id="other-groups" segments={others} />
+            <Section id="birthdays" heading="Birthdays" segments={birthdays} />
           </DropdownMenu.RadioGroup>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
