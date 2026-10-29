@@ -24,9 +24,9 @@ export type MessageEditorState = {
   history: History<FieldValues>;
   /** The field being typed in, while that typing is not an undo step yet. */
   typingField: MessageField | null;
-  /** Goes up only when undo or redo replaces the text, so the editors reload it. */
+  /** Goes up only when undo, redo or an AI rewrite replaces the text, so the editors reload it. */
   syncRevision: number;
-  /** The fields the last undo or redo changed. */
+  /** The fields the last undo, redo or AI rewrite changed. */
   restored: readonly MessageField[];
 };
 
@@ -37,6 +37,8 @@ export type MessageEditorAction =
   /** Each its own undo step right away. */
   | { type: "tokenInserted"; field: MessageField; value: string }
   | { type: "tokenRemoved"; field: MessageField; value: string }
+  /** An AI rewrite of one or more fields: one undo step, loaded into the editors. */
+  | { type: "aiApplied"; values: FieldValues }
   | { type: "undo" }
   | { type: "redo" }
   | { type: "saveAttempted" };
@@ -137,6 +139,22 @@ export function messageEditorReducer(
     case "tokenRemoved": {
       const next = applyValue(state, action.field, action.value);
       return { ...next, history: record(next.history, next.values), typingField: null };
+    }
+    case "aiApplied": {
+      const flushed = flushTyping(state);
+      const changed = state.fields.filter(
+        (field) => action.values[field] !== undefined && action.values[field] !== state.values[field],
+      );
+      // The same text as now: nothing to undo, nothing to reload.
+      if (changed.length === 0) return flushed;
+      let next = flushed;
+      for (const field of changed) next = applyValue(next, field, action.values[field] ?? "");
+      return {
+        ...next,
+        history: record(next.history, next.values),
+        syncRevision: state.syncRevision + 1,
+        restored: changed,
+      };
     }
     case "undo":
       return restore(state, undo(state.history));

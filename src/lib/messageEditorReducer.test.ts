@@ -5,6 +5,7 @@ import {
   isDirty,
   messageEditorReducer,
   validateField,
+  type FieldValues,
   type MessageEditorAction,
   type MessageEditorState,
 } from "./messageEditorReducer";
@@ -153,6 +154,81 @@ describe("history", () => {
     const state = run(smsEditor(), type("Hi"), { type: "saveAttempted" });
     expect(state.history.pending).toBeNull();
     expect(state.history.entries).toHaveLength(2);
+  });
+});
+
+describe("aiApplied", () => {
+  const ai = (values: FieldValues): MessageEditorAction => ({ type: "aiApplied", values });
+  const smsValues = (state: MessageEditorState) => state.history.entries.map((entry) => entry.sms);
+
+  it("makes pending typing its own step, then the rewrite another", () => {
+    let state = run(smsEditor(), type("Hi there, come in"), ai({ sms: "Short" }));
+    expect(smsValues(state)).toEqual([START.sms, "Hi there, come in", "Short"]);
+    expect(state.values.sms).toBe("Short");
+    expect(state.syncRevision).toBe(1);
+    expect(state.restored).toEqual(["sms"]);
+    expect(isDirty(state)).toBe(true);
+
+    const seen: (string | undefined)[] = [];
+    for (const step of ["undo", "undo", "redo", "redo"] as const) {
+      state = run(state, { type: step });
+      seen.push(state.values.sms);
+    }
+    expect(seen).toEqual(["Hi there, come in", START.sms, "Hi there, come in", "Short"]);
+  });
+
+  it("is clean again after undoing back to the start", () => {
+    const state = run(smsEditor(), ai({ sms: "Short" }), { type: "undo" });
+    expect(isDirty(state)).toBe(false);
+  });
+
+  it("clears redo when editing after an undo", () => {
+    let state = run(smsEditor(), ai({ sms: "Short" }), { type: "undo" });
+    expect(canRedo(state.history)).toBe(true);
+    state = run(state, type("New"));
+    expect(canRedo(state.history)).toBe(false);
+    state = run(smsEditor(), ai({ sms: "Short" }), { type: "undo" }, ai({ sms: "Warm" }));
+    expect(canRedo(state.history)).toBe(false);
+    expect(smsValues(state)).toEqual([START.sms, "Warm"]);
+  });
+
+  it("changes the subject and body in one step that one undo restores", () => {
+    let state = run(emailEditor(), ai({ emailSubject: "New subject", emailBody: "New body" }));
+    expect(state.values).toEqual({ emailSubject: "New subject", emailBody: "New body" });
+    expect(state.history.entries).toHaveLength(2);
+    expect(state.restored).toEqual(["emailSubject", "emailBody"]);
+    state = run(state, { type: "undo" });
+    expect(state.values).toEqual({ emailSubject: "Hello", emailBody: "Body" });
+  });
+
+  it("adds no step when the rewrite is the same as now", () => {
+    const once = run(smsEditor(), ai({ sms: "Short" }));
+    const twice = run(once, ai({ sms: "Short" }));
+    expect(twice.history.entries).toHaveLength(2);
+    expect(twice.syncRevision).toBe(once.syncRevision);
+    expect(run(smsEditor(), ai({ sms: START.sms })).history.entries).toHaveLength(1);
+  });
+
+  it("keeps the other email field when only the body is given", () => {
+    const state = run(emailEditor(), ai({ emailBody: "Only the body" }));
+    expect(state.values).toEqual({ emailSubject: "Hello", emailBody: "Only the body" });
+    expect(state.restored).toEqual(["emailBody"]);
+  });
+
+  it("stores a custom prompt exactly as typed, even over the limit", () => {
+    const prompt = `  Hi {{first_name}},\n${"x".repeat(300)} `;
+    const state = run(smsEditor(), ai({ sms: prompt }));
+    expect(state.values.sms).toBe(prompt);
+    expect(state.preview.sms).toBe(START.sms);
+  });
+
+  it("clears the changed field's error only", () => {
+    const failed = run(
+      initMessageEditor(["emailSubject", "emailBody"], { ...START, emailSubject: "", emailBody: "" }),
+      { type: "saveAttempted" },
+    );
+    const state = run(failed, ai({ emailBody: "Body!" }));
+    expect(state.errors).toEqual({ emailSubject: "Your subject is empty." });
   });
 });
 

@@ -9,6 +9,8 @@ function TokenChip({ node, editor, getPos }: ReactNodeViewProps) {
   const label = (typeof id === "string" && findToken(id)?.label) || "Token";
 
   function remove() {
+    // Commands run even in a read-only editor, e.g. while the AI is working.
+    if (!editor.isEditable) return;
     const pos = getPos();
     if (typeof pos !== "number") return;
     editor

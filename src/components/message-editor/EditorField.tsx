@@ -21,6 +21,7 @@ import {
   type ReactNode,
   type Ref,
 } from "react";
+import { ShimmerBox } from "@/components/ui/ShimmerBox";
 import { docToText, textToDoc, toSingleLine } from "@/lib/messageDoc";
 import type { MessageField } from "@/lib/messageLimits";
 import type { TokenId } from "@/lib/messageTokens";
@@ -48,7 +49,7 @@ type EditorFieldProps = {
   /** The current value. Loaded into the editor only when it is created. */
   value: string;
   onChange: (value: string, kind: EditKind) => void;
-  /** Changes only when undo or redo replaced the value; the editor then reloads it. */
+  /** Changes only when undo, redo or the AI replaced the value; the editor then reloads it. */
   syncRevision: number;
   /** While set, the next tap in the field adds this token there. */
   placingToken: TokenId | null;
@@ -56,6 +57,8 @@ type EditorFieldProps = {
   onFocus: () => void;
   onUndo: () => void;
   onRedo: () => void;
+  /** While the AI rewrites the message: a shimmer over the box, and no editing. */
+  busy: boolean;
   error?: string;
   errorId: string;
   /** Muted line under the count. */
@@ -189,8 +192,9 @@ export function EditorField({
 
   return (
     <div className={multiline ? "flex flex-1 flex-col" : ""}>
-      <div
+      <ShimmerBox
         {...KEEPS_PLACING}
+        active={editable.busy}
         className={`flex flex-col rounded-lg border ${border} ${multiline ? boxClassName : "min-h-11.5"}`}
       >
         {isClient && (
@@ -204,7 +208,7 @@ export function EditorField({
             describedBy={error ? `${counterId} ${errorId}` : counterId}
           />
         )}
-      </div>
+      </ShimmerBox>
       <div className="mt-1.5 space-y-0.5">
         <FieldCounter id={counterId} field={field} name={label} value={value} />
         {hint && <p className="text-sm text-muted">{hint}</p>}
@@ -231,6 +235,7 @@ function TiptapEditable({
   onFocus,
   onUndo,
   onRedo,
+  busy,
   invalid,
   describedBy,
   ref,
@@ -311,7 +316,7 @@ function TiptapEditable({
     onFocus: () => latest.current.onFocus(),
   });
 
-  // Undo or redo replaced the value: load it without reporting it as an edit.
+  // Undo, redo or the AI replaced the value: load it without reporting it as an edit.
   // In a microtask, because token chips are React node views that render with
   // flushSync, which React forbids inside an effect. The page places the caret
   // in a microtask queued after this one.
@@ -324,6 +329,11 @@ function TiptapEditable({
       editor.commands.setContent(toFieldDoc(value, multiline), { emitUpdate: false });
     });
   }, [editor, syncRevision, value, multiline]);
+
+  // No update event: nothing was edited, so nothing should reach the history.
+  useEffect(() => {
+    editor?.setEditable(!busy, false);
+  }, [editor, busy]);
 
   useImperativeHandle(
     ref,

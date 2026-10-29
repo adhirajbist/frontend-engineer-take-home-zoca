@@ -10,10 +10,10 @@ describe("validateCustomPrompt", () => {
     expect(validateCustomPrompt("   \n  ")).toEqual({ ok: false, error: EMPTY_PROMPT_ERROR });
   });
 
-  it("accepts a real prompt and trims it", () => {
+  it("accepts a real prompt exactly as typed", () => {
     expect(validateCustomPrompt("  20% off balayage \n")).toEqual({
       ok: true,
-      prompt: "20% off balayage",
+      prompt: "  20% off balayage \n",
     });
   });
 });

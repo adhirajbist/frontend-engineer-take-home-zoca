@@ -17,7 +17,9 @@ import {
 import { flushSync } from "react-dom";
 import { useShallow } from "zustand/react/shallow";
 import { SegmentedTabs } from "@/components/SegmentedTabs";
-import { AiQuickActions, type QuickAction } from "@/components/cards/content/AiQuickActions";
+import type { QuickAction } from "@/ai/constants";
+import { customPromptResult, reviseMessage } from "@/ai/reviseMessage";
+import { AiQuickActions } from "@/components/cards/content/AiQuickActions";
 import { PRIMARY_BUTTON } from "@/components/custom-group/buttonStyles";
 import { NoCampaign } from "@/components/NoCampaign";
 import { CONTENT_CARD } from "@/lib/editorRoutes";
@@ -27,6 +29,7 @@ import {
   isDirty,
   messageEditorReducer,
   validateField,
+  type FieldValues,
 } from "@/lib/messageEditorReducer";
 import { isWithinLimit, OPT_OUT_LINE, type MessageField } from "@/lib/messageLimits";
 import { useCampaignStore } from "@/store/campaignStore";
@@ -100,17 +103,17 @@ function toFieldValues(messages: Campaign["messages"]): Record<MessageField, str
   };
 }
 
-function onAiAction(action: QuickAction) {
-  // TODO: rewrite the message with AI. For emails this needs to know which
-  // field to rewrite. Record the result as one undo step, the same way a
-  // token is added ("tokenInserted": typingTimer.cancel(), then dispatch).
-  void action;
-}
+/** Which AI chip is waiting for an answer. */
+type AiChip = QuickAction | "customPrompt";
 
-function onCustomPrompt(prompt: string) {
-  // TODO: write a new message from the owner's description.
-  void prompt;
-}
+const AI_DONE: Record<AiChip, string> = {
+  shorter: "Made your message shorter",
+  friendlier: "Made your message friendlier",
+  moreUrgent: "Made your message more urgent",
+  customPrompt: "Message updated",
+};
+
+const AI_FAILED = "I couldn’t change that one. Try again.";
 
 /** Edits one channel's message. Shows a way back if the campaign doesn't use it. */
 export function MessageEditorPage({ channel }: { channel: Channel }) {
@@ -120,7 +123,11 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
   const campaign = useCampaignStore(
     useShallow((state) =>
       state.campaign
-        ? { channels: state.campaign.channels, messages: state.campaign.messages }
+        ? {
+            id: state.campaign.id,
+            channels: state.campaign.channels,
+            messages: state.campaign.messages,
+          }
         : null,
     ),
   );
@@ -132,7 +139,12 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
         {!campaign ? (
           <NoCampaign />
         ) : campaign.channels.includes(channel) ? (
-          <MessageEditor key={bfcacheId} channel={channel} messages={campaign.messages} />
+          <MessageEditor
+            key={bfcacheId}
+            campaignId={campaign.id}
+            channel={channel}
+            messages={campaign.messages}
+          />
         ) : (
           <>
             <BackLink />
@@ -147,16 +159,19 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
 type BackLinkProps = {
   ref?: RefObject<HTMLAnchorElement | null>;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  /** Marked unavailable; the onClick must then prevent the navigation. */
+  disabled?: boolean;
 };
 
-function BackLink({ ref, onClick }: BackLinkProps) {
+function BackLink({ ref, onClick, disabled }: BackLinkProps) {
   return (
     <Link
       ref={ref}
       href={CONTENT_CARD}
       scroll={false}
       onClick={onClick}
-      className="inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-burgundy hover:underline"
+      aria-disabled={disabled || undefined}
+      className="inline-flex min-h-11 items-center gap-2 rounded-lg font-semibold text-burgundy hover:underline aria-disabled:cursor-not-allowed aria-disabled:opacity-60 aria-disabled:hover:no-underline"
     >
       <ArrowLeft aria-hidden="true" className="size-5" />
       Back to campaign
@@ -181,12 +196,14 @@ function NotInCampaign({ noun }: { noun: string }) {
 }
 
 type MessageEditorProps = {
+  /** Also the preset id, which picks the AI's rewrites. */
+  campaignId: string;
   channel: Channel;
   /** Read once, when the page opens. "Dirty" compares against these. */
   messages: Campaign["messages"];
 };
 
-function MessageEditor({ channel, messages }: MessageEditorProps) {
+function MessageEditor({ campaignId, channel, messages }: MessageEditorProps) {
   const router = useRouter();
   const setup = EDITORS[channel];
   const saveSmsMessage = useCampaignStore((state) => state.saveSmsMessage);
@@ -208,22 +225,28 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
   const dirty = isDirty(state) && !leaving;
   const backRef = useRef<HTMLAnchorElement>(null);
   const [discardOpen, setDiscardOpen] = useState(false);
-  const writeOwnRef = useRef<HTMLButtonElement>(null);
+  const customPromptRef = useRef<HTMLButtonElement>(null);
+  const actionRefs = useRef<Partial<Record<QuickAction, HTMLButtonElement | null>>>({});
   const [promptOpen, setPromptOpen] = useState(false);
   // Kept here, so Cancel and reopen keeps what was typed.
   const [prompt, setPrompt] = useState("");
+  // While set, the AI is working: nothing else may change the message.
+  const [aiBusy, setAiBusy] = useState<AiChip | null>(null);
+  const [aiError, setAiError] = useState<string | null>(null);
 
   function askToDiscard() {
     cancelPlacing();
     setDiscardOpen(true);
   }
 
-  useLeaveGuard(dirty, askToDiscard);
+  useLeaveGuard(dirty, () => {
+    if (!aiBusy) askToDiscard();
+  });
 
   function handleBack(event: MouseEvent<HTMLAnchorElement>) {
-    if (!dirty) return;
+    if (!dirty && !aiBusy) return;
     event.preventDefault();
-    askToDiscard();
+    if (!aiBusy) askToDiscard();
   }
 
   function leave() {
@@ -237,6 +260,7 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
   useEffect(() => () => typingTimer.cancel(), [typingTimer]);
 
   function handleChange(field: MessageField, next: string, kind: EditKind) {
+    setAiError(null);
     if (kind === "typing") {
       dispatch({ type: "fieldChanged", field, value: next });
       typingTimer.restart();
@@ -248,7 +272,7 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
 
   function handleHistory(direction: "undo" | "redo") {
     const possible = direction === "undo" ? canUndo(state.history) : canRedo(state.history);
-    if (!possible) return;
+    if (!possible || aiBusy) return;
     typingTimer.cancel();
     dispatch({ type: direction });
     announce(direction === "undo" ? "Undone" : "Redone");
@@ -268,6 +292,42 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
     queueMicrotask(() => fieldRefs.current[target]?.placeCaretAtEnd(editorHadFocus));
   }, [state, lastFocused]);
 
+
+  /**
+   * Waits for the AI with the controls locked, then applies its rewrite as one
+   * undo step. Typing so far becomes its own step first.
+   */
+  async function runAi(chip: AiChip, ask: () => Promise<FieldValues | null>) {
+    cancelPlacing();
+    typingTimer.cancel();
+    dispatch({ type: "typingPaused" });
+    setAiError(null);
+    setAiBusy(chip);
+    const values = await ask();
+    if (values) dispatch({ type: "aiApplied", values });
+    else setAiError(AI_FAILED);
+    setAiBusy(null);
+    const chipButton = chip === "customPrompt" ? customPromptRef.current : actionRefs.current[chip];
+    chipButton?.focus();
+    if (values) announce(AI_DONE[chip]);
+  }
+
+  function handleQuickAction(action: QuickAction) {
+    void runAi(action, async () => {
+      if (channel === "sms") {
+        const result = await reviseMessage({ presetId: campaignId, channel, action });
+        return result.ok ? { sms: result.value } : null;
+      }
+      const result = await reviseMessage({ presetId: campaignId, channel, action });
+      return result.ok ? { emailSubject: result.value.subject, emailBody: result.value.body } : null;
+    });
+  }
+
+  /** Text message: replaces the message. Email: replaces the body only. */
+  function handleCustomPrompt(text: string) {
+    const field: MessageField = channel === "sms" ? "sms" : "emailBody";
+    void runAi("customPrompt", async () => ({ [field]: await customPromptResult({ prompt: text }) }));
+  }
 
   const value = (field: MessageField) => state.values[field] ?? "";
   const paused = state.fields.some((field) => !isWithinLimit(field, value(field)));
@@ -296,10 +356,12 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
     const text = state.errors[field];
     return text ? [{ id: errorId(field), text }] : [];
   });
+  if (aiError) errors.push({ id: "ai-error", text: aiError });
+  const busy = aiBusy !== null;
 
   return (
     <>
-      <BackLink ref={backRef} onClick={handleBack} />
+      <BackLink ref={backRef} onClick={handleBack} disabled={busy} />
       <h1 className="mt-3 text-2xl font-bold sm:text-3xl">{setup.title}</h1>
       <p aria-live="polite" className="sr-only">
         {announcement}
@@ -319,10 +381,11 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
             <TokenRow
               placing={placing}
               onToggle={togglePlacing}
+              disabled={busy}
               actions={
                 <UndoRedoButtons
-                  canUndo={canUndo(state.history)}
-                  canRedo={canRedo(state.history)}
+                  canUndo={!busy && canUndo(state.history)}
+                  canRedo={!busy && canRedo(state.history)}
                   onUndo={() => handleHistory("undo")}
                   onRedo={() => handleHistory("redo")}
                 />
@@ -344,6 +407,7 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
                   onFocus={() => setLastFocused(f.field)}
                   onUndo={() => handleHistory("undo")}
                   onRedo={() => handleHistory("redo")}
+                  busy={busy}
                   error={state.errors[f.field]}
                   errorId={errorId(f.field)}
                   boxClassName="flex-1 min-h-39"
@@ -352,15 +416,17 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
             </div>
             <div className="mt-4">
               <AiQuickActions
-                onAction={onAiAction}
-                onWriteOwn={() => {
+                onAction={handleQuickAction}
+                onCustomPrompt={() => {
                   cancelPlacing();
                   setPromptOpen(true);
                 }}
-                writeOwnRef={writeOwnRef}
+                customPromptRef={customPromptRef}
+                actionRefs={actionRefs}
+                busy={busy}
               />
             </div>
-            <EditorFooter errors={errors} onSave={handleSave} />
+            <EditorFooter errors={errors} onSave={handleSave} disabled={busy} />
           </Panel>
           <Panel value="preview" aria-label={setup.previewLabel}>
             <PreviewPanel channel={channel} preview={state.preview} paused={paused} />
@@ -379,11 +445,11 @@ function MessageEditor({ channel, messages }: MessageEditorProps) {
         prompt={prompt}
         onPromptChange={setPrompt}
         onSend={(text) => {
-          onCustomPrompt(text);
           setPrompt("");
           setPromptOpen(false);
+          handleCustomPrompt(text);
         }}
-        returnFocusRef={writeOwnRef}
+        returnFocusRef={customPromptRef}
       />
     </>
   );

@@ -96,6 +96,21 @@
   }
 }
 
+/* AI shimmer: a light band sweeping across (see ShimmerBox). Transform only.
+   Used under motion-safe only. */
+@theme {
+  --animate-shimmer: shimmer 1.4s ease-in-out infinite;
+
+  @keyframes shimmer {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+}
+
 /* Short screens, like phones in landscape. Cards compact instead of scrolling. */
 @custom-variant short (@media (max-height: 30rem));
 

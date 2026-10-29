@@ -7,6 +7,8 @@ type TokenRowProps = {
   /** The token waiting to be placed, if any. */
   placing: TokenId | null;
   onToggle: (id: TokenId) => void;
+  /** While the AI works: the chips ignore presses but keep focus. */
+  disabled: boolean;
   /** Shown on the right of the chips, e.g. undo and redo. */
   actions: ReactNode;
 };
@@ -15,7 +17,7 @@ type TokenRowProps = {
 const keepEditorFocus = (event: { preventDefault: () => void }) => event.preventDefault();
 
 /** Token chips with a note on how to place them. */
-export function TokenRow({ placing, onToggle, actions }: TokenRowProps) {
+export function TokenRow({ placing, onToggle, disabled, actions }: TokenRowProps) {
   const label = placing ? findToken(placing)?.label : null;
 
   return (
@@ -28,10 +30,11 @@ export function TokenRow({ placing, onToggle, actions }: TokenRowProps) {
               key={token.id}
               type="button"
               aria-pressed={pressed}
+              aria-disabled={disabled || undefined}
               {...KEEPS_PLACING}
               onPointerDown={keepEditorFocus}
-              onClick={() => onToggle(token.id)}
-              className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 text-sm font-semibold ${
+              onClick={() => !disabled && onToggle(token.id)}
+              className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-4 text-sm font-semibold aria-disabled:cursor-not-allowed aria-disabled:opacity-60 ${
                 pressed
                   ? "border-purple bg-purple text-white"
                   : "border-purple/40 bg-purple/12 text-burgundy hover:bg-purple/20"
