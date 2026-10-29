@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, type RefObject } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useToday } from "@/components/custom-group/useToday";
+import { AGENT_BUTTON } from "@/components/custom-group/buttonStyles";
 import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import clientsData from "@/data/clients.json";
@@ -157,7 +158,7 @@ function LaunchArea({ campaign, segment }: LaunchAreaProps) {
           ref={launchButtonRef}
           type="button"
           onClick={openLaunch}
-          className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-yellow px-8 text-lg font-bold text-ink hover:bg-yellow/80 sm:w-auto sm:self-end short:min-h-11 short:text-base"
+          className={`${AGENT_BUTTON} min-h-12 w-full px-8 text-lg @xl:w-auto @xl:self-end short:min-h-11 short:text-base`}
         >
           <Rocket aria-hidden="true" className="size-5" />
           {scheduled ? "Schedule" : "Launch"}

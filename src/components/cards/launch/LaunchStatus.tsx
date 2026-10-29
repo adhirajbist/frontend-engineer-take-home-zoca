@@ -40,11 +40,11 @@ export function LaunchStatus({
     : "Clients who unsubscribe are removed automatically.";
 
   return (
-    // Side by side from sm up, so short landscape screens keep room for the list.
+    // Side by side on wider cards, so short landscape screens keep room for the list.
     <div
       ref={ref}
       tabIndex={-1}
-      className="flex flex-col gap-2 rounded-2xl border border-ink/15 p-[clamp(0.625rem,2svh,1rem)] sm:flex-row sm:items-center sm:gap-4"
+      className="flex flex-col gap-2 rounded-2xl border border-ink/15 p-[clamp(0.625rem,2svh,1rem)] @xl:flex-row @xl:items-center @xl:gap-4"
     >
       <div className="min-w-0 flex-1">
         <p className="flex items-center gap-2 font-extrabold text-[clamp(1rem,min(4.5vw,2.8svh),1.25rem)]">

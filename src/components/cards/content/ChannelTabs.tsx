@@ -5,7 +5,7 @@ const TAB_LABELS: Record<Channel, string> = { sms: "Text", email: "Email" };
 
 /**
  * Segmented switch between the text and email previews. Must sit inside
- * Tabs.Root. Right-aligned, also when it wraps under the title on phones.
+ * Tabs.Root. Sits on its own line under the title, right-aligned.
  */
 export function ChannelTabs({ channels }: { channels: readonly Channel[] }) {
   return (

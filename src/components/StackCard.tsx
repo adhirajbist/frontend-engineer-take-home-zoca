@@ -3,7 +3,7 @@ import type { ReactElement, ReactNode } from "react";
 type StackCardProps = {
   step: number;
   title: string;
-  /** Shown beside the title, wrapping under it on narrow screens. */
+  /** Shown on its own line under the title, right-aligned. */
   headerAside?: ReactNode;
   /** Wraps the card's <section>, e.g. to make it a Radix Tabs root via asChild. */
   wrapSection?: (section: ReactElement) => ReactElement;
@@ -20,15 +20,14 @@ export function StackCard({ step, title, headerAside, wrapSection, children }: S
   const offset = `calc(var(--pad-y) + ${step - 1} * var(--strip))`;
 
   const section = (
+    // A size container, so layouts inside follow the card's width (@xl: etc.).
     <section
       aria-labelledby={headingId}
-      className="sticky mb-(--strip) flex h-(--card-h) flex-col overflow-hidden rounded-3xl border border-ink/15 bg-white shadow-lg shadow-ink/10 last:mb-0"
+      className="@container sticky mb-(--strip) flex h-(--card-h) flex-col overflow-hidden rounded-3xl border border-ink/15 bg-white shadow-lg shadow-ink/10 last:mb-0"
       style={{ top: offset }}
     >
-      <header className="flex shrink-0 flex-wrap items-end justify-between gap-x-4 gap-y-2 px-5 pt-5 pb-3 sm:px-8 sm:pt-7 short:pt-3 short:pb-2">
-        {/* Grows to fill the row; headerAside only wraps below it when the
-            title would get narrower than 12rem. */}
-        <div className="min-w-0 flex-1 basis-48">
+      <header className="flex shrink-0 flex-col gap-2 px-5 short:gap-1 pt-5 pb-3 sm:px-8 sm:pt-7 short:pt-3 short:pb-2">
+        <div className="min-w-0">
           <p className="text-sm font-bold uppercase tracking-wide text-plum short:text-xs">
             Step {step}
           </p>

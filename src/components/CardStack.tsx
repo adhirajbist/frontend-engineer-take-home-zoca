@@ -111,7 +111,8 @@ export function CardStack({ count, children }: CardStackProps) {
       className="h-(--screen) snap-y snap-mandatory overflow-y-auto overscroll-none px-4 [--pad-y:1rem] [--strip:14px] motion-safe:scroll-smooth sm:px-6 sm:[--pad-y:1.5rem] lg:px-10"
       style={cardHeight}
     >
-      <div className="mx-auto max-w-300 py-(--pad-y)">{children}</div>
+      {/* One width for the whole stack, so the strips line up with the card in front. */}
+      <div className="mx-auto max-w-2xl py-(--pad-y)">{children}</div>
     </main>
   );
 }

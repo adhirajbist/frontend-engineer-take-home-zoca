@@ -1,9 +1,17 @@
 "use client";
 
 import { Pencil } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
 import { useShallow } from "zustand/react/shallow";
 import { AgentBubble } from "@/components/AgentBubble";
+import { AGENT_BUTTON } from "@/components/custom-group/buttonStyles";
 import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import { StatusMessage } from "@/components/StatusMessage";
@@ -14,7 +22,7 @@ import { useCampaignStore } from "@/store/campaignStore";
 const TITLE = "The name of our campaign";
 const TITLE_ID = "step-1-title";
 
-const PRIMARY = "min-h-11 rounded-full bg-yellow px-5 font-bold text-ink";
+const AGENT = `${AGENT_BUTTON} min-h-11 px-5`;
 const SECONDARY =
   "inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-ink/20 bg-white px-5 font-bold text-ink hover:border-burgundy";
 
@@ -105,59 +113,90 @@ function NameEditor({ name, onSave }: NameEditorProps) {
 
   if (!editing) {
     return (
-      <div className="flex flex-col gap-[clamp(0.5rem,2svh,1rem)] short:gap-1">
-        <p className="text-[clamp(1.625rem,min(7.5vw,6svh),3.5rem)] font-extrabold leading-tight text-plum [overflow-wrap:anywhere] short:text-2xl">
-          {name}
-        </p>
-        <div className="flex justify-end">
-          <button ref={editButtonRef} type="button" onClick={startEditing} className={SECONDARY}>
+      <NameBlock
+        field={
+          <p className="text-[clamp(1.625rem,min(7.5vw,6svh),3.5rem)] font-extrabold leading-tight text-plum [overflow-wrap:anywhere] short:text-2xl">
+            {name}
+          </p>
+        }
+        actions={
+          <button ref={editButtonRef} type="button" onClick={startEditing} className={AGENT}>
             <Pencil aria-hidden="true" className="size-4" />
             Edit
           </button>
-        </div>
-      </div>
+        }
+      />
     );
   }
 
   return (
-    // pt-1.5 keeps the input's focus ring inside the card body, which clips.
-    <form onSubmit={save} noValidate className="flex flex-col gap-2 pt-1.5">
-      {/* text-base or larger stops iPhones zooming in on focus. */}
-      <input
-        ref={inputRef}
-        type="text"
-        value={draft}
-        onChange={(event) => {
-          // maxLength already cuts pastes short; this makes sure of it.
-          setDraft(event.target.value.slice(0, CAMPAIGN_NAME_MAX_LENGTH));
-          setError(null);
-        }}
-        onKeyDown={onKeyDown}
-        maxLength={CAMPAIGN_NAME_MAX_LENGTH}
-        autoComplete="off"
-        aria-labelledby={TITLE_ID}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? "campaign-name-error campaign-name-count" : "campaign-name-count"}
-        className="min-h-12 w-full rounded-lg border-2 border-ink/20 bg-white px-3 py-2 text-[clamp(1rem,min(5vw,3.5svh),1.5rem)] font-bold text-ink aria-invalid:border-error"
+    <form onSubmit={save} noValidate className="contents">
+      <NameBlock
+        field={
+          // pt-1.5 keeps the input's focus ring inside the card body, which clips.
+          <div className="flex flex-col gap-2 pt-1.5">
+            {/* text-base or larger stops iPhones zooming in on focus. */}
+            <input
+              ref={inputRef}
+              type="text"
+              value={draft}
+              onChange={(event) => {
+                // maxLength already cuts pastes short; this makes sure of it.
+                setDraft(event.target.value.slice(0, CAMPAIGN_NAME_MAX_LENGTH));
+                setError(null);
+              }}
+              onKeyDown={onKeyDown}
+              maxLength={CAMPAIGN_NAME_MAX_LENGTH}
+              autoComplete="off"
+              aria-labelledby={TITLE_ID}
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? "campaign-name-error campaign-name-count" : "campaign-name-count"}
+              className="min-h-12 w-full rounded-lg border-2 border-ink/20 bg-white px-3 py-2 text-[clamp(1rem,min(5vw,3.5svh),1.5rem)] font-bold text-ink aria-invalid:border-error"
+            />
+            {/* Room for one error line is always kept, so nothing jumps. */}
+            <div className="flex min-h-9 items-start justify-between gap-3">
+              <div role="alert" className="min-w-0">
+                {error && <StatusMessage id="campaign-name-error" kind="error" text={error} />}
+              </div>
+              <p id="campaign-name-count" className="shrink-0 pt-2 text-sm text-muted tabular-nums">
+                <span className="sr-only">Characters used: </span>
+                {draft.length}/{CAMPAIGN_NAME_MAX_LENGTH}
+              </p>
+            </div>
+          </div>
+        }
+        actions={
+          <>
+            <button type="button" onClick={stopEditing} className={SECONDARY}>
+              Cancel
+            </button>
+            <button type="submit" className={AGENT}>
+              Save
+            </button>
+          </>
+        }
       />
-      {/* Room for one error line is always kept, so nothing jumps. */}
-      <div className="flex min-h-9 items-start justify-between gap-3">
-        <div role="alert" className="min-w-0">
-          {error && <StatusMessage id="campaign-name-error" kind="error" text={error} />}
-        </div>
-        <p id="campaign-name-count" className="shrink-0 pt-2 text-sm text-muted tabular-nums">
-          <span className="sr-only">Characters used: </span>
-          {draft.length}/{CAMPAIGN_NAME_MAX_LENGTH}
-        </p>
-      </div>
-      <div className="flex justify-end gap-3">
-        <button type="button" onClick={stopEditing} className={SECONDARY}>
-          Cancel
-        </button>
-        <button type="submit" className={PRIMARY}>
-          Save
-        </button>
-      </div>
     </form>
+  );
+}
+
+type NameBlockProps = {
+  /** The name, or the input with its counter and error line. */
+  field: ReactNode;
+  /** Right-aligned buttons directly under the field. */
+  actions: ReactNode;
+};
+
+/**
+ * Centred in the space above the bubble. The field's slot is always as tall
+ * as the input, counter and error line, so the buttons stay put when editing
+ * starts or ends. Longer names make it grow.
+ */
+function NameBlock({ field, actions }: NameBlockProps) {
+  return (
+    <div className="flex flex-1 flex-col justify-center-safe gap-2">
+      <div className="flex min-h-27 flex-col justify-center">{field}</div>
+      <div className="flex justify-end gap-3">{actions}</div>
+    </div>
   );
 }

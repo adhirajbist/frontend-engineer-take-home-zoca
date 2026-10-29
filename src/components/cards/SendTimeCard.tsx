@@ -2,19 +2,20 @@
 
 import { useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
-import { AgentBubble } from "@/components/AgentBubble";
+import { AgentBubble, NoteLines } from "@/components/AgentBubble";
 import { NoCampaign } from "@/components/NoCampaign";
 import { RadioPill } from "@/components/RadioPill";
 import { StackCard } from "@/components/StackCard";
 import { formatSendTime } from "@/lib/time";
-import { useCardNote } from "@/store/agentNotesStore";
+import { useAgentNotesStore, useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import { SchedulePickerDialog } from "./send-time/SchedulePickerDialog";
 
 const TITLE = "When we plan to send the messages";
 
-/** Same size in every state: two lines tall, half the row wide. */
-const PILL = "h-16 rounded-2xl text-base leading-tight tabular-nums";
+/** Same size in every state: one line, full width, fixed height. */
+const PILL =
+  "h-14 w-full whitespace-nowrap rounded-2xl text-[clamp(0.9375rem,4.2cqi,1.125rem)] tabular-nums short:h-11 short:text-base";
 
 export function SendTimeCard() {
   const { sendTime, setSendTime } = useCampaignStore(
@@ -24,6 +25,8 @@ export function SendTimeCard() {
     })),
   );
   const note = useCardNote("time");
+  // With the reason, even once it is dismissed: the bubble keeps its room.
+  const fullNote = useAgentNotesStore((state) => state.notes?.time ?? null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const laterRef = useRef<HTMLInputElement>(null);
 
@@ -40,37 +43,43 @@ export function SendTimeCard() {
 
   return (
     <StackCard step={5} title={TITLE}>
-      <div
-        role="radiogroup"
-        aria-labelledby="step-5-title"
-        className="grid max-w-md grid-cols-2 gap-3 pt-1.5"
-      >
-        <RadioPill
-          name="send-time"
-          checked={sendTime?.mode === "now"}
-          onChange={() => setSendTime({ mode: "now" })}
-          className={PILL}
+      {/* Centred in the space above the bubble. py-1.5 keeps focus rings inside the body. */}
+      <div className="flex flex-1 flex-col justify-center-safe">
+        <div
+          role="radiogroup"
+          aria-labelledby="step-5-title"
+          className="flex flex-col gap-3 py-1.5 short:gap-2"
         >
-          Now
-        </RadioPill>
-        {/* Nothing changes until the owner picks a time. Clicking it again
-            while scheduled reopens the picker. */}
-        <RadioPill
-          name="send-time"
-          checked={scheduledIso !== null}
-          onChange={openPicker}
-          onClick={scheduledIso ? openPicker : undefined}
-          inputRef={laterRef}
-          className={PILL}
-        >
-          {scheduledIso ? <ScheduledLabel iso={scheduledIso} /> : "Later"}
-        </RadioPill>
+          <RadioPill
+            name="send-time"
+            checked={sendTime?.mode === "now"}
+            onChange={() => setSendTime({ mode: "now" })}
+            className={PILL}
+          >
+            Now
+          </RadioPill>
+          {/* Nothing changes until the owner picks a time. Clicking it again
+              while scheduled reopens the picker. */}
+          <RadioPill
+            name="send-time"
+            checked={scheduledIso !== null}
+            onChange={openPicker}
+            onClick={scheduledIso ? openPicker : undefined}
+            inputRef={laterRef}
+            className={PILL}
+          >
+            {scheduledIso ? <ScheduledLabel iso={scheduledIso} /> : "Later"}
+          </RadioPill>
+        </div>
       </div>
-      {/* At the bottom, so the pills above never move when the reason goes. */}
+      {/* Keeps the room of the reason, so the pills above never move when it goes. */}
       {note && (
-        <AgentBubble atCardBottom className="pt-4 short:pt-2">
-          {note.reason && <p className="mb-2 short:mb-1">{note.reason}</p>}
-          <p>{note.neutral}</p>
+        <AgentBubble
+          atCardBottom
+          className="pt-4 short:pt-2"
+          reserveFor={fullNote && <NoteLines note={fullNote} />}
+        >
+          <NoteLines note={note} />
         </AgentBubble>
       )}
       <SchedulePickerDialog
@@ -87,14 +96,12 @@ export function SendTimeCard() {
   );
 }
 
-/** "Nov 03, 2026" and "@ 10:00 AM", wrapping only between the two. */
+/** "Nov 03, 2026 @ 10:00 AM", on one line. */
 function ScheduledLabel({ iso }: { iso: string }) {
-  const [date, time] = formatSendTime({ mode: "scheduled", iso }).split(" @ ");
   return (
     <span>
       <span className="sr-only">Later, </span>
-      <span className="whitespace-nowrap">{date}</span>{" "}
-      <span className="whitespace-nowrap">@ {time}</span>
+      {formatSendTime({ mode: "scheduled", iso })}
     </span>
   );
 }

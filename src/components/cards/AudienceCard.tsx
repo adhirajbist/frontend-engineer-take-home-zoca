@@ -1,5 +1,6 @@
 import { Mail, MessageSquare, type LucideIcon } from "lucide-react";
 import { AgentBubble } from "@/components/AgentBubble";
+import { ReachCount } from "@/components/ReachCount";
 import { StackCard } from "@/components/StackCard";
 import type { AgentNote, Channel } from "@/types";
 
@@ -24,44 +25,22 @@ const REACH: Record<Channel, { icon: LucideIcon; phrase: string }> = {
 export function AudienceCard({ audienceName, counts, note, onEdit }: AudienceCardProps) {
   return (
     <StackCard step={4} title={AUDIENCE_TITLE}>
-      {/* Stacked on most screens. Short landscape screens go side by side. */}
-      <div className="flex flex-1 flex-col gap-[clamp(1rem,4svh,2rem)] sm:short:grid sm:short:grid-cols-2 sm:short:items-start sm:short:gap-5">
-        <div>
-          <p className="text-[clamp(1.75rem,min(9vw,7svh),3.5rem)] font-extrabold leading-tight text-plum short:text-2xl">
+      {/* Stacked on most screens, the group centred above the bubble.
+          Short landscape screens go side by side. */}
+      <div className="flex flex-1 flex-col gap-[clamp(1rem,4svh,2rem)] @xl:short:grid @xl:short:grid-cols-2 @xl:short:items-start @xl:short:gap-5">
+        <div className="flex flex-1 flex-col justify-center-safe">
+          <p className="text-[clamp(1.75rem,min(9vw,7svh),3.5rem)] font-extrabold leading-tight text-plum wrap-break-word short:text-2xl">
             {audienceName}
           </p>
           <div className="mt-[clamp(0.5rem,2svh,1rem)] flex flex-wrap gap-x-6 gap-y-1 short:mt-1">
             {counts.map(({ channel, count }) => (
-              <Reach key={channel} {...REACH[channel]} count={count} />
+              <ReachCount key={channel} {...REACH[channel]} count={count} />
             ))}
           </div>
         </div>
         {note && <Note note={note} onEdit={onEdit} />}
       </div>
     </StackCard>
-  );
-}
-
-type ReachProps = {
-  icon: LucideIcon;
-  count: number;
-  phrase: string;
-};
-
-function Reach({ icon: Icon, count, phrase }: ReachProps) {
-  const number = count.toLocaleString("en-US");
-  return (
-    <p className="flex items-center gap-2 text-[clamp(1rem,min(4.5vw,3svh),1.375rem)] short:text-base">
-      {/* Screen readers get one clean phrase, e.g. "212 by text". */}
-      <span className="sr-only">
-        {number} {phrase}
-      </span>
-      <Icon aria-hidden="true" className="size-[1.4em] shrink-0 text-plum" />
-      <span aria-hidden="true">
-        <span className="text-[1.75em] font-extrabold leading-none">{number}</span>{" "}
-        {phrase}
-      </span>
-    </p>
   );
 }
 
