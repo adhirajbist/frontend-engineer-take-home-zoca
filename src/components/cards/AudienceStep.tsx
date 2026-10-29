@@ -3,18 +3,14 @@
 import { useRouter } from "next/navigation";
 import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
-import {
-  AUDIENCE_TITLE,
-  AudienceCard,
-  DUMMY_REASON,
-  type ChannelCount,
-} from "@/components/cards/AudienceCard";
+import { AUDIENCE_TITLE, AudienceCard, type ChannelCount } from "@/components/cards/AudienceCard";
 import { useToday } from "@/components/custom-group/useToday";
 import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import clientsData from "@/data/clients.json";
 import { getAudienceStats } from "@/lib/reach";
 import { findSegment } from "@/lib/segments";
+import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import type { Client } from "@/types";
 
@@ -24,15 +20,15 @@ const CLIENTS: Client[] = clientsData;
 export function AudienceStep() {
   const router = useRouter();
   const today = useToday();
-  const { channels, segmentId, audienceEdited } = useCampaignStore(
+  const { channels, segmentId } = useCampaignStore(
     useShallow((state) => ({
       channels: state.campaign?.channels,
-      audienceEdited: state.campaign?.userEdited.audience ?? false,
       segmentId:
         state.campaign?.audience?.type === "segment" ? state.campaign.audience.segmentId : null,
     })),
   );
   const savedSegments = useCampaignStore((state) => state.savedSegments);
+  const note = useCardNote("audience");
 
   const segment = useMemo(
     () => (segmentId ? findSegment(segmentId, savedSegments) : undefined),
@@ -63,8 +59,7 @@ export function AudienceStep() {
     <AudienceCard
       audienceName={segment.name}
       counts={counts}
-      // Steve's reason no longer applies once the owner picked another group.
-      reason={audienceEdited ? null : DUMMY_REASON}
+      note={note}
       onEdit={() => router.push("/audience/custom")}
     />
   );

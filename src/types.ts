@@ -68,12 +68,19 @@ export type Campaign = {
   launchedAt?: string;
   /** Sorted as ["sms", "email"]. Never empty. */
   channels: Channel[];
-  /** Why Steve picked these channels. Shown until the owner changes them. */
-  channelReason: string;
-  /** True once the owner changes the channels or group themselves. */
-  userEdited: { channels: boolean; audience: boolean };
   /** Both messages are kept even when a channel is unselected, so edits survive. */
   messages: { sms?: SmsMessage; email?: EmailMessage };
   audience: Audience | null;
   sendTime: SendTime | null;
 };
+
+/** The cards Steve talks on. */
+export type AgentCardKey = "name" | "channel" | "content" | "audience" | "time";
+
+/** The cards where Steve also explains his pick. */
+export type ReasonCardKey = "channel" | "audience" | "time";
+
+/** reason: why Steve picked it, hidden once the owner changes it. neutral: always shown. */
+export type AgentNote = { reason?: string; neutral: string };
+
+export type AgentNotes = Record<AgentCardKey, AgentNote>;

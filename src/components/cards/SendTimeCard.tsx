@@ -2,10 +2,12 @@
 
 import { useRef, useState } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { AgentBubble } from "@/components/AgentBubble";
 import { NoCampaign } from "@/components/NoCampaign";
 import { RadioPill } from "@/components/RadioPill";
 import { StackCard } from "@/components/StackCard";
 import { formatSendTime, SALON_CITY, salonTimeZoneName } from "@/lib/time";
+import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import { SchedulePickerDialog } from "./send-time/SchedulePickerDialog";
 
@@ -21,6 +23,7 @@ export function SendTimeCard() {
       setSendTime: state.setSendTime,
     })),
   );
+  const note = useCardNote("time");
   const [pickerOpen, setPickerOpen] = useState(false);
   const laterRef = useRef<HTMLInputElement>(null);
 
@@ -66,6 +69,13 @@ export function SendTimeCard() {
       <p className="mt-3 text-sm text-muted">
         Times are in {salonTimeZoneName()} ({SALON_CITY}).
       </p>
+      {/* At the bottom, so the pills above never move when the reason goes. */}
+      {note && (
+        <AgentBubble atCardBottom className="pt-4 short:pt-2">
+          {note.reason && <p className="mb-2 short:mb-1">{note.reason}</p>}
+          <p>{note.neutral}</p>
+        </AgentBubble>
+      )}
       <SchedulePickerDialog
         open={pickerOpen}
         onClose={() => setPickerOpen(false)}

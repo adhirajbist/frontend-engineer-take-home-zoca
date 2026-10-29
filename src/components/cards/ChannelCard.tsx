@@ -12,12 +12,12 @@ import clientsData from "@/data/clients.json";
 import { formatCount } from "@/lib/format";
 import { getReachableCount } from "@/lib/reach";
 import { findSegment } from "@/lib/segments";
+import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import type { Channel, Client } from "@/types";
 
 const CLIENTS: Client[] = clientsData;
 const TITLE = "Where we’ll send the messages";
-const CHANGE_HINT = "You can change it by selecting the preferred channel.";
 
 const OPTIONS: readonly { label: string; channels: readonly Channel[] }[] = [
   { label: "Text", channels: ["sms"] },
@@ -32,8 +32,6 @@ export function ChannelCard() {
       state.campaign
         ? {
             channels: state.campaign.channels,
-            channelReason: state.campaign.channelReason,
-            edited: state.campaign.userEdited.channels,
             segmentId:
               state.campaign.audience?.type === "segment"
                 ? state.campaign.audience.segmentId
@@ -44,6 +42,7 @@ export function ChannelCard() {
   );
   const savedSegments = useCampaignStore((state) => state.savedSegments);
   const setChannels = useCampaignStore((state) => state.setChannels);
+  const note = useCardNote("channel");
 
   const segmentId = campaign?.segmentId;
   const segment = useMemo(
@@ -89,10 +88,12 @@ export function ChannelCard() {
         })}
       </div>
       <ReachLine count={count} />
-      <AgentBubble atCardBottom className="pt-4 short:pt-2">
-        {!campaign.edited && <p className="mb-2 short:mb-1">{campaign.channelReason}</p>}
-        <p>{CHANGE_HINT}</p>
-      </AgentBubble>
+      {note && (
+        <AgentBubble atCardBottom className="pt-4 short:pt-2">
+          {note.reason && <p className="mb-2 short:mb-1">{note.reason}</p>}
+          <p>{note.neutral}</p>
+        </AgentBubble>
+      )}
     </StackCard>
   );
 }

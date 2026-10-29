@@ -8,6 +8,7 @@ import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import { StatusMessage } from "@/components/StatusMessage";
 import { CAMPAIGN_NAME_MAX_LENGTH } from "@/lib/campaignName";
+import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 
 const TITLE = "The name of our campaign";
@@ -24,6 +25,7 @@ export function CampaignNameCard() {
       setCampaignName: state.setCampaignName,
     })),
   );
+  const note = useCardNote("name");
 
   if (name === undefined) {
     return (
@@ -39,9 +41,11 @@ export function CampaignNameCard() {
       {/* Hidden when it might not fit, so the card never scrolls. The worst
           case, 50 W's at 360px wide (5 lines), needs a 543px tall screen with
           the bubble; edit mode needs less. 552px leaves a little room. */}
-      <AgentBubble atCardBottom className="pt-4 [@media(max-height:34.5rem)]:hidden">
-        Hey! Scroll down to review the campaign.
-      </AgentBubble>
+      {note && (
+        <AgentBubble atCardBottom className="pt-4 [@media(max-height:34.5rem)]:hidden">
+          {note.neutral}
+        </AgentBubble>
+      )}
     </StackCard>
   );
 }

@@ -7,13 +7,11 @@ import { useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { CustomGroupBuilder } from "@/components/custom-group/CustomGroupBuilder";
 import { NoCampaign } from "@/components/NoCampaign";
+import { AUDIENCE_CARD } from "@/lib/editorRoutes";
 import { duplicateNameError } from "@/lib/saveFlow";
 import { findSegment } from "@/lib/segments";
 import { useCampaignStore } from "@/store/campaignStore";
 import type { Filter } from "@/types";
-
-/** CardStack reads the hash and jumps straight to the Audience card. */
-const AUDIENCE_CARD = "/#step-4";
 
 export default function CustomAudiencePage() {
   const router = useRouter();

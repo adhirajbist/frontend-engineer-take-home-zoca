@@ -1,7 +1,7 @@
 import { Mail, MessageSquare, type LucideIcon } from "lucide-react";
 import { AgentBubble } from "@/components/AgentBubble";
 import { StackCard } from "@/components/StackCard";
-import type { Channel } from "@/types";
+import type { AgentNote, Channel } from "@/types";
 
 /** One count per channel the campaign sends on. */
 export type ChannelCount = { channel: Channel; count: number };
@@ -9,14 +9,10 @@ export type ChannelCount = { channel: Channel; count: number };
 type AudienceCardProps = {
   audienceName: string;
   counts: readonly ChannelCount[];
-  /** Null once the owner picked the group themselves. */
-  reason: string | null;
+  /** What Steve says. No bubble when null. */
+  note: AgentNote | null;
   onEdit?: () => void;
 };
-
-/** DUMMY DATA: Steve's explanation, until the AI writes it. */
-export const DUMMY_REASON =
-  "I picked these clients because it’s been over 3 months since their last visit, and a friendly nudge often brings them back.";
 
 export const AUDIENCE_TITLE = "Here’s who we’ll reach out to";
 
@@ -25,7 +21,7 @@ const REACH: Record<Channel, { icon: LucideIcon; phrase: string }> = {
   email: { icon: Mail, phrase: "by email" },
 };
 
-export function AudienceCard({ audienceName, counts, reason, onEdit }: AudienceCardProps) {
+export function AudienceCard({ audienceName, counts, note, onEdit }: AudienceCardProps) {
   return (
     <StackCard step={4} title={AUDIENCE_TITLE}>
       {/* Stacked on most screens. Short landscape screens go side by side. */}
@@ -40,7 +36,7 @@ export function AudienceCard({ audienceName, counts, reason, onEdit }: AudienceC
             ))}
           </div>
         </div>
-        <Reason reason={reason} onEdit={onEdit} />
+        {note && <Note note={note} onEdit={onEdit} />}
       </div>
     </StackCard>
   );
@@ -69,17 +65,17 @@ function Reach({ icon: Icon, count, phrase }: ReachProps) {
   );
 }
 
-type ReasonProps = {
-  reason: string | null;
+type NoteProps = {
+  note: AgentNote;
   onEdit?: () => void;
 };
 
-function Reason({ reason, onEdit }: ReasonProps) {
+function Note({ note, onEdit }: NoteProps) {
   return (
     <AgentBubble atCardBottom>
-      {reason && <p className="mb-2 short:mb-1">{reason}</p>}
+      {note.reason && <p className="mb-2 short:mb-1">{note.reason}</p>}
       <p>
-        Want to change who gets this?{" "}
+        {note.neutral}{" "}
         <button
           type="button"
           onClick={onEdit}

@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { PRESET_CAMPAIGNS } from "@/data/presetCampaigns";
+import { buildAgentNotes, PRESET_CAMPAIGNS } from "@/data/presetCampaigns";
 import { filtersEqual } from "@/lib/filters";
 import { duplicateNameError } from "@/lib/saveFlow";
 import type { Filter } from "@/types";
+import { selectCardNote, useAgentNotesStore } from "./agentNotesStore";
 import { useCampaignStore } from "./campaignStore";
 
 const store = useCampaignStore;
@@ -27,8 +28,6 @@ describe("selectPresetCampaign", () => {
       name: WIN_BACK.name,
       status: "draft",
       channels: WIN_BACK.channels,
-      channelReason: WIN_BACK.channelReason,
-      userEdited: { channels: false, audience: false },
       messages: WIN_BACK.messages,
       audience: { type: "segment", segmentId: "lapsed-90" },
       sendTime: { mode: "now" },
@@ -150,40 +149,83 @@ describe("setSendTime", () => {
   });
 });
 
-describe("userEdited", () => {
+describe("Steve's reasons", () => {
   beforeEach(() => store.getState().selectPresetCampaign(WIN_BACK.id));
-  const edited = () => store.getState().campaign?.userEdited;
+  const reason = (card: "channel" | "audience" | "time") =>
+    selectCardNote(useAgentNotesStore.getState(), card)?.reason;
 
-  it("marks the channels once they change", () => {
-    store.getState().setChannels(["sms"]);
-    expect(edited()).toEqual({ channels: true, audience: false });
-    // Picking the original channels again does not undo it.
-    store.getState().setChannels(["sms", "email"]);
-    expect(edited()).toEqual({ channels: true, audience: false });
+  it("are filled in when a preset is selected", () => {
+    expect(useAgentNotesStore.getState().notes).toEqual(buildAgentNotes(WIN_BACK.id));
+    expect(reason("channel")).toBe(WIN_BACK.channelReason);
+    expect(reason("audience")).toBe(WIN_BACK.audienceReason);
+    expect(reason("time")).toBe(WIN_BACK.timeReason);
   });
 
-  it("changes nothing when the channels are the same", () => {
+  it("hides the channel reason for good once the channels change", () => {
+    store.getState().setChannels(["sms"]);
+    expect(reason("channel")).toBeUndefined();
+    expect(reason("audience")).toBe(WIN_BACK.audienceReason);
+    // Picking the original channels again does not bring it back.
+    store.getState().setChannels(["sms", "email"]);
+    expect(reason("channel")).toBeUndefined();
+  });
+
+  it("keeps the channel reason when the channels are the same", () => {
     const campaign = store.getState().campaign;
     store.getState().setChannels(["email", "sms"]);
     expect(store.getState().campaign).toBe(campaign);
+    expect(reason("channel")).toBe(WIN_BACK.channelReason);
   });
 
-  it("marks the group once it changes", () => {
+  it("hides the group reason once the group changes", () => {
     store.getState().setAudienceSegment("vip");
-    expect(edited()).toEqual({ channels: false, audience: true });
+    expect(reason("audience")).toBeUndefined();
+    expect(reason("channel")).toBe(WIN_BACK.channelReason);
   });
 
-  it("changes nothing when the group is the same", () => {
+  it("keeps the group reason when the group is the same", () => {
     const campaign = store.getState().campaign;
     store.getState().setAudienceSegment("lapsed-90");
     expect(store.getState().campaign).toBe(campaign);
+    expect(reason("audience")).toBe(WIN_BACK.audienceReason);
   });
 
-  it("resets both when a preset is selected", () => {
+  it("hides the send time reason once the mode or the time changes", () => {
+    store.getState().setSendTime({ mode: "scheduled", iso: "2026-11-03T16:00:00.000Z" });
+    expect(reason("time")).toBeUndefined();
+  });
+
+  it("keeps the send time reason when the send time is the same", () => {
+    store.getState().setSendTime({ mode: "now" });
+    expect(reason("time")).toBe(WIN_BACK.timeReason);
+  });
+
+  it("treats a different scheduled time as a change, and the same one as none", () => {
+    const iso = "2026-11-03T16:00:00.000Z";
+    store.getState().setSendTime({ mode: "scheduled", iso });
+    // Bring the reason back while the campaign stays scheduled.
+    useAgentNotesStore.getState().setNotes(buildAgentNotes(WIN_BACK.id));
+    store.getState().setSendTime({ mode: "scheduled", iso });
+    expect(reason("time")).toBe(WIN_BACK.timeReason);
+    store.getState().setSendTime({ mode: "scheduled", iso: "2026-11-04T16:00:00.000Z" });
+    expect(reason("time")).toBeUndefined();
+  });
+
+  it("come back when a preset is selected again", () => {
     store.getState().setChannels(["sms"]);
     store.getState().setAudienceSegment("vip");
+    store.getState().setSendTime({ mode: "scheduled", iso: "2026-11-03T16:00:00.000Z" });
     store.getState().selectPresetCampaign(WIN_BACK.id);
-    expect(edited()).toEqual({ channels: false, audience: false });
+    expect(reason("channel")).toBe(WIN_BACK.channelReason);
+    expect(reason("audience")).toBe(WIN_BACK.audienceReason);
+    expect(reason("time")).toBe(WIN_BACK.timeReason);
+  });
+
+  it("keep the neutral line after the reason is hidden", () => {
+    store.getState().setChannels(["sms"]);
+    expect(selectCardNote(useAgentNotesStore.getState(), "channel")).toEqual({
+      neutral: buildAgentNotes(WIN_BACK.id).channel.neutral,
+    });
   });
 });
 
@@ -356,6 +398,13 @@ describe("duplicate group names", () => {
 });
 
 describe("resetCampaign", () => {
+  it("clears Steve's notes", () => {
+    store.getState().selectPresetCampaign(WIN_BACK.id);
+    store.getState().resetCampaign();
+    expect(useAgentNotesStore.getState().notes).toBeNull();
+    expect(selectCardNote(useAgentNotesStore.getState(), "name")).toBeNull();
+  });
+
   it("clears the campaign and keeps saved segments", () => {
     store.getState().selectPresetCampaign(WIN_BACK.id);
     store.getState().addSavedSegment("Balayage regulars", FILTERS);

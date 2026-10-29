@@ -9,6 +9,7 @@ import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import { editMessagePath } from "@/lib/editorRoutes";
 import { renderMessage } from "@/lib/renderMessage";
+import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import type { Campaign, Channel } from "@/types";
 import { AiQuickActions, type QuickAction } from "./content/AiQuickActions";
@@ -55,6 +56,7 @@ function ContentPreview({ channels, messages, onAction }: ContentPreviewProps) {
   const emailSubject = messages.email?.subject ?? "";
   const emailBody = messages.email?.body ?? "";
   const [tab, setTab] = useState<Channel>(channels[0]);
+  const note = useCardNote("content");
   // Falls back if the selected channel is removed.
   const selected = channels.includes(tab) ? tab : channels[0];
 
@@ -85,15 +87,17 @@ function ContentPreview({ channels, messages, onAction }: ContentPreviewProps) {
         </div>
         <div className="flex shrink-0 flex-col gap-[clamp(0.625rem,2svh,1.25rem)] short:gap-2">
           <AiQuickActions onAction={onAction} />
-          <AgentBubble atCardBottom>
-            Want a different message?{" "}
-            <Link
-              href={editMessagePath(selected)}
-              className="relative mt-1 inline-block rounded-full bg-yellow px-3 py-1.5 font-bold text-ink after:absolute after:inset-x-0 after:-inset-y-1.5 short:mt-0.5 short:py-0.5 short:after:-inset-y-2.5"
-            >
-              Edit message
-            </Link>
-          </AgentBubble>
+          {note && (
+            <AgentBubble atCardBottom>
+              {note.neutral}{" "}
+              <Link
+                href={editMessagePath(selected)}
+                className="relative mt-1 inline-block rounded-full bg-yellow px-3 py-1.5 font-bold text-ink after:absolute after:inset-x-0 after:-inset-y-1.5 short:mt-0.5 short:py-0.5 short:after:-inset-y-2.5"
+              >
+                Edit message
+              </Link>
+            </AgentBubble>
+          )}
         </div>
       </div>
     </StackCard>

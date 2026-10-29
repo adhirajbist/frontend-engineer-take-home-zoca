@@ -73,7 +73,7 @@ function currentIndex(stack: HTMLElement, markers: HTMLElement[]) {
 export function CardStack({ count, children }: CardStackProps) {
   const stackRef = useRef<HTMLElement>(null);
 
-  // A hash like "/#step-4" (from "Back to campaign") jumps to that card before
+  // A hash like "/campaign#step-4" (from "Back to campaign") jumps to that card before
   // the first paint: no smooth scroll, no flash of card 1. Next.js keeps this
   // page alive with Activity and re-runs layout effects when it shows it again.
   useLayoutEffect(() => {

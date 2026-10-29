@@ -5,6 +5,7 @@ import { useShallow } from "zustand/react/shallow";
 import { useToday } from "@/components/custom-group/useToday";
 import clientsData from "@/data/clients.json";
 import { PRESET_CAMPAIGNS } from "@/data/presetCampaigns";
+import { CAMPAIGN_PATH } from "@/lib/editorRoutes";
 import { CHANNEL_NAMES, describeFilter } from "@/lib/filters";
 import { getAudienceStats } from "@/lib/reach";
 import { findSegment, getAllSegments } from "@/lib/segments";
@@ -32,8 +33,8 @@ export function DevCampaigns() {
         <strong>State is in memory only. A reload resets it. Use the link to move around.</strong>
       </p>
       <p>
-        <Link href="/" className="underline">
-          Go to the home page
+        <Link href={CAMPAIGN_PATH} className="underline">
+          Go to the campaign
         </Link>
       </p>
 

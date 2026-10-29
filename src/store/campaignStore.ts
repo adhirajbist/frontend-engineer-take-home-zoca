@@ -9,10 +9,11 @@
  * that build a new object or array in useShallow.
  */
 import { create } from "zustand";
-import { buildCampaignFromPreset } from "@/data/presetCampaigns";
+import { buildAgentNotes, buildCampaignFromPreset } from "@/data/presetCampaigns";
 import { CAMPAIGN_NAME_MAX_LENGTH } from "@/lib/campaignName";
 import { cloneFilters, newFilterId } from "@/lib/filters";
 import { isNameTaken } from "@/lib/segments";
+import { useAgentNotesStore } from "@/store/agentNotesStore";
 import type { Campaign, Channel, EmailMessage, Filter, Segment, SendTime } from "@/types";
 
 export type AddSegmentResult =
@@ -28,12 +29,13 @@ type CampaignState = {
   selectPresetCampaign: (presetId: string) => void;
   saveSmsMessage: (text: string) => void;
   saveEmailMessage: (email: EmailMessage) => void;
-  /** Marks the group as changed by the owner, unless it is the same group. */
+  /** Hides Steve's group reason, unless it is the same group. */
   setAudienceSegment: (segmentId: string) => void;
   /** Trims the name. At most CAMPAIGN_NAME_MAX_LENGTH characters. */
   setCampaignName: (name: string) => ActionResult<"empty" | "too-long" | "no-campaign">;
-  /** Never touches the messages. Marks the channels as changed by the owner. */
+  /** Never touches the messages. Hides Steve's channel reason if they change. */
   setChannels: (channels: readonly Channel[]) => ActionResult<"empty" | "no-campaign">;
+  /** Hides Steve's send time reason if it changes. */
   setSendTime: (sendTime: SendTime) => ActionResult<"no-campaign">;
   /** Sent if the send time is now (or not picked), otherwise scheduled. */
   launchCampaign: (now: Date) => void;
@@ -41,7 +43,7 @@ type CampaignState = {
   cancelSchedule: () => void;
   /** Adds a saved group. Does not change the campaign's audience. */
   addSavedSegment: (name: string, filters: readonly Filter[]) => AddSegmentResult;
-  /** Clears the campaign. Saved groups stay. */
+  /** Clears the campaign and Steve's notes. Saved groups stay. */
   resetCampaign: () => void;
   clearSavedSegments: () => void;
 };
@@ -83,9 +85,11 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
   campaign: null,
   savedSegments: [],
 
-  // A fresh preset has both userEdited flags off.
-  selectPresetCampaign: (presetId) =>
-    set({ campaign: buildCampaignFromPreset(presetId, new Date()) }),
+  // Steve's notes come back fresh, with every reason showing.
+  selectPresetCampaign: (presetId) => {
+    set({ campaign: buildCampaignFromPreset(presetId, new Date()) });
+    useAgentNotesStore.getState().setNotes(buildAgentNotes(presetId));
+  },
 
   saveSmsMessage: (text) =>
     set(
@@ -106,13 +110,8 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
   setAudienceSegment: (segmentId) => {
     const audience = get().campaign?.audience;
     if (audience?.type === "segment" && audience.segmentId === segmentId) return;
-    set(
-      commitEdit((campaign) => ({
-        ...campaign,
-        audience: { type: "segment", segmentId },
-        userEdited: { ...campaign.userEdited, audience: true },
-      })),
-    );
+    set(commitEdit((campaign) => ({ ...campaign, audience: { type: "segment", segmentId } })));
+    useAgentNotesStore.getState().dismissReason("audience");
   },
 
   setCampaignName: (name) => {
@@ -131,13 +130,8 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
     const sorted = CHANNEL_ORDER.filter((channel) => channels.includes(channel));
     if (sorted.length === 0) return { ok: false, reason: "empty" };
     if (sorted.join() !== campaign.channels.join()) {
-      set(
-        commitEdit((current) => ({
-          ...current,
-          channels: sorted,
-          userEdited: { ...current.userEdited, channels: true },
-        })),
-      );
+      set(commitEdit((current) => ({ ...current, channels: sorted })));
+      useAgentNotesStore.getState().dismissReason("channel");
     }
     return { ok: true };
   },
@@ -147,6 +141,7 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
     if (!campaign) return { ok: false, reason: "no-campaign" };
     if (!sameSendTime(campaign.sendTime, sendTime)) {
       set(commitEdit((current) => ({ ...current, sendTime: { ...sendTime } })));
+      useAgentNotesStore.getState().dismissReason("time");
     }
     return { ok: true };
   },
@@ -179,7 +174,10 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
     return { ok: true, segment };
   },
 
-  resetCampaign: () => set({ campaign: null }),
+  resetCampaign: () => {
+    set({ campaign: null });
+    useAgentNotesStore.getState().clearNotes();
+  },
 
   clearSavedSegments: () => set({ savedSegments: [] }),
 }));

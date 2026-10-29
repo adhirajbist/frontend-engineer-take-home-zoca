@@ -7,5 +7,11 @@ export function editMessagePath(channel: Channel): string {
   return `/content/edit/${CHANNEL_SLUGS[channel]}`;
 }
 
+/** The card stack. Add a "#step-N" hash to land on a card. */
+export const CAMPAIGN_PATH = "/campaign";
+
 /** CardStack reads the hash and jumps straight to the Content card. */
-export const CONTENT_CARD = "/#step-3";
+export const CONTENT_CARD = `${CAMPAIGN_PATH}#step-3`;
+
+/** CardStack reads the hash and jumps straight to the Audience card. */
+export const AUDIENCE_CARD = `${CAMPAIGN_PATH}#step-4`;

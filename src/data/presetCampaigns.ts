@@ -1,8 +1,12 @@
+import { NEUTRAL_LINES } from "@/data/agentLines";
 import { birthdayMonthSegmentId } from "@/lib/segments";
-import type { Campaign, Channel, EmailMessage, SmsMessage } from "@/types";
+import type { AgentNotes, Campaign, Channel, EmailMessage, SmsMessage } from "@/types";
 
 /** Stands in for "Clients born in <this month>", resolved when the campaign is picked. */
 export const BIRTHDAY_THIS_MONTH = "birthday-this-month";
+
+/** Steve's reasons stay short: at most 4 lines in his bubble on a 360px phone. */
+export const MAX_REASON_LENGTH = 110;
 
 export type PresetCampaign = {
   /** Same as the name, the label the owner picks. */
@@ -10,8 +14,11 @@ export type PresetCampaign = {
   name: string;
   /** Which messages are sent. Both messages exist either way. */
   channels: Channel[];
-  /** Steve explains the channels, in 1 or 2 short sentences. */
+  /** Steve's reasons for his picks, each at most MAX_REASON_LENGTH characters. */
   channelReason: string;
+  audienceReason: string;
+  /** Why sending now fits this campaign. */
+  timeReason: string;
   messages: { sms: SmsMessage; email: EmailMessage };
   /** A preset segment id, or BIRTHDAY_THIS_MONTH. */
   segmentId: string;
@@ -24,7 +31,11 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     name: "Win back clients who haven't visited in 3 months",
     channels: ["sms", "email"],
     channelReason:
-      "I picked text and email together. A quick text gets noticed, and the email gives them a warm reminder to come back.",
+      "A quick text gets noticed right away, and the email gives them a warm reminder to come back.",
+    audienceReason:
+      "These clients haven't visited in over 3 months, so a friendly hello could be what brings them back.",
+    timeReason:
+      "The sooner they hear from you, the sooner they can book, so there's no need to wait.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, it's been a while and we miss you at Lumen Hair & Spa! Ready for a fresh look? Book your next visit anytime.",
@@ -41,7 +52,11 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     name: "Fill empty slots this week",
     channels: ["sms"],
     channelReason:
-      "I picked text because open spots this week need a quick heads-up that clients see right away.",
+      "Open spots go fast, and a text is the quickest way for clients to see them in time.",
+    audienceReason:
+      "Your regulars who haven't booked their next visit yet are the ones most likely to grab a spot.",
+    timeReason:
+      "These spots are open this week, so sending now gives clients the most time to fit one in.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, we have a few open spots at Lumen Hair & Spa this week. Want one? Book now before they fill up.",
@@ -58,7 +73,11 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     name: "Holiday gift cards",
     channels: ["sms", "email"],
     channelReason:
-      "I picked text and email together. The text is a short reminder, and the email has room to explain the gift cards.",
+      "The text is a quick nudge, and the email has room to say more about the gift cards.",
+    audienceReason:
+      "Anyone could be shopping for a holiday gift, so I picked all your clients to hear about this.",
+    timeReason:
+      "Lots of people start holiday shopping early, so now gives them plenty of time to pick a gift.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, still shopping for the holidays? Lumen Hair & Spa gift cards are a relaxing gift for anyone on your list.",
@@ -75,7 +94,11 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     name: "Birthday treat",
     channels: ["sms"],
     channelReason:
-      "I picked text because a short birthday message on their phone feels personal, like a note from a friend.",
+      "A birthday text on their phone feels personal, like a quick note from a friend who remembered.",
+    audienceReason:
+      "These clients have their birthday this month, so it's the perfect moment to help them celebrate.",
+    timeReason:
+      "Their birthday month has started, so sending now gives them the most time to book a treat.",
     messages: {
       sms: {
         text: "Happy birthday month, {{first_name}}! Celebrate with a visit to Lumen Hair & Spa and treat yourself to a little time just for you.",
@@ -89,18 +112,32 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
   },
 ];
 
-/** A fresh campaign from a preset. Shares nothing with the template. Throws on an unknown id. */
-export function buildCampaignFromPreset(presetId: string, today: Date): Campaign {
+function findPreset(presetId: string): PresetCampaign {
   const preset = PRESET_CAMPAIGNS.find((campaign) => campaign.id === presetId);
   if (!preset) throw new Error(`Unknown preset campaign: ${presetId}`);
-  const { id, name, channels, channelReason, messages, segmentId } = structuredClone(preset);
+  return preset;
+}
+
+/** What Steve says on each card for a preset. Throws on an unknown id. */
+export function buildAgentNotes(presetId: string): AgentNotes {
+  const { channelReason, audienceReason, timeReason } = findPreset(presetId);
+  return {
+    name: { neutral: NEUTRAL_LINES.name },
+    channel: { reason: channelReason, neutral: NEUTRAL_LINES.channel },
+    content: { neutral: NEUTRAL_LINES.content },
+    audience: { reason: audienceReason, neutral: NEUTRAL_LINES.audience },
+    time: { reason: timeReason, neutral: NEUTRAL_LINES.time },
+  };
+}
+
+/** A fresh campaign from a preset. Shares nothing with the template. Throws on an unknown id. */
+export function buildCampaignFromPreset(presetId: string, today: Date): Campaign {
+  const { id, name, channels, messages, segmentId } = structuredClone(findPreset(presetId));
   return {
     id,
     name,
     status: "draft",
     channels,
-    channelReason,
-    userEdited: { channels: false, audience: false },
     messages,
     audience: {
       type: "segment",
