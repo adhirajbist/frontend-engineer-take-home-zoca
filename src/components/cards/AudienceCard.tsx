@@ -9,7 +9,8 @@ export type ChannelCount = { channel: Channel; count: number };
 type AudienceCardProps = {
   audienceName: string;
   counts: readonly ChannelCount[];
-  reason: string;
+  /** Null once the owner picked the group themselves. */
+  reason: string | null;
   onEdit?: () => void;
 };
 
@@ -28,7 +29,7 @@ export function AudienceCard({ audienceName, counts, reason, onEdit }: AudienceC
   return (
     <StackCard step={4} title={AUDIENCE_TITLE}>
       {/* Stacked on most screens. Short landscape screens go side by side. */}
-      <div className="flex flex-col gap-[clamp(1rem,4svh,2rem)] sm:short:grid sm:short:grid-cols-2 sm:short:items-start sm:short:gap-5">
+      <div className="flex flex-1 flex-col gap-[clamp(1rem,4svh,2rem)] sm:short:grid sm:short:grid-cols-2 sm:short:items-start sm:short:gap-5">
         <div>
           <p className="text-[clamp(1.75rem,min(9vw,7svh),3.5rem)] font-extrabold leading-tight text-plum short:text-2xl">
             {audienceName}
@@ -69,15 +70,15 @@ function Reach({ icon: Icon, count, phrase }: ReachProps) {
 }
 
 type ReasonProps = {
-  reason: string;
+  reason: string | null;
   onEdit?: () => void;
 };
 
 function Reason({ reason, onEdit }: ReasonProps) {
   return (
-    <AgentBubble>
-      <p>{reason}</p>
-      <p className="mt-2 short:mt-1">
+    <AgentBubble atCardBottom>
+      {reason && <p className="mb-2 short:mb-1">{reason}</p>}
+      <p>
         Want to change who gets this?{" "}
         <button
           type="button"

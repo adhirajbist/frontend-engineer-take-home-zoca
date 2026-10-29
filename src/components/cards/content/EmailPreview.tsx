@@ -1,6 +1,6 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import { FullEmailDialog } from "./FullEmailDialog";
 import { SENDER_NAME } from "./dummyContent";
+import { MessagePreviewDialog } from "./MessagePreviewDialog";
 import { fitText, useClampToFit } from "./useClampToFit";
 
 type EmailPreviewProps = {
@@ -45,7 +45,7 @@ export function EmailPreview({ subject, body }: EmailPreviewProps) {
           />
         )}
       </div>
-      <FullEmailDialog subject={subject} body={body} />
+      <MessagePreviewDialog preview={{ channel: "email", subject, body }} />
     </Dialog.Root>
   );
 }

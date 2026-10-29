@@ -24,9 +24,10 @@ const CLIENTS: Client[] = clientsData;
 export function AudienceStep() {
   const router = useRouter();
   const today = useToday();
-  const { channels, segmentId } = useCampaignStore(
+  const { channels, segmentId, audienceEdited } = useCampaignStore(
     useShallow((state) => ({
       channels: state.campaign?.channels,
+      audienceEdited: state.campaign?.userEdited.audience ?? false,
       segmentId:
         state.campaign?.audience?.type === "segment" ? state.campaign.audience.segmentId : null,
     })),
@@ -62,7 +63,8 @@ export function AudienceStep() {
     <AudienceCard
       audienceName={segment.name}
       counts={counts}
-      reason={DUMMY_REASON}
+      // Steve's reason no longer applies once the owner picked another group.
+      reason={audienceEdited ? null : DUMMY_REASON}
       onEdit={() => router.push("/audience/custom")}
     />
   );

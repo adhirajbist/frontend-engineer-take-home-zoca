@@ -258,7 +258,7 @@ export function canEmail(client: Client): boolean {
   return client.email_opt_in && Boolean(client.email);
 }
 
-function canReach(client: Client, channel: Channel): boolean {
+export function canReach(client: Client, channel: Channel): boolean {
   return channel === "sms" ? canText(client) : canEmail(client);
 }
 

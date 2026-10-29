@@ -10,6 +10,8 @@ export type PresetCampaign = {
   name: string;
   /** Which messages are sent. Both messages exist either way. */
   channels: Channel[];
+  /** Steve explains the channels, in 1 or 2 short sentences. */
+  channelReason: string;
   messages: { sms: SmsMessage; email: EmailMessage };
   /** A preset segment id, or BIRTHDAY_THIS_MONTH. */
   segmentId: string;
@@ -21,6 +23,8 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     id: "Win back clients who haven't visited in 3 months",
     name: "Win back clients who haven't visited in 3 months",
     channels: ["sms", "email"],
+    channelReason:
+      "I picked text and email together. A quick text gets noticed, and the email gives them a warm reminder to come back.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, it's been a while and we miss you at Lumen Hair & Spa! Ready for a fresh look? Book your next visit anytime.",
@@ -36,6 +40,8 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     id: "Fill empty slots this week",
     name: "Fill empty slots this week",
     channels: ["sms"],
+    channelReason:
+      "I picked text because open spots this week need a quick heads-up that clients see right away.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, we have a few open spots at Lumen Hair & Spa this week. Want one? Book now before they fill up.",
@@ -51,6 +57,8 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     id: "Holiday gift cards",
     name: "Holiday gift cards",
     channels: ["sms", "email"],
+    channelReason:
+      "I picked text and email together. The text is a short reminder, and the email has room to explain the gift cards.",
     messages: {
       sms: {
         text: "Hi {{first_name}}, still shopping for the holidays? Lumen Hair & Spa gift cards are a relaxing gift for anyone on your list.",
@@ -66,6 +74,8 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
     id: "Birthday treat",
     name: "Birthday treat",
     channels: ["sms"],
+    channelReason:
+      "I picked text because a short birthday message on their phone feels personal, like a note from a friend.",
     messages: {
       sms: {
         text: "Happy birthday month, {{first_name}}! Celebrate with a visit to Lumen Hair & Spa and treat yourself to a little time just for you.",
@@ -83,11 +93,14 @@ export const PRESET_CAMPAIGNS: readonly PresetCampaign[] = [
 export function buildCampaignFromPreset(presetId: string, today: Date): Campaign {
   const preset = PRESET_CAMPAIGNS.find((campaign) => campaign.id === presetId);
   if (!preset) throw new Error(`Unknown preset campaign: ${presetId}`);
-  const { id, name, channels, messages, segmentId } = structuredClone(preset);
+  const { id, name, channels, channelReason, messages, segmentId } = structuredClone(preset);
   return {
     id,
     name,
+    status: "draft",
     channels,
+    channelReason,
+    userEdited: { channels: false, audience: false },
     messages,
     audience: {
       type: "segment",

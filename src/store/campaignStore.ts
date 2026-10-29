@@ -10,13 +10,17 @@
  */
 import { create } from "zustand";
 import { buildCampaignFromPreset } from "@/data/presetCampaigns";
+import { CAMPAIGN_NAME_MAX_LENGTH } from "@/lib/campaignName";
 import { cloneFilters, newFilterId } from "@/lib/filters";
 import { isNameTaken } from "@/lib/segments";
-import type { Campaign, EmailMessage, Filter, Segment } from "@/types";
+import type { Campaign, Channel, EmailMessage, Filter, Segment, SendTime } from "@/types";
 
 export type AddSegmentResult =
   | { ok: true; segment: Segment }
   | { ok: false; reason: "duplicate-name" };
+
+/** What an action returns when it can refuse a change. */
+export type ActionResult<Reason extends string> = { ok: true } | { ok: false; reason: Reason };
 
 type CampaignState = {
   campaign: Campaign | null;
@@ -24,7 +28,17 @@ type CampaignState = {
   selectPresetCampaign: (presetId: string) => void;
   saveSmsMessage: (text: string) => void;
   saveEmailMessage: (email: EmailMessage) => void;
+  /** Marks the group as changed by the owner, unless it is the same group. */
   setAudienceSegment: (segmentId: string) => void;
+  /** Trims the name. At most CAMPAIGN_NAME_MAX_LENGTH characters. */
+  setCampaignName: (name: string) => ActionResult<"empty" | "too-long" | "no-campaign">;
+  /** Never touches the messages. Marks the channels as changed by the owner. */
+  setChannels: (channels: readonly Channel[]) => ActionResult<"empty" | "no-campaign">;
+  setSendTime: (sendTime: SendTime) => ActionResult<"no-campaign">;
+  /** Sent if the send time is now (or not picked), otherwise scheduled. */
+  launchCampaign: (now: Date) => void;
+  /** Makes a scheduled campaign a draft again. Does nothing otherwise. */
+  cancelSchedule: () => void;
   /** Adds a saved group. Does not change the campaign's audience. */
   addSavedSegment: (name: string, filters: readonly Filter[]) => AddSegmentResult;
   /** Clears the campaign. Saved groups stay. */
@@ -46,16 +60,36 @@ function updateCampaign(change: (campaign: Campaign) => Campaign) {
   return (state: CampaignState) => (state.campaign ? { campaign: change(state.campaign) } : {});
 }
 
+/**
+ * Every edit to what gets sent (name, channels, messages, group, send time)
+ * goes through here: a scheduled or sent campaign becomes a draft again.
+ */
+function commitEdit(change: (campaign: Campaign) => Campaign) {
+  return updateCampaign((campaign) => {
+    const { launchedAt, ...rest } = change(campaign);
+    void launchedAt;
+    return { ...rest, status: "draft" };
+  });
+}
+
+const CHANNEL_ORDER: readonly Channel[] = ["sms", "email"];
+
+function sameSendTime(a: SendTime | null, b: SendTime): boolean {
+  if (a === null || a.mode !== b.mode) return false;
+  return a.mode === "now" || (b.mode === "scheduled" && a.iso === b.iso);
+}
+
 export const useCampaignStore = create<CampaignState>()((set, get) => ({
   campaign: null,
   savedSegments: [],
 
+  // A fresh preset has both userEdited flags off.
   selectPresetCampaign: (presetId) =>
     set({ campaign: buildCampaignFromPreset(presetId, new Date()) }),
 
   saveSmsMessage: (text) =>
     set(
-      updateCampaign((campaign) => ({
+      commitEdit((campaign) => ({
         ...campaign,
         messages: { ...campaign.messages, sms: { text } },
       })),
@@ -63,14 +97,79 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
 
   saveEmailMessage: ({ subject, body }) =>
     set(
-      updateCampaign((campaign) => ({
+      commitEdit((campaign) => ({
         ...campaign,
         messages: { ...campaign.messages, email: { subject, body } },
       })),
     ),
 
-  setAudienceSegment: (segmentId) =>
-    set(updateCampaign((campaign) => ({ ...campaign, audience: { type: "segment", segmentId } }))),
+  setAudienceSegment: (segmentId) => {
+    const audience = get().campaign?.audience;
+    if (audience?.type === "segment" && audience.segmentId === segmentId) return;
+    set(
+      commitEdit((campaign) => ({
+        ...campaign,
+        audience: { type: "segment", segmentId },
+        userEdited: { ...campaign.userEdited, audience: true },
+      })),
+    );
+  },
+
+  setCampaignName: (name) => {
+    const campaign = get().campaign;
+    if (!campaign) return { ok: false, reason: "no-campaign" };
+    const trimmed = name.trim();
+    if (trimmed === "") return { ok: false, reason: "empty" };
+    if (trimmed.length > CAMPAIGN_NAME_MAX_LENGTH) return { ok: false, reason: "too-long" };
+    if (trimmed !== campaign.name) set(commitEdit((current) => ({ ...current, name: trimmed })));
+    return { ok: true };
+  },
+
+  setChannels: (channels) => {
+    const campaign = get().campaign;
+    if (!campaign) return { ok: false, reason: "no-campaign" };
+    const sorted = CHANNEL_ORDER.filter((channel) => channels.includes(channel));
+    if (sorted.length === 0) return { ok: false, reason: "empty" };
+    if (sorted.join() !== campaign.channels.join()) {
+      set(
+        commitEdit((current) => ({
+          ...current,
+          channels: sorted,
+          userEdited: { ...current.userEdited, channels: true },
+        })),
+      );
+    }
+    return { ok: true };
+  },
+
+  setSendTime: (sendTime) => {
+    const campaign = get().campaign;
+    if (!campaign) return { ok: false, reason: "no-campaign" };
+    if (!sameSendTime(campaign.sendTime, sendTime)) {
+      set(commitEdit((current) => ({ ...current, sendTime: { ...sendTime } })));
+    }
+    return { ok: true };
+  },
+
+  // Not edits, so they skip commitEdit.
+  launchCampaign: (now) =>
+    set(
+      updateCampaign((campaign) => ({
+        ...campaign,
+        status: campaign.sendTime?.mode === "scheduled" ? "scheduled" : "sent",
+        launchedAt: now.toISOString(),
+      })),
+    ),
+
+  cancelSchedule: () =>
+    set(
+      updateCampaign((campaign) => {
+        if (campaign.status !== "scheduled") return campaign;
+        const { launchedAt, ...rest } = campaign;
+        void launchedAt;
+        return { ...rest, status: "draft" };
+      }),
+    ),
 
   addSavedSegment: (name, filters) => {
     const trimmed = name.trim();

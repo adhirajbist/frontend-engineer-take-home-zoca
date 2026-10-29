@@ -57,10 +57,21 @@ export type EmailMessage = { subject: string; body: string };
 
 export type SendTime = { mode: "now" } | { mode: "scheduled"; iso: string };
 
+/** draft until the owner launches it. Any later edit makes it a draft again. */
+export type CampaignStatus = "draft" | "scheduled" | "sent";
+
 export type Campaign = {
   id: string;
   name: string;
+  status: CampaignStatus;
+  /** ISO instant the owner launched it. Only set when not a draft. */
+  launchedAt?: string;
+  /** Sorted as ["sms", "email"]. Never empty. */
   channels: Channel[];
+  /** Why Steve picked these channels. Shown until the owner changes them. */
+  channelReason: string;
+  /** True once the owner changes the channels or group themselves. */
+  userEdited: { channels: boolean; audience: boolean };
   /** Both messages are kept even when a channel is unselected, so edits survive. */
   messages: { sms?: SmsMessage; email?: EmailMessage };
   audience: Audience | null;

@@ -32,8 +32,10 @@ export function StackCard({ step, title, headerAside, wrapSection, children }: S
           <p className="text-sm font-bold uppercase tracking-wide text-plum short:text-xs">
             Step {step}
           </p>
+          {/* Focusable from code, so "Edit" on the Launch card can land here. */}
           <h2
             id={headingId}
+            tabIndex={-1}
             className="mt-1 text-2xl font-extrabold leading-tight sm:text-3xl short:mt-0 short:text-lg"
           >
             {title}
@@ -42,8 +44,9 @@ export function StackCard({ step, title, headerAside, wrapSection, children }: S
         {headerAside}
       </header>
       {/* Scrolls on its own if content is taller than the card. Overscroll
-          is left to chain to the page, so it never traps the swipe. */}
-      <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-5 sm:px-8 sm:pb-7 short:pb-3">
+          is left to chain to the page, so it never traps the swipe. A flex
+          column, so an AgentBubble with atCardBottom sits at the bottom. */}
+      <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-5 pb-5 sm:px-8 sm:pb-7 short:pb-3">
         {children}
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { isWithinLimit } from "@/lib/messageLimits";
 import { FIRST_NAME_TOKEN } from "@/lib/renderMessage";
+import { CAMPAIGN_NAME_MAX_LENGTH } from "@/lib/campaignName";
 import { findSegment } from "@/lib/segments";
 import { buildCampaignFromPreset, PRESET_CAMPAIGNS } from "./presetCampaigns";
 
@@ -11,6 +12,15 @@ describe.each(PRESET_CAMPAIGNS.map((preset) => [preset.id, preset] as const))(
   (_, preset) => {
     it("uses its label as both id and name", () => {
       expect(preset.id).toBe(preset.name);
+    });
+
+    it("has a short reason for its channels", () => {
+      expect(preset.channelReason.trim()).not.toBe("");
+      expect(preset.channelReason.length).toBeLessThanOrEqual(160);
+    });
+
+    it("has a name the owner could also type", () => {
+      expect(preset.name.length).toBeLessThanOrEqual(CAMPAIGN_NAME_MAX_LENGTH);
     });
 
     it("has a text and an email within the limits, with the first name", () => {
@@ -46,7 +56,10 @@ describe("buildCampaignFromPreset", () => {
     expect(campaign).toEqual({
       id: "Win back clients who haven't visited in 3 months",
       name: "Win back clients who haven't visited in 3 months",
+      status: "draft",
       channels: ["sms", "email"],
+      channelReason: PRESET_CAMPAIGNS[0].channelReason,
+      userEdited: { channels: false, audience: false },
       messages: PRESET_CAMPAIGNS[0].messages,
       audience: { type: "segment", segmentId: "lapsed-90" },
       sendTime: { mode: "now" },

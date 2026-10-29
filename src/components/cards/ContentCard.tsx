@@ -85,7 +85,7 @@ function ContentPreview({ channels, messages, onAction }: ContentPreviewProps) {
         </div>
         <div className="flex shrink-0 flex-col gap-[clamp(0.625rem,2svh,1.25rem)] short:gap-2">
           <AiQuickActions onAction={onAction} />
-          <AgentBubble>
+          <AgentBubble atCardBottom>
             Want a different message?{" "}
             <Link
               href={editMessagePath(selected)}

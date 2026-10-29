@@ -1,5 +1,5 @@
 import * as Dialog from "@radix-ui/react-dialog";
-import type { ReactNode, RefObject } from "react";
+import { useEffect, useRef, type ReactNode, type RefObject } from "react";
 import { AgentBubble } from "@/components/AgentBubble";
 
 type AgentDialogProps = {
@@ -12,6 +12,12 @@ type AgentDialogProps = {
   initialFocusRef: RefObject<HTMLElement | null>;
   /** Where focus goes when the dialog closes. */
   returnFocusRef: RefObject<HTMLElement | null>;
+  /**
+   * Steve is busy, e.g. while an animation plays: his bubble hides (the avatar
+   * stays put), Escape and clicks outside do nothing, focus moves to the
+   * dialog itself, and children may draw outside the dialog.
+   */
+  busy?: boolean;
   children: ReactNode;
 };
 
@@ -22,8 +28,16 @@ export function AgentDialog({
   message,
   initialFocusRef,
   returnFocusRef,
+  busy = false,
   children,
 }: AgentDialogProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // The focused button may hide while busy; keep focus inside the dialog.
+  useEffect(() => {
+    if (busy) contentRef.current?.focus();
+  }, [busy]);
+
   return (
     <Dialog.Root open={open} onOpenChange={(next) => !next && onClose()}>
       <Dialog.Portal>
@@ -31,7 +45,13 @@ export function AgentDialog({
             never covers it. Roomy screens: centred. */}
         <Dialog.Overlay className="fixed inset-0 z-20 flex items-start justify-center bg-ink/50 px-4 pt-[max(1rem,6svh)] motion-safe:data-[state=closed]:animate-overlay-out motion-safe:data-[state=open]:animate-overlay-in [@media(min-width:40rem)_and_(min-height:30rem)]:items-center [@media(min-width:40rem)_and_(min-height:30rem)]:pt-0">
           <Dialog.Content
+            ref={contentRef}
             aria-describedby={undefined}
+            onEscapeKeyDown={(event) => busy && event.preventDefault()}
+            onInteractOutside={(event) => busy && event.preventDefault()}
+            // Focus only lands here while busy. The dialog isn't a control, so
+            // no ring (inline, as the global :focus-visible rule beats utilities).
+            style={{ outline: "none" }}
             onOpenAutoFocus={(event) => {
               event.preventDefault();
               initialFocusRef.current?.focus();
@@ -40,9 +60,9 @@ export function AgentDialog({
               event.preventDefault();
               returnFocusRef.current?.focus();
             }}
-            className="focus-burgundy max-h-[calc(100svh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-cream p-4 text-ink shadow-xl shadow-ink/20 motion-safe:data-[state=closed]:animate-dialog-out motion-safe:data-[state=open]:animate-dialog-in sm:p-5"
+            className={`focus-burgundy relative max-h-[calc(100svh-2rem)] w-full max-w-md rounded-2xl bg-cream p-4 text-ink shadow-xl shadow-ink/20 motion-safe:data-[state=closed]:animate-dialog-out motion-safe:data-[state=open]:animate-dialog-in sm:p-5 ${busy ? "overflow-visible" : "overflow-y-auto"}`}
           >
-            <AgentBubble>
+            <AgentBubble bubbleHidden={busy}>
               <Dialog.Title asChild>
                 <p>{message}</p>
               </Dialog.Title>
