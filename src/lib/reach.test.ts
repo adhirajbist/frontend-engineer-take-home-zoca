@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Client, Segment } from "@/types";
-import { getAudienceStats, getReachableCount } from "./reach";
+import { countReachable, getAudienceStats } from "./reach";
 
 const TODAY = new Date(2026, 9, 28);
 
@@ -48,24 +48,15 @@ describe("getAudienceStats", () => {
   });
 });
 
-describe("getReachableCount", () => {
+describe("countReachable", () => {
   it("counts a client reachable both ways once", () => {
-    // both, text-only and email-only. Not the 2 + 2 of the stats.
-    expect(getReachableCount(VIP, CLIENTS, ["sms", "email"], TODAY)).toBe(3);
-  });
-
-  it("counts one channel only", () => {
-    expect(getReachableCount(VIP, CLIENTS, ["sms"], TODAY)).toBe(2);
-    expect(getReachableCount(VIP, CLIENTS, ["email"], TODAY)).toBe(2);
+    expect(countReachable(CLIENTS, ["sms"])).toBe(3);
+    expect(countReachable(CLIENTS, ["email"])).toBe(3);
+    expect(countReachable(CLIENTS, ["sms", "email"])).toBe(4);
   });
 
   it("is 0 when nobody can be reached that way", () => {
-    const neither: Segment = {
-      id: "neither",
-      name: "Neither",
-      filters: [{ id: "f1", field: "channel", op: "excludes", channels: ["sms", "email"] }],
-    };
-    expect(getReachableCount(neither, CLIENTS, ["sms", "email"], TODAY)).toBe(0);
-    expect(getReachableCount(VIP, CLIENTS, [], TODAY)).toBe(0);
+    expect(countReachable([client("neither", { phone: undefined, email_opt_in: false })], ["sms", "email"])).toBe(0);
+    expect(countReachable(CLIENTS, [])).toBe(0);
   });
 });

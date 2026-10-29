@@ -8,5 +8,5 @@ export const NEUTRAL_LINES: Record<AgentCardKey, string> = {
   content: "Want a different message?",
   // The "Edit clients" button follows it in the card.
   audience: "Want to change who gets this?",
-  time: "You can change it by choosing Now or Later.",
+  time: "You can change it by selecting the preferred time.",
 };

@@ -2,16 +2,13 @@
 
 import { Check, CircleAlert, Users } from "lucide-react";
 import { useMemo } from "react";
-import { useShallow } from "zustand/react/shallow";
 import { AgentBubble, NoteLines } from "@/components/AgentBubble";
-import { useToday } from "@/components/custom-group/useToday";
 import { NoCampaign } from "@/components/NoCampaign";
 import { RadioPill } from "@/components/RadioPill";
 import { ReachCount } from "@/components/ReachCount";
 import { StackCard } from "@/components/StackCard";
 import clientsData from "@/data/clients.json";
-import { getReachableCount } from "@/lib/reach";
-import { findSegment } from "@/lib/segments";
+import { countReachable } from "@/lib/reach";
 import { useAgentNotesStore, useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import type { Channel, Client } from "@/types";
@@ -26,38 +23,15 @@ const OPTIONS: readonly { label: string; channels: readonly Channel[] }[] = [
 ];
 
 export function ChannelCard() {
-  const today = useToday();
-  const campaign = useCampaignStore(
-    useShallow((state) =>
-      state.campaign
-        ? {
-            channels: state.campaign.channels,
-            segmentId:
-              state.campaign.audience?.type === "segment"
-                ? state.campaign.audience.segmentId
-                : null,
-          }
-        : null,
-    ),
-  );
-  const savedSegments = useCampaignStore((state) => state.savedSegments);
+  const channels = useCampaignStore((state) => state.campaign?.channels);
   const setChannels = useCampaignStore((state) => state.setChannels);
   const note = useCardNote("channel");
   // With the reason, even once it is dismissed: the bubble keeps its room.
   const fullNote = useAgentNotesStore((state) => state.notes?.channel ?? null);
 
-  const segmentId = campaign?.segmentId;
-  const segment = useMemo(
-    () => (segmentId ? findSegment(segmentId, savedSegments) : undefined),
-    [segmentId, savedSegments],
-  );
-  const channels = campaign?.channels;
-  const count = useMemo(
-    () => (segment && channels && today ? getReachableCount(segment, CLIENTS, channels, today) : null),
-    [segment, channels, today],
-  );
+  const count = useMemo(() => (channels ? countReachable(CLIENTS, channels) : 0), [channels]);
 
-  if (!campaign) {
+  if (!channels) {
     return (
       <StackCard step={2} title={TITLE}>
         <NoCampaign />
@@ -65,7 +39,7 @@ export function ChannelCard() {
     );
   }
 
-  const selected = campaign.channels.join();
+  const selected = channels.join();
   return (
     <StackCard step={2} title={TITLE}>
       {/* Pills in a row: the group is centred above the bubble. Stacked
@@ -107,8 +81,8 @@ export function ChannelCard() {
   );
 }
 
-/** Live, so screen readers hear the new count after each change. Null until today is known. */
-function ReachLine({ count }: { count: number | null }) {
+/** Live, so screen readers hear the new count after each change. */
+function ReachLine({ count }: { count: number }) {
   return (
     // Tall enough for the big number, so nothing moves once the count shows.
     <div
@@ -118,10 +92,10 @@ function ReachLine({ count }: { count: number | null }) {
       {count === 0 && (
         <p className="flex items-start gap-2">
           <CircleAlert aria-hidden="true" className="mt-0.5 size-5 shrink-0 text-error short:size-4" />
-          <span>No clients can be messaged this way. Try another channel or group.</span>
+          <span>No clients can be messaged this way. Try another channel.</span>
         </p>
       )}
-      {count !== null && count > 0 && (
+      {count > 0 && (
         <ReachCount
           icon={Users}
           count={count}

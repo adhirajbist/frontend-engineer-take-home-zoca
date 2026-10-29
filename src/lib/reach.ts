@@ -19,14 +19,7 @@ export function getAudienceStats(segment: Segment, clients: Client[], today: Dat
   };
 }
 
-/** Clients in the group reachable by at least one of the channels. Each counts once. */
-export function getReachableCount(
-  segment: Segment,
-  clients: Client[],
-  channels: readonly Channel[],
-  today: Date,
-): number {
-  return filterClients(clients, segment.filters, today).filter((client) =>
-    channels.some((channel) => canReach(client, channel)),
-  ).length;
+/** Clients reachable by at least one of the channels. Each counts once. */
+export function countReachable(clients: Client[], channels: readonly Channel[]): number {
+  return clients.filter((client) => channels.some((channel) => canReach(client, channel))).length;
 }
