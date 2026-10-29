@@ -114,6 +114,10 @@
 /* Short screens, like phones in landscape. Cards compact instead of scrolling. */
 @custom-variant short (@media (max-height: 30rem));
 
+/* Phone-height screens and shorter (360x640, landscape). The card stack
+   tightens its strips and padding there, so the top bar doesn't squeeze the cards. */
+@custom-variant compact (@media (max-height: 44rem));
+
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -128,6 +132,12 @@
   :root {
     --screen: 100svh;
   }
+}
+
+/* The campaign page's top bar, notch included. The card stack sits below it
+   and subtracts it from the card height, so nothing else needs to know. */
+:root {
+  --app-header-h: calc(3rem + env(safe-area-inset-top));
 }
 
 /* The card stack scrolls inside <main>, never the page. Keeping the document

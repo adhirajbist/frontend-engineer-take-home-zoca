@@ -7,6 +7,7 @@ import { CAMPAIGN_PATH } from "@/lib/editorRoutes";
 import { getAnnouncement, INITIAL_STEVE_FLOW, isBusy, steveFlowReducer } from "@/lib/steveFlow";
 import { useCampaignStore } from "@/store/campaignStore";
 import { CampaignList } from "./CampaignList";
+import { ContinueCampaign } from "./ContinueCampaign";
 import { PromptBox } from "./PromptBox";
 import { SteveIntro } from "./SteveIntro";
 
@@ -70,7 +71,11 @@ export function Landing() {
           disabled={busy}
           textareaRef={textareaRef}
         />
-        <CampaignList disabled={busy} onPick={pick} />
+        {/* One group, so the gap above the list stays the same with or without it. */}
+        <div className="flex flex-col gap-3">
+          <ContinueCampaign disabled={busy} onContinue={() => router.push(CAMPAIGN_PATH)} />
+          <CampaignList disabled={busy} onPick={pick} />
+        </div>
       </div>
     </main>
   );

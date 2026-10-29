@@ -67,7 +67,8 @@ function currentIndex(stack: HTMLElement, markers: HTMLElement[]) {
 }
 
 /**
- * Full-screen scroller that snaps one card at a time, Reels style.
+ * Scroller that fills the screen below the top bar and snaps one card at a
+ * time, Reels style.
  * Cards stack using position: sticky (see StackCard).
  */
 export function CardStack({ count, children }: CardStackProps) {
@@ -101,14 +102,16 @@ export function CardStack({ count, children }: CardStackProps) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
+  // The stack starts below the top bar, so only its height knows about the bar.
+  // Sticky tops and snap margins measure from the stack's own top edge.
   const cardHeight = {
-    "--card-h": `calc(var(--screen) - 2 * var(--pad-y) - ${count - 1} * var(--strip))`,
+    "--card-h": `calc(var(--stack-h) - 2 * var(--pad-y) - ${count - 1} * var(--strip))`,
   } as CSSProperties;
 
   return (
     <main
       ref={stackRef}
-      className="h-(--screen) snap-y snap-mandatory overflow-y-auto overscroll-none px-4 [--pad-y:1rem] [--strip:14px] motion-safe:scroll-smooth sm:px-6 sm:[--pad-y:1.5rem] lg:px-10"
+      className="h-(--stack-h) snap-y snap-mandatory overflow-y-auto overscroll-none px-4 [--stack-h:calc(var(--screen)-var(--app-header-h))] [--pad-y:1rem] [--strip:14px] motion-safe:scroll-smooth sm:px-6 sm:[--pad-y:1.5rem] lg:px-10 compact:[--pad-y:0.5rem] compact:[--strip:8px]"
       style={cardHeight}
     >
       {/* One width for the whole stack, so the strips line up with the card in front. */}

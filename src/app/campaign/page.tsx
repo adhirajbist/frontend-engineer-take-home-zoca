@@ -1,4 +1,5 @@
 import { CampaignGuard } from "@/components/CampaignGuard";
+import { CampaignTopBar } from "@/components/campaign/CampaignTopBar";
 import { CardStack } from "@/components/CardStack";
 import { AudienceStep } from "@/components/cards/AudienceStep";
 import { CampaignNameCard } from "@/components/cards/CampaignNameCard";
@@ -10,6 +11,7 @@ import { SendTimeCard } from "@/components/cards/SendTimeCard";
 export default function CampaignPage() {
   return (
     <CampaignGuard>
+      <CampaignTopBar />
       <CardStack count={6}>
         <h1 className="sr-only">New campaign</h1>
         <CampaignNameCard />
