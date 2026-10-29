@@ -80,6 +80,22 @@
   }
 }
 
+/* Steve's typing dots: a gentle bounce, staggered per dot. Used under motion-safe only. */
+@theme {
+  --animate-typing-dot: typing-dot 1.2s ease-in-out infinite;
+
+  @keyframes typing-dot {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-0.3rem);
+    }
+  }
+}
+
 /* Short screens, like phones in landscape. Cards compact instead of scrolling. */
 @custom-variant short (@media (max-height: 30rem));
 
@@ -124,6 +140,12 @@ body {
 .focus-burgundy :focus-visible,
 .focus-burgundy:focus-visible {
   outline-color: var(--color-burgundy);
+}
+
+/* A field whose container shows focus instead (the landing page prompt).
+   Unlayered like the rule above, so it wins over it. */
+.focus-on-container:focus-visible {
+  outline: none;
 }
 
 /* Message editor placeholder (Tiptap's Placeholder extension). Muted text,

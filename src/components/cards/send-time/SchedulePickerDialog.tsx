@@ -5,9 +5,8 @@ import { StatusMessage } from "@/components/StatusMessage";
 import {
   getDefaultScheduleWallClock,
   getMinScheduleWallClock,
-  isoToSalonWallClock,
+  isoToWallClock,
   MIN_LEAD_MINUTES,
-  salonTimeZoneName,
   validateSchedule,
   type ScheduleCheck,
 } from "@/lib/time";
@@ -68,7 +67,7 @@ function ScheduleForm({ scheduledIso, onDone, onCancel, inputRef }: ScheduleForm
   // Read once when the dialog opens. Done checks against the time it is pressed.
   const [openedAt] = useState(() => new Date());
   const [value, setValue] = useState(() =>
-    scheduledIso ? isoToSalonWallClock(scheduledIso) : getDefaultScheduleWallClock(openedAt),
+    scheduledIso ? isoToWallClock(scheduledIso) : getDefaultScheduleWallClock(openedAt),
   );
   const [error, setError] = useState<ScheduleError | null>(null);
 
@@ -100,12 +99,9 @@ function ScheduleForm({ scheduledIso, onDone, onCancel, inputRef }: ScheduleForm
           setError(null);
         }}
         aria-invalid={error ? true : undefined}
-        aria-describedby={error ? "send-time-zone send-time-error" : "send-time-zone"}
+        aria-describedby={error ? "send-time-error" : undefined}
         className="mt-4 block min-h-12 w-full appearance-none rounded-lg border-2 border-ink/20 bg-white px-3 py-2 text-left text-base text-ink tabular-nums aria-invalid:border-error"
       />
-      <p id="send-time-zone" className="mt-1 text-sm text-muted">
-        {salonTimeZoneName()}
-      </p>
       {/* Always in the page, so screen readers announce the error when it appears. */}
       <div role="alert">
         {error && (

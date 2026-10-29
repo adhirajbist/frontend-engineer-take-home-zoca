@@ -6,7 +6,7 @@ import { AgentBubble } from "@/components/AgentBubble";
 import { NoCampaign } from "@/components/NoCampaign";
 import { RadioPill } from "@/components/RadioPill";
 import { StackCard } from "@/components/StackCard";
-import { formatSendTime, SALON_CITY, salonTimeZoneName } from "@/lib/time";
+import { formatSendTime } from "@/lib/time";
 import { useCardNote } from "@/store/agentNotesStore";
 import { useCampaignStore } from "@/store/campaignStore";
 import { SchedulePickerDialog } from "./send-time/SchedulePickerDialog";
@@ -66,9 +66,6 @@ export function SendTimeCard() {
           {scheduledIso ? <ScheduledLabel iso={scheduledIso} /> : "Later"}
         </RadioPill>
       </div>
-      <p className="mt-3 text-sm text-muted">
-        Times are in {salonTimeZoneName()} ({SALON_CITY}).
-      </p>
       {/* At the bottom, so the pills above never move when the reason goes. */}
       {note && (
         <AgentBubble atCardBottom className="pt-4 short:pt-2">

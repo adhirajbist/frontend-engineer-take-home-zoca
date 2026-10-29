@@ -1,6 +1,5 @@
-import { redirect } from "next/navigation";
+import { Landing } from "@/components/landing/Landing";
 
-/** TEMPORARY: the landing page replaces this. */
 export default function Home() {
-  redirect("/campaign");
+  return <Landing />;
 }

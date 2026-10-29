@@ -92,7 +92,7 @@ function ContentPreview({ channels, messages, onAction }: ContentPreviewProps) {
               {note.neutral}{" "}
               <Link
                 href={editMessagePath(selected)}
-                className="relative mt-1 inline-block rounded-full bg-yellow px-3 py-1.5 font-bold text-ink after:absolute after:inset-x-0 after:-inset-y-1.5 short:mt-0.5 short:py-0.5 short:after:-inset-y-2.5"
+                className="relative mt-1 inline-block rounded-2xl bg-yellow px-3 py-1.5 font-bold text-ink after:absolute after:inset-x-0 after:-inset-y-1.5 short:mt-0.5 short:py-0.5 short:after:-inset-y-2.5"
               >
                 Edit message
               </Link>

@@ -72,7 +72,7 @@ export default function CustomAudiencePage() {
             />
           </>
         ) : (
-          <NoCampaign homeLink />
+          <NoCampaign />
         )}
       </div>
     </main>

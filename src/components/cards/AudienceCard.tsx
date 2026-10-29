@@ -79,7 +79,7 @@ function Note({ note, onEdit }: NoteProps) {
         <button
           type="button"
           onClick={onEdit}
-          className="mt-1 inline-block rounded-full bg-yellow px-3 py-1.5 font-bold text-ink short:mt-0.5 short:py-0.5"
+          className="mt-1 inline-block rounded-2xl bg-yellow px-3 py-1.5 font-bold text-ink short:mt-0.5 short:py-0.5"
         >
           Edit clients
         </button>

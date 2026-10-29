@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { BubbleBody } from "@/components/BubbleBody";
 
 type AgentBubbleProps = {
   /**
@@ -33,16 +34,12 @@ export function AgentBubble({
         height={48}
         className="size-12 shrink-0 rounded-full object-cover short:size-8"
       />
-      <div
-        className={`relative min-w-0 rounded-2xl bg-aubergine px-4 py-3 text-[clamp(0.875rem,min(4vw,2.6svh),1.125rem)] leading-snug text-cream short:px-3 short:py-2 short:text-xs ${bubbleHidden ? "invisible" : ""}`}
+      <BubbleBody
+        className={`px-4 py-3 text-[clamp(0.875rem,min(4vw,2.6svh),1.125rem)] short:px-3 short:py-2 short:text-xs ${bubbleHidden ? "invisible" : ""}`}
+        tailClassName={`-left-1.5 ${tail}`}
       >
-        {/* Tail pointing at the avatar. */}
-        <span
-          aria-hidden="true"
-          className={`absolute -left-1.5 size-3 rotate-45 bg-aubergine ${tail}`}
-        />
         {children}
-      </div>
+      </BubbleBody>
     </div>
   );
 }

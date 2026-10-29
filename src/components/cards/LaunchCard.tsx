@@ -1,6 +1,7 @@
 "use client";
 
 import { Rocket } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, type RefObject } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useToday } from "@/components/custom-group/useToday";
@@ -85,6 +86,7 @@ function LaunchArea({ campaign, segment }: LaunchAreaProps) {
       resetCampaign: state.resetCampaign,
     })),
   );
+  const router = useRouter();
   const launch = useLaunchFlow();
   const [cancelOpen, setCancelOpen] = useState(false);
   const launchButtonRef = useRef<HTMLButtonElement>(null);
@@ -143,9 +145,8 @@ function LaunchArea({ campaign, segment }: LaunchAreaProps) {
   }
 
   function startNew() {
-    // The heading survives the reset (the card shows its empty state), so
-    // focus isn't lost when this button disappears.
-    document.getElementById(HEADING_ID)?.focus();
+    // Navigate first: CampaignGuard renders nothing once the campaign is gone.
+    router.push("/");
     resetCampaign();
   }
 

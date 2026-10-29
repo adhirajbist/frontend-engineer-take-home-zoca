@@ -130,7 +130,7 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
     <main className="focus-burgundy h-(--screen) overflow-y-auto">
       <div className="mx-auto max-w-300 px-4 py-4 sm:px-6 sm:py-6 lg:px-10">
         {!campaign ? (
-          <NoCampaign homeLink />
+          <NoCampaign />
         ) : campaign.channels.includes(channel) ? (
           <MessageEditor key={bfcacheId} channel={channel} messages={campaign.messages} />
         ) : (
