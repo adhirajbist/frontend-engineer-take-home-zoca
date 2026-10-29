@@ -15,11 +15,11 @@ import {
   type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
+import { useShallow } from "zustand/react/shallow";
 import { SegmentedTabs } from "@/components/SegmentedTabs";
 import { AiQuickActions, type QuickAction } from "@/components/cards/content/AiQuickActions";
-import { CAMPAIGN_CHANNELS } from "@/components/cards/content/dummyContent";
 import { PRIMARY_BUTTON } from "@/components/custom-group/buttonStyles";
-import { DUMMY_MESSAGES } from "@/data/dummyMessages";
+import { NoCampaign } from "@/components/NoCampaign";
 import { CONTENT_CARD } from "@/lib/editorRoutes";
 import { canRedo, canUndo, createTypingTimer } from "@/lib/history";
 import {
@@ -27,10 +27,10 @@ import {
   isDirty,
   messageEditorReducer,
   validateField,
-  type FieldValues,
 } from "@/lib/messageEditorReducer";
 import { isWithinLimit, OPT_OUT_LINE, type MessageField } from "@/lib/messageLimits";
-import type { Channel, EmailMessage, SmsMessage } from "@/types";
+import { useCampaignStore } from "@/store/campaignStore";
+import type { Campaign, Channel } from "@/types";
 import { CustomPromptDialog } from "./CustomPromptDialog";
 import { DiscardDialog } from "./DiscardDialog";
 import { EditorField, type EditKind, type EditorFieldHandle } from "./EditorField";
@@ -91,17 +91,13 @@ const TAB_OPTIONS = [
   { value: "preview", label: "Preview" },
 ] as const;
 
-function toMessage(channel: Channel, values: FieldValues): SmsMessage | EmailMessage {
-  const trimmed = (field: MessageField) => (values[field] ?? "").trim();
-  return channel === "sms"
-    ? { text: trimmed("sms") }
-    : { subject: trimmed("emailSubject"), body: trimmed("emailBody") };
-}
-
-function saveMessage(channel: Channel, message: SmsMessage | EmailMessage) {
-  // TODO: save the message to the store so the Content card shows it.
-  void channel;
-  void message;
+/** The stored messages as editor fields. A missing message starts empty. */
+function toFieldValues(messages: Campaign["messages"]): Record<MessageField, string> {
+  return {
+    sms: messages.sms?.text ?? "",
+    emailSubject: messages.email?.subject ?? "",
+    emailBody: messages.email?.body ?? "",
+  };
 }
 
 function onAiAction(action: QuickAction) {
@@ -121,13 +117,22 @@ export function MessageEditorPage({ channel }: { channel: Channel }) {
   // Changes on every new visit (e.g. "Edit message"), but not on browser
   // back/forward. Keying on it makes each visit start from the saved message.
   const { bfcacheId } = useRouter();
+  const campaign = useCampaignStore(
+    useShallow((state) =>
+      state.campaign
+        ? { channels: state.campaign.channels, messages: state.campaign.messages }
+        : null,
+    ),
+  );
 
   return (
     // The document never scrolls (see globals.css), so this page scrolls itself.
     <main className="focus-burgundy h-(--screen) overflow-y-auto">
       <div className="mx-auto max-w-300 px-4 py-4 sm:px-6 sm:py-6 lg:px-10">
-        {CAMPAIGN_CHANNELS.includes(channel) ? (
-          <MessageEditor key={bfcacheId} channel={channel} />
+        {!campaign ? (
+          <NoCampaign homeLink />
+        ) : campaign.channels.includes(channel) ? (
+          <MessageEditor key={bfcacheId} channel={channel} messages={campaign.messages} />
         ) : (
           <>
             <BackLink />
@@ -175,14 +180,21 @@ function NotInCampaign({ noun }: { noun: string }) {
   );
 }
 
-function MessageEditor({ channel }: { channel: Channel }) {
+type MessageEditorProps = {
+  channel: Channel;
+  /** Read once, when the page opens. "Dirty" compares against these. */
+  messages: Campaign["messages"];
+};
+
+function MessageEditor({ channel, messages }: MessageEditorProps) {
   const router = useRouter();
   const setup = EDITORS[channel];
+  const saveSmsMessage = useCampaignStore((state) => state.saveSmsMessage);
+  const saveEmailMessage = useCampaignStore((state) => state.saveEmailMessage);
   const [state, dispatch] = useReducer(
     messageEditorReducer,
     setup.fields.map((f) => f.field),
-    // TODO: start from the campaign store once saving is wired up.
-    (fields) => initMessageEditor(fields, DUMMY_MESSAGES),
+    (fields) => initMessageEditor(fields, toFieldValues(messages)),
   );
   // Phones and tablets only; from lg up both sections show side by side.
   const [tab, setTab] = useState<Tab>("edit");
@@ -271,7 +283,12 @@ function MessageEditor({ channel }: { channel: Channel }) {
       fieldRefs.current[failing[0]]?.focus();
       return;
     }
-    saveMessage(channel, toMessage(channel, state.values));
+    const trimmed = (field: MessageField) => value(field).trim();
+    if (channel === "sms") {
+      saveSmsMessage(trimmed("sms"));
+    } else {
+      saveEmailMessage({ subject: trimmed("emailSubject"), body: trimmed("emailBody") });
+    }
     leave();
   }
 

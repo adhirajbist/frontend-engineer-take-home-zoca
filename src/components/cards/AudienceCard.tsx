@@ -1,33 +1,32 @@
 import { Mail, MessageSquare, type LucideIcon } from "lucide-react";
 import { AgentBubble } from "@/components/AgentBubble";
 import { StackCard } from "@/components/StackCard";
+import type { Channel } from "@/types";
+
+/** One count per channel the campaign sends on. */
+export type ChannelCount = { channel: Channel; count: number };
 
 type AudienceCardProps = {
   audienceName: string;
-  textCount: number;
-  emailCount: number;
+  counts: readonly ChannelCount[];
   reason: string;
   onEdit?: () => void;
 };
 
-/** DUMMY DATA: placeholder values until the card is wired to real state. */
-export const DUMMY_AUDIENCE = {
-  audienceName: "Lapsed 90+ days",
-  textCount: 212,
-  emailCount: 168,
-  reason:
-    "I picked these clients because it’s been over 3 months since their last visit, and a friendly nudge often brings them back.",
-} satisfies Omit<AudienceCardProps, "onEdit">;
+/** DUMMY DATA: Steve's explanation, until the AI writes it. */
+export const DUMMY_REASON =
+  "I picked these clients because it’s been over 3 months since their last visit, and a friendly nudge often brings them back.";
 
-export function AudienceCard({
-  audienceName,
-  textCount,
-  emailCount,
-  reason,
-  onEdit,
-}: AudienceCardProps) {
+export const AUDIENCE_TITLE = "Here’s who we’ll reach out to";
+
+const REACH: Record<Channel, { icon: LucideIcon; phrase: string }> = {
+  sms: { icon: MessageSquare, phrase: "by text" },
+  email: { icon: Mail, phrase: "by email" },
+};
+
+export function AudienceCard({ audienceName, counts, reason, onEdit }: AudienceCardProps) {
   return (
-    <StackCard step={4} title="Here’s who we’ll reach out to">
+    <StackCard step={4} title={AUDIENCE_TITLE}>
       {/* Stacked on most screens. Short landscape screens go side by side. */}
       <div className="flex flex-col gap-[clamp(1rem,4svh,2rem)] sm:short:grid sm:short:grid-cols-2 sm:short:items-start sm:short:gap-5">
         <div>
@@ -35,8 +34,9 @@ export function AudienceCard({
             {audienceName}
           </p>
           <div className="mt-[clamp(0.5rem,2svh,1rem)] flex flex-wrap gap-x-6 gap-y-1 short:mt-1">
-            <Reach icon={MessageSquare} count={textCount} phrase="by text" />
-            <Reach icon={Mail} count={emailCount} phrase="by email" />
+            {counts.map(({ channel, count }) => (
+              <Reach key={channel} {...REACH[channel]} count={count} />
+            ))}
           </div>
         </div>
         <Reason reason={reason} onEdit={onEdit} />

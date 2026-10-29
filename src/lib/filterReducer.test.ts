@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import type { Filter } from "@/types";
 import { filterReducer } from "./filterReducer";
-import { DEFAULT_APPOINTMENT_DAYS, type FilterField } from "./filters";
+import { DEFAULT_APPOINTMENT_DAYS, filtersEqual, type FilterField } from "./filters";
 
 const TODAY = new Date(2026, 9, 28); // October
 
@@ -89,5 +89,45 @@ describe("filterReducer", () => {
     expect(
       filterReducer(channel, { type: "setValue", id: "f1", value: ["sms", "email"] })[0],
     ).toMatchObject({ channels: ["sms", "email"] });
+  });
+});
+
+describe("filterReducer replaceAll", () => {
+  const GROUP: Filter[] = [
+    { id: "g1", field: "services", op: "includes", services: ["Balayage", "Facial"] },
+    { id: "g2", field: "birthday", op: "in", months: [3] },
+  ];
+
+  it("swaps every filter for copies of the group's filters", () => {
+    const current = add([], "lastVisit");
+    const next = filterReducer(current, { type: "replaceAll", filters: GROUP });
+    expect(filtersEqual(next, GROUP)).toBe(true);
+    expect(next.map((f) => f.field)).toEqual(["services", "birthday"]);
+  });
+
+  it("gives every copy a fresh id", () => {
+    const next = filterReducer([], { type: "replaceAll", filters: GROUP });
+    const ids = next.map((f) => f.id);
+    expect(ids).not.toContain("g1");
+    expect(ids).not.toContain("g2");
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("shares no objects or lists with the group", () => {
+    const next = filterReducer([], { type: "replaceAll", filters: GROUP });
+    next.forEach((filter, index) => expect(filter).not.toBe(GROUP[index]));
+    const services = next[0].field === "services" ? next[0].services : null;
+    expect(services).not.toBe(GROUP[0].field === "services" ? GROUP[0].services : null);
+    services?.push("Manicure");
+    expect(GROUP[0]).toEqual({
+      id: "g1",
+      field: "services",
+      op: "includes",
+      services: ["Balayage", "Facial"],
+    });
+  });
+
+  it("empties the list for a group with no filters", () => {
+    expect(filterReducer(add([], "lastVisit"), { type: "replaceAll", filters: [] })).toEqual([]);
   });
 });

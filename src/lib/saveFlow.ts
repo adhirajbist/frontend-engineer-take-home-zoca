@@ -1,8 +1,9 @@
-import type { Channel } from "@/types";
+import type { Channel, Filter } from "@/types";
+import { filtersEqual } from "./filters";
 
 export type SaveMessage = { kind: "error" | "warning"; text: string };
 
-/** "warned" = the one-sided warning was shown, so the next Save as goes ahead. */
+/** "warned" = the one-sided warning was shown, so the next click goes ahead. */
 export type SavePhase = "idle" | "warned";
 
 export type SaveFlowState = {
@@ -22,14 +23,32 @@ export const INITIAL_SAVE_FLOW: SaveFlowState = { phase: "idle", message: null, 
 export const NO_REACH_ERROR = "No one in this group can get a text or an email. Try removing a filter.";
 
 export const NO_TEXT_WARNING =
-  "None of these clients can get a text, but your campaign sends texts. Click Save as again to save anyway.";
+  "None of these clients can get a text, but your campaign sends texts. Click again to go ahead anyway.";
 
 export const NO_EMAIL_WARNING =
-  "None of these clients can get an email, but your campaign sends emails. Click Save as again to save anyway.";
+  "None of these clients can get an email, but your campaign sends emails. Click again to go ahead anyway.";
 
 export const EMPTY_NAME_ERROR = "Give this group a name so you can find it later.";
 
 export const GROUP_NAME_MAX_LENGTH = 40;
+
+/** "use" while the filters match the chosen group, "saveAs" once they are edited. */
+export type PrimaryAction = "use" | "saveAs";
+
+export const PRIMARY_LABELS: Record<PrimaryAction, string> = {
+  use: "Use this group",
+  saveAs: "Save as",
+};
+
+export function primaryAction(filters: readonly Filter[], groupFilters: readonly Filter[]): PrimaryAction {
+  return filtersEqual(filters, groupFilters) ? "use" : "saveAs";
+}
+
+/** Shows the name as it would be saved, with extra spaces collapsed. */
+export function duplicateNameError(name: string): string {
+  const shown = name.trim().replace(/\s+/g, " ");
+  return `A group called “${shown}” already exists. Try a different name.`;
+}
 
 /** The warning for a channel the campaign uses but nobody here can get, if any. */
 function oneSidedWarning(texted: number, mailed: number, channels: readonly Channel[]) {

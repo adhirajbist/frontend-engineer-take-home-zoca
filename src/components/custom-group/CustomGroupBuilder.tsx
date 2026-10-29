@@ -4,13 +4,20 @@ import * as Tooltip from "@radix-ui/react-tooltip";
 import { useEffect, useMemo, useReducer, useRef, useState, type RefObject } from "react";
 import clientsData from "@/data/clients.json";
 import { filterReducer, type FilterAction } from "@/lib/filterReducer";
-import { canEmail, canText, filterClients, newFilterId, type FilterField } from "@/lib/filters";
-import { INITIAL_SAVE_FLOW, saveFlowReducer } from "@/lib/saveFlow";
-import type { Channel, Client, Filter } from "@/types";
+import { canEmail, canText, cloneFilters, filterClients, newFilterId, type FilterField } from "@/lib/filters";
+import {
+  INITIAL_SAVE_FLOW,
+  PRIMARY_LABELS,
+  primaryAction,
+  saveFlowReducer,
+  type SaveFlowAction,
+} from "@/lib/saveFlow";
+import type { Channel, Client, Filter, Segment } from "@/types";
 import { PRIMARY_BUTTON } from "./buttonStyles";
 import { ClientCounts } from "./ClientCounts";
 import { ClientsTable } from "./ClientsTable";
 import { FilterPanel } from "./FilterPanel";
+import { GroupMenu } from "./GroupMenu";
 import { Pagination } from "./Pagination";
 import { SaveGroupDialog } from "./SaveGroupDialog";
 import { SaveMessages } from "./SaveMessages";
@@ -47,12 +54,16 @@ function focusPending(
   if (element && document.activeElement === element) pending.current = null;
 }
 
-export type SavedGroup = { name: string; filters: Filter[] };
-
 type BuilderProps = {
   /** Channels the campaign sends on, used to warn about unreachable clients. */
   channels: readonly Channel[];
-  onDone: (group: SavedGroup) => void;
+  /** The campaign's current group. Its filters load as copies. */
+  initialGroup: Segment;
+  savedSegments: readonly Segment[];
+  /** The chosen group, unchanged, becomes the campaign's audience. */
+  onUseGroup: (segmentId: string) => void;
+  /** Saves the edited filters as a new group. Returns an error to show, or null once saved. */
+  onSaveAs: (name: string, filters: Filter[]) => string | null;
 };
 
 export function CustomGroupBuilder(props: BuilderProps) {
@@ -66,8 +77,16 @@ export function CustomGroupBuilder(props: BuilderProps) {
   );
 }
 
-function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
-  const [filters, dispatch] = useReducer(filterReducer, []);
+function Builder({
+  today,
+  channels,
+  initialGroup,
+  savedSegments,
+  onUseGroup,
+  onSaveAs,
+}: BuilderProps & { today: Date }) {
+  const [group, setGroup] = useState(initialGroup);
+  const [filters, dispatch] = useReducer(filterReducer, initialGroup.filters, cloneFilters);
   const [saveFlow, dispatchSave] = useReducer(saveFlowReducer, INITIAL_SAVE_FLOW);
   const [groupName, setGroupName] = useState("");
   const [page, setPage] = useState(1);
@@ -120,9 +139,30 @@ function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
     update({ type: "clearAll" });
   }
 
+  function chooseGroup(next: Segment) {
+    setGroup(next);
+    update({ type: "replaceAll", filters: next.filters });
+  }
+
+  const action = primaryAction(filters, group.filters);
+
+  /** Same checks for both actions. "Use this group" goes ahead where Save as would ask for a name. */
+  function handlePrimary() {
+    const save: SaveFlowAction = { type: "save", texted: textedCount, mailed: mailedCount, channels };
+    if (action === "use" && saveFlowReducer(saveFlow, save).naming) {
+      onUseGroup(group.id);
+      return;
+    }
+    dispatchSave(save);
+  }
+
   return (
     <Tooltip.Provider delayDuration={300}>
       <ClientCounts total={matching.length} texted={textedCount} mailed={mailedCount} />
+      <div className="mt-5 flex min-w-0 items-center gap-3">
+        <GroupMenu selected={group} savedSegments={savedSegments} onSelect={chooseGroup} />
+        {action === "saveAs" && <span className="shrink-0 text-sm text-muted">Edited</span>}
+      </div>
       <FilterPanel
         filters={filters}
         dispatch={update}
@@ -144,12 +184,10 @@ function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
         <button
           ref={saveButtonRef}
           type="button"
-          onClick={() =>
-            dispatchSave({ type: "save", texted: textedCount, mailed: mailedCount, channels })
-          }
+          onClick={handlePrimary}
           className={PRIMARY_BUTTON}
         >
-          Save as
+          {PRIMARY_LABELS[action]}
         </button>
       </div>
       <SaveMessages message={saveFlow.message} />
@@ -159,8 +197,9 @@ function Builder({ today, channels, onDone }: BuilderProps & { today: Date }) {
         name={groupName}
         onNameChange={setGroupName}
         onDone={(name) => {
-          dispatchSave({ type: "closeNaming" });
-          onDone({ name, filters });
+          const error = onSaveAs(name, filters);
+          if (!error) dispatchSave({ type: "closeNaming" });
+          return error;
         }}
         returnFocusRef={saveButtonRef}
       />

@@ -1,5 +1,6 @@
 import type { Filter } from "@/types";
 import {
+  cloneFilters,
   createFilter,
   withOperator,
   withValue,
@@ -14,7 +15,9 @@ export type FilterAction =
   | { type: "remove"; id: string }
   | { type: "setOperator"; id: string; op: FilterOp }
   | { type: "setValue"; id: string; value: FilterValue }
-  | { type: "clearAll" };
+  | { type: "clearAll" }
+  /** Loads a group's filters as copies with fresh ids. */
+  | { type: "replaceAll"; filters: readonly Filter[] };
 
 export function filterReducer(filters: Filter[], action: FilterAction): Filter[] {
   switch (action.type) {
@@ -32,5 +35,7 @@ export function filterReducer(filters: Filter[], action: FilterAction): Filter[]
       );
     case "clearAll":
       return [];
+    case "replaceAll":
+      return cloneFilters(action.filters);
   }
 }

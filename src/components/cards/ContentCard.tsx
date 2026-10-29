@@ -3,11 +3,14 @@
 import * as Tabs from "@radix-ui/react-tabs";
 import Link from "next/link";
 import { useState } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { AgentBubble } from "@/components/AgentBubble";
+import { NoCampaign } from "@/components/NoCampaign";
 import { StackCard } from "@/components/StackCard";
 import { editMessagePath } from "@/lib/editorRoutes";
 import { renderMessage } from "@/lib/renderMessage";
-import type { Channel } from "@/types";
+import { useCampaignStore } from "@/store/campaignStore";
+import type { Campaign, Channel } from "@/types";
 import { AiQuickActions, type QuickAction } from "./content/AiQuickActions";
 import { ChannelTabs } from "./content/ChannelTabs";
 import { EmailPreview } from "./content/EmailPreview";
@@ -18,21 +21,39 @@ import { PREVIEW_BOX } from "./content/previewBox";
 /** Fills the preview box; long messages are cut to fit (see useClampToFit). */
 const panelClass = "flex min-h-0 flex-1 flex-col justify-center-safe rounded-xl";
 
-type ContentCardProps = {
+const TITLE = "How our messages will look";
+
+/** Only the campaign's channels get a tab. Other messages stay in the store, unseen. */
+export function ContentCard({ onAction }: { onAction?: (action: QuickAction) => void }) {
+  const content = useCampaignStore(
+    useShallow((state) =>
+      state.campaign
+        ? { channels: state.campaign.channels, messages: state.campaign.messages }
+        : null,
+    ),
+  );
+
+  if (!content || content.channels.length === 0) {
+    return (
+      <StackCard step={3} title={TITLE}>
+        <NoCampaign />
+      </StackCard>
+    );
+  }
+  const [first, ...rest] = content.channels;
+  return <ContentPreview channels={[first, ...rest]} messages={content.messages} onAction={onAction} />;
+}
+
+type ContentPreviewProps = {
   channels: readonly [Channel, ...Channel[]];
-  smsMessage: string;
-  emailSubject: string;
-  emailBody: string;
+  messages: Campaign["messages"];
   onAction?: (action: QuickAction) => void;
 };
 
-export function ContentCard({
-  channels,
-  smsMessage,
-  emailSubject,
-  emailBody,
-  onAction,
-}: ContentCardProps) {
+function ContentPreview({ channels, messages, onAction }: ContentPreviewProps) {
+  const smsMessage = messages.sms?.text ?? "";
+  const emailSubject = messages.email?.subject ?? "";
+  const emailBody = messages.email?.body ?? "";
   const [tab, setTab] = useState<Channel>(channels[0]);
   // Falls back if the selected channel is removed.
   const selected = channels.includes(tab) ? tab : channels[0];
@@ -40,7 +61,7 @@ export function ContentCard({
   return (
     <StackCard
       step={3}
-      title="How our messages will look"
+      title={TITLE}
       headerAside={<ChannelTabs channels={channels} />}
       wrapSection={(section) => (
         <Tabs.Root asChild value={selected} onValueChange={(value) => setTab(value as Channel)}>

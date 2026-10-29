@@ -10,7 +10,8 @@ type SaveGroupDialogProps = {
   /** Kept by the parent so Cancel and reopen keeps what was typed. */
   name: string;
   onNameChange: (name: string) => void;
-  onDone: (name: string) => void;
+  /** Gets the trimmed name. Returns an error to show, or null once saved. */
+  onDone: (name: string) => string | null;
   /** Where focus goes when the dialog closes. */
   returnFocusRef: RefObject<HTMLButtonElement | null>;
 };
@@ -47,7 +48,7 @@ export function SaveGroupDialog({
 type NameFormProps = {
   name: string;
   onNameChange: (name: string) => void;
-  onDone: (name: string) => void;
+  onDone: (name: string) => string | null;
   onCancel: () => void;
   inputRef: RefObject<HTMLInputElement | null>;
 };
@@ -59,10 +60,9 @@ function NameForm({ name, onNameChange, onDone, onCancel, inputRef }: NameFormPr
   function submit(event: FormEvent) {
     event.preventDefault();
     const check = validateGroupName(name);
-    if (check.ok) {
-      onDone(check.name);
-    } else {
-      setError(check.error);
+    const failure = check.ok ? onDone(check.name) : check.error;
+    if (failure) {
+      setError(failure);
       inputRef.current?.focus();
     }
   }

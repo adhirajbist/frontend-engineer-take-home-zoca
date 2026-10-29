@@ -1,11 +1,13 @@
 import { describe, expect, it } from "vitest";
-import type { Channel } from "@/types";
+import type { Channel, Filter } from "@/types";
+import { withOperator, withValue } from "./filters";
 import {
   EMPTY_NAME_ERROR,
   INITIAL_SAVE_FLOW,
   NO_EMAIL_WARNING,
   NO_REACH_ERROR,
   NO_TEXT_WARNING,
+  primaryAction,
   saveFlowReducer,
   validateGroupName,
   type SaveFlowState,
@@ -92,5 +94,34 @@ describe("validateGroupName", () => {
 
   it("trims the name", () => {
     expect(validateGroupName("  VIP regulars ")).toEqual({ ok: true, name: "VIP regulars" });
+  });
+});
+
+describe("primaryAction", () => {
+  const GROUP: Filter[] = [
+    { id: "g1", field: "lastVisit", op: "moreThan", days: 90 },
+    { id: "g2", field: "services", op: "includes", services: ["Balayage", "Facial"] },
+  ];
+
+  it("is Use this group while the filters match, whatever the ids or order", () => {
+    const copies: Filter[] = [
+      { id: "x", field: "services", op: "includes", services: ["Facial", "Balayage"] },
+      { id: "y", field: "lastVisit", op: "moreThan", days: 90 },
+    ];
+    expect(primaryAction(copies, GROUP)).toBe("use");
+    expect(primaryAction([], [])).toBe("use");
+  });
+
+  it("is Save as once a value, operator, filter count or clear all changes them", () => {
+    expect(primaryAction([withValue(GROUP[0], 91), GROUP[1]], GROUP)).toBe("saveAs");
+    expect(primaryAction([withOperator(GROUP[0], "lessThan"), GROUP[1]], GROUP)).toBe("saveAs");
+    expect(primaryAction([GROUP[0]], GROUP)).toBe("saveAs");
+    expect(primaryAction([], GROUP)).toBe("saveAs");
+  });
+
+  it("goes back to Use this group when an edit is undone by hand", () => {
+    const edited: Filter[] = [withValue(GROUP[0], 30), GROUP[1]];
+    expect(primaryAction(edited, GROUP)).toBe("saveAs");
+    expect(primaryAction([withValue(edited[0], 90), edited[1]], GROUP)).toBe("use");
   });
 });

@@ -28,7 +28,7 @@ export function FilterPanel({
     <section
       ref={panelRef}
       aria-labelledby="filter-panel-title"
-      className="mt-5 rounded-xl border border-ink/10 bg-white p-3 sm:p-4"
+      className="mt-3 rounded-xl border border-ink/10 bg-white p-3 sm:p-4"
     >
       <h2
         id="filter-panel-title"
