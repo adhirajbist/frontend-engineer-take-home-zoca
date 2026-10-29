@@ -1,5 +1,8 @@
 import type { ReactElement, ReactNode } from "react";
 
+/** How many cards the campaign stack has. */
+export const TOTAL_STEPS = 6;
+
 type StackCardProps = {
   step: number;
   title: string;
@@ -29,7 +32,7 @@ export function StackCard({ step, title, headerAside, wrapSection, children }: S
       <header className="flex shrink-0 flex-col gap-2 px-5 short:gap-1 pt-5 pb-3 sm:px-8 sm:pt-7 short:pt-3 short:pb-2">
         <div className="min-w-0">
           <p className="text-sm font-bold uppercase tracking-wide text-plum short:text-xs">
-            Step {step}
+            Step {step} of {TOTAL_STEPS}
           </p>
           {/* Focusable from code, so "Edit" on the Launch card can land here. */}
           <h2

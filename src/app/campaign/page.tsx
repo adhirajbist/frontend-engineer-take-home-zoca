@@ -1,6 +1,7 @@
 import { CampaignGuard } from "@/components/CampaignGuard";
 import { CampaignTopBar } from "@/components/campaign/CampaignTopBar";
 import { CardStack } from "@/components/CardStack";
+import { TOTAL_STEPS } from "@/components/StackCard";
 import { AudienceStep } from "@/components/cards/AudienceStep";
 import { CampaignNameCard } from "@/components/cards/CampaignNameCard";
 import { ChannelCard } from "@/components/cards/ChannelCard";
@@ -12,7 +13,7 @@ export default function CampaignPage() {
   return (
     <CampaignGuard>
       <CampaignTopBar />
-      <CardStack count={6}>
+      <CardStack count={TOTAL_STEPS}>
         <h1 className="sr-only">New campaign</h1>
         <CampaignNameCard />
         <ChannelCard />
