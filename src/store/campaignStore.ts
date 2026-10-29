@@ -9,6 +9,7 @@
  * that build a new object or array in useShallow.
  */
 import { create } from "zustand";
+import type { ChannelMessage } from "@/data/messageVariants";
 import { buildAgentNotes, buildCampaignFromPreset } from "@/data/presetCampaigns";
 import { CAMPAIGN_NAME_MAX_LENGTH } from "@/lib/campaignName";
 import { cloneFilters, newFilterId } from "@/lib/filters";
@@ -23,12 +24,27 @@ export type AddSegmentResult =
 /** What an action returns when it can refuse a change. */
 export type ActionResult<Reason extends string> = { ok: true } | { ok: false; reason: Reason };
 
+/** Earlier messages, newest last, that Undo on the Content card steps back to. */
+export type QuickEditHistory = { [C in Channel]: ChannelMessage[C][] };
+
 type CampaignState = {
   campaign: Campaign | null;
   savedSegments: Segment[];
+  /**
+   * Only quick edits from the Content card add to it. Saving from the editor,
+   * picking a preset and resetting clear it, so Undo never reverts what the
+   * owner wrote.
+   */
+  quickEditHistory: QuickEditHistory;
   selectPresetCampaign: (presetId: string) => void;
+  /** The editor's Save. Clears the text's quick edit history. */
   saveSmsMessage: (text: string) => void;
+  /** The editor's Save. Clears the email's quick edit history. */
   saveEmailMessage: (email: EmailMessage) => void;
+  /** Saves the AI's rewrite and remembers the message it replaced. Does nothing if identical. */
+  applyQuickEditResult: <C extends Channel>(channel: C, value: ChannelMessage[C]) => void;
+  /** Puts back the message before the last quick edit on that channel. */
+  undoQuickEdit: (channel: Channel) => void;
   /** Hides Steve's group reason, unless it is the same group. */
   setAudienceSegment: (segmentId: string) => void;
   /** Trims the name. At most CAMPAIGN_NAME_MAX_LENGTH characters. */
@@ -74,6 +90,41 @@ function commitEdit(change: (campaign: Campaign) => Campaign) {
   });
 }
 
+const EMPTY_HISTORY: QuickEditHistory = { sms: [], email: [] };
+
+/** The channel's message in the same shape as ChannelMessage, if there is one. */
+function currentMessage<C extends Channel>(campaign: Campaign, channel: C): ChannelMessage[C] | undefined {
+  const { sms, email } = campaign.messages;
+  const message: Partial<ChannelMessage> = { sms: sms?.text, email: email && { ...email } };
+  return message[channel];
+}
+
+function sameMessage<C extends Channel>(a: ChannelMessage[C], b: ChannelMessage[C]): boolean {
+  if (typeof a === "string" || typeof b === "string") return a === b;
+  return a.subject === b.subject && a.body === b.body;
+}
+
+function withMessage<C extends Channel>(campaign: Campaign, channel: C, value: ChannelMessage[C]): Campaign {
+  const messages =
+    typeof value === "string"
+      ? { ...campaign.messages, sms: { text: value } }
+      : { ...campaign.messages, email: { subject: value.subject, body: value.body } };
+  return { ...campaign, messages };
+}
+
+/** Saves one channel's message as an edit and replaces that channel's quick edit history. */
+function saveMessage<C extends Channel>(
+  channel: C,
+  value: ChannelMessage[C],
+  history: ChannelMessage[C][],
+) {
+  const edit = commitEdit((campaign) => withMessage(campaign, channel, value));
+  return (state: CampaignState) => ({
+    ...edit(state),
+    quickEditHistory: { ...state.quickEditHistory, [channel]: history },
+  });
+}
+
 const CHANNEL_ORDER: readonly Channel[] = ["sms", "email"];
 
 function sameSendTime(a: SendTime | null, b: SendTime): boolean {
@@ -84,28 +135,33 @@ function sameSendTime(a: SendTime | null, b: SendTime): boolean {
 export const useCampaignStore = create<CampaignState>()((set, get) => ({
   campaign: null,
   savedSegments: [],
+  quickEditHistory: EMPTY_HISTORY,
 
   // Steve's notes come back fresh, with every reason showing.
   selectPresetCampaign: (presetId) => {
-    set({ campaign: buildCampaignFromPreset(presetId, new Date()) });
+    set({ campaign: buildCampaignFromPreset(presetId, new Date()), quickEditHistory: EMPTY_HISTORY });
     useAgentNotesStore.getState().setNotes(buildAgentNotes(presetId));
   },
 
-  saveSmsMessage: (text) =>
-    set(
-      commitEdit((campaign) => ({
-        ...campaign,
-        messages: { ...campaign.messages, sms: { text } },
-      })),
-    ),
+  saveSmsMessage: (text) => set(saveMessage("sms", text, [])),
 
-  saveEmailMessage: ({ subject, body }) =>
-    set(
-      commitEdit((campaign) => ({
-        ...campaign,
-        messages: { ...campaign.messages, email: { subject, body } },
-      })),
-    ),
+  saveEmailMessage: (email) => set(saveMessage("email", email, [])),
+
+  applyQuickEditResult: (channel, value) => {
+    const campaign = get().campaign;
+    if (!campaign) return;
+    const previous = currentMessage(campaign, channel);
+    if (previous !== undefined && sameMessage(previous, value)) return;
+    const stack: ChannelMessage[typeof channel][] = get().quickEditHistory[channel];
+    set(saveMessage(channel, value, previous === undefined ? stack : [...stack, previous]));
+  },
+
+  undoQuickEdit: (channel) => {
+    const stack = get().quickEditHistory[channel];
+    const previous = stack.at(-1);
+    if (!get().campaign || previous === undefined) return;
+    set(saveMessage(channel, previous, stack.slice(0, -1)));
+  },
 
   setAudienceSegment: (segmentId) => {
     const audience = get().campaign?.audience;
@@ -175,7 +231,7 @@ export const useCampaignStore = create<CampaignState>()((set, get) => ({
   },
 
   resetCampaign: () => {
-    set({ campaign: null });
+    set({ campaign: null, quickEditHistory: EMPTY_HISTORY });
     useAgentNotesStore.getState().clearNotes();
   },
 

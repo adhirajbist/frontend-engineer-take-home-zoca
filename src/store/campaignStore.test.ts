@@ -254,6 +254,81 @@ describe("editing a launched campaign", () => {
   });
 });
 
+describe("quick edits", () => {
+  const SHORT = "Short text";
+  const SHORT_EMAIL = { subject: "Short", body: "Short body" };
+
+  beforeEach(() => store.getState().selectPresetCampaign(WIN_BACK.id));
+
+  const history = () => store.getState().quickEditHistory;
+  const messages = () => store.getState().campaign?.messages;
+
+  it("save the new message and remember the previous one", () => {
+    store.getState().applyQuickEditResult("sms", SHORT);
+    expect(messages()?.sms).toEqual({ text: SHORT });
+    expect(history().sms).toEqual([WIN_BACK.messages.sms?.text]);
+  });
+
+  it("undo one step at a time back to the exact previous value", () => {
+    store.getState().applyQuickEditResult("email", SHORT_EMAIL);
+    store.getState().applyQuickEditResult("email", { subject: "Second", body: "Second body" });
+    store.getState().undoQuickEdit("email");
+    expect(messages()?.email).toEqual(SHORT_EMAIL);
+    store.getState().undoQuickEdit("email");
+    expect(messages()?.email).toEqual(WIN_BACK.messages.email);
+    expect(history().email).toEqual([]);
+    store.getState().undoQuickEdit("email");
+    expect(messages()?.email).toEqual(WIN_BACK.messages.email);
+  });
+
+  it("keep a separate history per channel", () => {
+    store.getState().applyQuickEditResult("sms", SHORT);
+    store.getState().applyQuickEditResult("email", SHORT_EMAIL);
+    store.getState().undoQuickEdit("sms");
+    expect(messages()?.sms).toEqual(WIN_BACK.messages.sms);
+    expect(messages()?.email).toEqual(SHORT_EMAIL);
+    expect(history()).toEqual({ sms: [], email: [WIN_BACK.messages.email] });
+  });
+
+  it("add nothing when the result is identical", () => {
+    const before = store.getState().campaign;
+    store.getState().applyQuickEditResult("sms", WIN_BACK.messages.sms?.text ?? "");
+    store.getState().applyQuickEditResult("email", { ...WIN_BACK.messages.email! });
+    expect(store.getState().campaign).toBe(before);
+    expect(history()).toEqual({ sms: [], email: [] });
+  });
+
+  it("are forgotten for that channel when the editor saves", () => {
+    store.getState().applyQuickEditResult("sms", SHORT);
+    store.getState().applyQuickEditResult("email", SHORT_EMAIL);
+    store.getState().saveSmsMessage("Written by the owner");
+    expect(history()).toEqual({ sms: [], email: [WIN_BACK.messages.email] });
+    store.getState().saveEmailMessage({ subject: "Owner", body: "Owner body" });
+    expect(history().email).toEqual([]);
+    store.getState().undoQuickEdit("sms");
+    expect(messages()?.sms).toEqual({ text: "Written by the owner" });
+  });
+
+  it("are all forgotten when a preset is selected or the campaign is reset", () => {
+    store.getState().applyQuickEditResult("sms", SHORT);
+    store.getState().applyQuickEditResult("email", SHORT_EMAIL);
+    store.getState().selectPresetCampaign(WIN_BACK.id);
+    expect(history()).toEqual({ sms: [], email: [] });
+    store.getState().applyQuickEditResult("sms", SHORT);
+    store.getState().resetCampaign();
+    expect(history()).toEqual({ sms: [], email: [] });
+  });
+
+  it("make a launched campaign a draft again, and so does undo", () => {
+    store.getState().launchCampaign(new Date("2026-10-29T15:00:00.000Z"));
+    store.getState().applyQuickEditResult("sms", SHORT);
+    expect(store.getState().campaign?.status).toBe("draft");
+    store.getState().launchCampaign(new Date("2026-10-29T15:00:00.000Z"));
+    store.getState().undoQuickEdit("sms");
+    expect(store.getState().campaign?.status).toBe("draft");
+  });
+});
+
 describe("launchCampaign", () => {
   const NOW = new Date("2026-10-29T15:00:00.000Z");
   const ISO = "2026-11-03T16:00:00.000Z";

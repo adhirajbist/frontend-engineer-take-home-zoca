@@ -5,13 +5,13 @@ import { RainbowIcon } from "./RainbowIcon";
 
 export type { QuickAction };
 
-const ACTIONS: { action: QuickAction; label: string; icon: LucideIcon }[] = [
+export const ACTIONS: { action: QuickAction; label: string; icon: LucideIcon }[] = [
   { action: "shorter", label: "Shorter", icon: Scissors },
   { action: "friendlier", label: "Friendlier", icon: Smile },
   { action: "moreUrgent", label: "More urgent", icon: Zap },
 ];
 
-const CHIP =
+export const CHIP =
   "flex min-h-11 aria-disabled:cursor-not-allowed aria-disabled:text-ink/60 aria-disabled:hover:bg-white items-center gap-1 whitespace-nowrap rounded-full border border-plum/40 bg-white px-2 text-xs font-semibold text-ink hover:bg-cream sm:gap-1.5 sm:px-3.5 sm:text-sm short:gap-1 short:px-2.5 short:text-xs";
 
 /**
